@@ -73,7 +73,6 @@
   				         "default" : "Security Configuration:" 
   				      },
   					  "Parameters": [ 
-  					  	  "IAMRole", 
   					  	  "RemoteAccessCIDR"
   					   ]
   				},
@@ -157,9 +156,6 @@
 		    "KeyPairName": {
 		      "default": "Key Name"
 		    },
-		    "IAMRole" : {
-		      "default" : "IAM Role"
-		    },
 		    "BastionInstanceType" : {
 		      "default" : "Bastion Instance Type"
 		    },
@@ -187,7 +183,7 @@
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default": "gpfsaws/QuickStarts/Test/QuickStart-10072017/QuickStart-multiAZ",
+            "Default": "gpfsaws/Test/latest/",
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
@@ -219,7 +215,7 @@
 	      "Description": "The Linux mount point for the GPFS volume",
 	      "Type": "String",
 	      "MinLength": "1",
-	      "Default": "/gfs/fs1"
+	      "Default": "/gpfs/fs1"
 	    },
 	    "EBSType": {
 	      "Description": "EBS Type",
@@ -234,7 +230,7 @@
 	    "DiskPerNode": {
 	      "Description": "This number of disks would be attached to only with nsd server nodes.",
 	      "Type": "Number",
-	      "Default": "2",
+	      "Default": "1",
 	      "AllowedValues": [
          		"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
       	  ]
@@ -258,24 +254,39 @@
 	      "Type": "String",
 	      "Default": "m4.large",
 	      "AllowedValues": [
-	        "m4.large",
-	        "m4.xlarge",
-	        "m4.2xlarge",
-	        "m4.4xlarge",
-	        "m4.10xlarge",
-	        "m4.16xlarge",
-	        "c4.large",
-	        "c4.xlarge",
-	        "c4.2xlarge",
-	        "c4.4xlarge",
-	        "c4.8xlarge",
-	        "c3.large",
-	        "c3.xlarge",
-	        "c3.2xlarge",
-	        "c3.4xlarge",
-	        "c3.8xlarge",
-	        "cc2.8xlarge"
-	      ],
+                "t2.micro",
+                "t2.small",
+                "t2.medium",
+                "t2.large",
+                "m4.large",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "m4.4xlarge",
+                "m4.10xlarge",
+                "m3.medium",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "c4.large",
+                "c4.xlarge",
+                "c4.2xlarge",
+                "c4.4xlarge",
+                "c4.8xlarge",
+                "c3.large",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge",
+                "i2.8xlarge"
+           ],
 	      "ConstraintDescription": "must be a valid EC2 instance type."
 	    },
 	    "ComputeNodeCount": {
@@ -290,24 +301,39 @@
 	      "Type": "String",
 	      "Default": "m4.large",
 	      "AllowedValues": [
-	        "m4.large",
-	        "m4.xlarge",
-	        "m4.2xlarge",
-	        "m4.4xlarge",
-	        "m4.10xlarge",
-	        "m4.16xlarge",
-	        "c4.large",
-	        "c4.xlarge",
-	        "c4.2xlarge",
-	        "c4.4xlarge",
-	        "c4.8xlarge",
-	        "c3.large",
-	        "c3.xlarge",
-	        "c3.2xlarge",
-	        "c3.4xlarge",
-	        "c3.8xlarge",
-	        "cc2.8xlarge"
-	      ],
+                "t2.micro",
+                "t2.small",
+                "t2.medium",
+                "t2.large",
+                "m4.large",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "m4.4xlarge",
+                "m4.10xlarge",
+                "m3.medium",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "c4.large",
+                "c4.xlarge",
+                "c4.2xlarge",
+                "c4.4xlarge",
+                "c4.8xlarge",
+                "c3.large",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge",
+                "i2.8xlarge"
+          ],
 	      "ConstraintDescription": "must be a valid EC2 instance type."
 	    },
 	    "AvailabilityZones": {
@@ -392,12 +418,6 @@
 	      "MinLength": "1",
 	      "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
 	    },
-	    "IAMRole" : {
-	      "Description" : "Add existing role name (default will create new IAM role).",
-	      "Type": "String",
-	      "Default": "new",
-	      "ConstraintDescription" : "Add existing role name if don't want to create new one (Optional)."
-	    },
 	    "OperatorEmail": {
             "AllowedPattern": "([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)",
             "ConstraintDescription": "Must be a valid email address.",
@@ -409,7 +429,9 @@
        "VPCStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
-                "TemplateURL": "https://s3-us-west-2.amazonaws.com/ssprojects/gpfsaws/Test/QuickStart-10072017/QuickStart-multiAZ/submodules/quickstart-aws-vpc/templates/aws-vpc.template",
+                "TemplateURL": {
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+                },
                 "Parameters": {
                     "AvailabilityZones": {
                         "Fn::Join": [
@@ -444,7 +466,9 @@
             "DependsOn": "VPCStack",
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
-                "TemplateURL": "https://s3-us-west-2.amazonaws.com/ssprojects/gpfsaws/Test/QuickStart-10072017/QuickStart-multiAZ/submodules/quickstart-linux-bastion/templates/linux-bastion.template",
+                "TemplateURL": {
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
+                },
                 "Parameters": {
                     "BastionAMIOS": {
                         "Ref": "BastionAMIOS"
@@ -483,7 +507,9 @@
             "Type": "AWS::CloudFormation::Stack",
             "DependsOn": "BastionStack",
             "Properties": {
-               "TemplateURL": "https://s3-us-west-2.amazonaws.com/ssprojects/gpfsaws/Test/QuickStart-10072017/QuickStart-multiAZ/templates/ibm-spectrum-scale-on-aws-quickstart.template",
+               "TemplateURL": {
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale-on-aws-quickstart.template"
+                },
                "Parameters": {
 				    "BlockSize": {
 				      	"Ref": "BlockSize"
@@ -530,18 +556,6 @@
                             "Outputs.PrivateSubnet2AID"
                         ]
                     },
-				    "PublicSubnet1ID": {
-                        "Fn::GetAtt": [
-                            "VPCStack",
-                            "Outputs.PublicSubnet1ID"
-                        ]
-                    },
-                    "PublicSubnet2ID": {
-                        "Fn::GetAtt": [
-                            "VPCStack",
-                            "Outputs.PublicSubnet2ID"
-                        ]
-                    },
                     "VpcId": {
                         "Fn::GetAtt": [
                             "VPCStack",
@@ -560,12 +574,9 @@
 				    "LicenseAgreementTerms": {
 				        "Ref": "LicenseAgreementTerms"
 				    },
-				    "IAMRole" : {
-				     	"Ref": "IAMRole" 
-				     },
-				     "OperatorEmail" : {
+				    "OperatorEmail" : {
 				     	"Ref": "OperatorEmail"
-				     }
+				    }
 				  }
 	            }
         }
