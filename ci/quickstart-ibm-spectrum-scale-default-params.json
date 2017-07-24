@@ -1,0 +1,20 @@
+[
+
+  {
+    "ParameterKey": "AvailabilityZones",
+    "ParameterValue": "$[taskcat_genaz_2]"
+  },
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "spectrum-scale-secure"
+  },
+  {
+    "ParameterKey": "OperatorEmail",
+    "ParameterValue": "dhersing@in.ibm.com"
+  },
+  {
+    "ParameterKey": "LicenseAgreementTerms",
+    "ParameterValue": "Accept"
+  }
+
+]
