@@ -175,7 +175,7 @@
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default": "gpfsaws/Test/latest/",
+            "Default": "gpfsaws/QuickStarts/latest/",
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
@@ -561,6 +561,12 @@
                                  "BastionStack",
                                  "Outputs.BastionSecurityGroupID"
                           ]
+				    },
+				    "QSS3BucketName": {
+				         "Ref": "QSS3BucketName"
+				    },
+				    "QSS3KeyPrefix": {
+				         "Ref": "QSS3KeyPrefix"
 				    },
 				    "KeyPairName": {
 				    	"Ref": "KeyPairName"
