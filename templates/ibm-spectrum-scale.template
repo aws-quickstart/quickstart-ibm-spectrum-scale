@@ -322,7 +322,7 @@
     "QSS3KeyPrefix": {
         "AllowedPattern": "^[0-9a-zA-Z-/]*$",
         "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-        "Default": "gpfsaws/QuickStarts/latest",
+        "Default": "gpfsaws/Test/latest/",
         "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
         "Type": "String"
     }
@@ -352,46 +352,46 @@
   "Mappings": {
     "RegionMap": {
             "ap-northeast-1": {
-                "AMI": "ami-b1d734d7"
+                "AMI": "ami-c8ca3fae"
             },
             "ap-northeast-2": {
-                "AMI": "ami-e3865f8d"
+                "AMI": "ami-c4459caa"
             },
             "ap-south-1": {
-                "AMI": "ami-8892e9e7"
+                "AMI": "ami-08750f67"
             },
             "ap-southeast-1": {
-                "AMI": "ami-cb4bd9a8"
+                "AMI": "ami-07eb7064"
             },
             "ap-southeast-2": {
-                "AMI": "ami-8ed9c6ed"
+                "AMI": "ami-6aa6bf09"
             },
             "ca-central-1": {
-                "AMI": "ami-850ab5e1"
+                "AMI": "ami-5dc97739"
             },
             "eu-central-1": {
-                "AMI": "ami-69fe5206"
+                "AMI": "ami-66e74e09"
             },
             "eu-west-1": {
-                "AMI": "ami-9ec028e7"
+                "AMI": "ami-6299691b"
             },
             "eu-west-2": {
-                "AMI": "ami-4c6e7f28"
+                "AMI": "ami-9a9081fe"
             },
             "sa-east-1": {
-                "AMI": "ami-39790e55"
+                "AMI": "ami-4731402b"
             },
             "us-east-1": {
-                "AMI": "ami-9489dbef"
+                "AMI": "ami-18b09b63"
             },
             "us-east-2": {
-                "AMI": "ami-ef5d7d8a"
+                "AMI": "ami-f4af8f91"
             },
             "us-west-1": {
-                "AMI": "ami-89b29be9"
+                "AMI": "ami-d3aa81b3"
             },
             "us-west-2": {
-                "AMI": "ami-004cab78"
+                "AMI": "ami-c16c8cb9"
             }
         }
   },
@@ -527,6 +527,7 @@
                             {
                                 "Effect": "Allow",
                                 "Action": [
+                                    "s3:ListObjects",
                                     "s3:ListAllMyBuckets",
                                     "s3:PutObject",
 									"s3:PutObjectAcl",
@@ -853,8 +854,8 @@
 						"  sleep 10\n",
 						"  ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
 						"  ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
-						"  SerNodeCount=$(cat /var/log/instance_server.out | wc -l)\n",
-						"  ComNodeCount=$(cat /var/log/instance_compute.out | wc -l)\n",
+						"  SerNodeCount=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
+						"  ComNodeCount=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
 						"done\n",
 						"ComputeNodeCount=$ComNodeCount\n",
 						"ServerNodeCount=$SerNodeCount\n",
@@ -1022,7 +1023,7 @@
     					{
     					   "Ref": "QSS3KeyPrefix"
     					},
-    					"/Keys\n",
+    					"Keys\n",
     		            "KEYEXIST=0\n",
     		            "echo path:$path\n",
     		            "KEYEXIST=`aws s3 ls s3://${path}/${SSHKeydir}/ | wc -l`\n",
@@ -1203,12 +1204,12 @@
 						"        echo failureGroup=FG_${AZ}; \n",
 						"        echo pool=system; \n",
 						"        echo ' '; } >> /var/log/nsdFile\n",
-						"      let j++\n",
 						"   done\n",
 						"   if [ $? == 1 ];\n",
 						"   then\n",
 						"      exit 1\n",
 						"   fi\n",
+						"   let j++\n",
 						"done\n",
 						"if [ $? == 1 ];\n",
 						"then\n",
@@ -1515,7 +1516,7 @@
   						"       sleep 100\n",
   						"       /usr/lpp/mmfs/bin/mmlscluster \n",
   						"   done\n",
-  						"   echo Create GPFS cluster\n",
+  						"   echo Add nodes into GPFS cluster\n",
 						"   /usr/lpp/mmfs/bin/mmaddnode -N /var/log/addNodeFile\n",
 					    "   if [ $? != 0 ]\n",
 						"   then\n",
@@ -1879,7 +1880,7 @@
 				{
 				   "Ref": "QSS3KeyPrefix"
 				},
-				"/Keys\n",
+				"Keys\n",
 				"echo removal directory path:${path}/${SSHKeydir}\n",
 				"#aws s3 rm s3://${path}/${SSHKeydir} --recursive\n",
         	    "#aws s3 rm s3://${path}/${SSHKeydir}\n",
@@ -1975,7 +1976,7 @@
             ],
             "Dimensions": [
                 {
-                    "Name": "AutoScallingGroupName",
+                    "Name": "AutoScalingGroupName",
                     "Value": {
                         "Ref": "ServerNodesAutoScallingGroup"
                     }
@@ -2095,7 +2096,7 @@
     					{
     					   "Ref": "QSS3KeyPrefix"
     					},
-    					"/Keys\n",
+    					"Keys\n",
 				        "KEYEXIST=`aws s3 ls s3://${path}/${SSHKeydir}/ | wc -l`\n",
 						"line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
               		    "IFS=' ' read -a adminArr <<< $line\n",
@@ -2331,7 +2332,7 @@
             ],
             "Dimensions": [
                 {
-                    "Name": "AutoScallingGroupName",
+                    "Name": "AutoScalingGroupName",
                     "Value": {
                         "Ref": "ComputeNodesAutoScallingGroup"
                     }

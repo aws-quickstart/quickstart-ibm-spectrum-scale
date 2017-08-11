@@ -175,7 +175,7 @@
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default": "gpfsaws/QuickStarts/latest/",
+            "Default": "gpfsaws/Test/latest/",
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
@@ -236,15 +236,17 @@
 	    },
 	    "ServerNodeCount": {
 	      "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (Max<=64)",
-	      "Type": "Number",
-	      "Default": "2",
-	      "MinValue": "2",
-	      "MaxValue": "64"
+          "Type": "Number",
+          "Default": "2",
+          "AllowedValues": [
+              "2","4","6","8","10","12","14","16","18","20","22","24","26","28","30","32","34","36","38","40","42","44","46","48","50","52","54","56","58","60","62","64"
+          ],
+          "ConstraintDescription": "NSD Server node size must be between 2 to 64"
 	    },
 	    "ServerInstanceType": {
 	      "Description": "Instance type to use for the NSD Server nodes instances",
 	      "Type": "String",
-	      "Default": "m4.large",
+	      "Default": "t2.micro",
 	      "AllowedValues": [
                 "t2.micro",
                 "t2.small",
@@ -274,24 +276,26 @@
                 "r3.2xlarge",
                 "r3.4xlarge",
                 "r3.8xlarge",
-                "i2.xlarge",
-                "i2.2xlarge",
-                "i2.4xlarge",
-                "i2.8xlarge"
+                "r4.large",
+                "r4.xlarge",
+                "r4.2xlarge",
+                "r4.4xlarge",
+                "r4.8xlarge"
            ],
 	      "ConstraintDescription": "must be a valid EC2 instance type."
 	    },
 	    "ComputeNodeCount": {
-	      "Default": "2",
 	      "Description": "Number of Compute node instances (MAX<=64)",
 	      "Type": "Number",
+	      "Default": "2",
 	      "MinValue": "0",
-	      "MaxValue": "64"
+	      "MaxValue": "64",
+	      "ConstraintDescription": "NSD Server node size must less than 64"
 	    },
 	    "ComputeInstanceType": {
 	      "Description": "Instance type to use for the Compute node instances",
 	      "Type": "String",
-	      "Default": "m4.large",
+	      "Default": "t2.micro",
 	      "AllowedValues": [
                 "t2.micro",
                 "t2.small",
@@ -321,10 +325,11 @@
                 "r3.2xlarge",
                 "r3.4xlarge",
                 "r3.8xlarge",
-                "i2.xlarge",
-                "i2.2xlarge",
-                "i2.4xlarge",
-                "i2.8xlarge"
+                "r4.large",
+                "r4.xlarge",
+                "r4.2xlarge",
+                "r4.4xlarge",
+                "r4.8xlarge"
           ],
 	      "ConstraintDescription": "must be a valid EC2 instance type."
 	    },
