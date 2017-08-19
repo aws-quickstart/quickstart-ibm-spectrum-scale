@@ -187,7 +187,7 @@
       "ConstraintDescription": "Disk size must be between 5 to 10240 GB"
     },
     "ServerNodeCount": {
-      "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (Max<=64)",
+      "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
       "Type": "Number",
       "Default": "2",
       "AllowedValues": [
@@ -238,11 +238,11 @@
     },
     "ComputeNodeCount": {
       "Default": "2",
-      "Description": "Number of Compute node instances (MAX<=64)",
+      "Description": "Number of Compute node instances (MIN=1, MAX=64)",
       "Type": "Number",
       "MinValue": "1",
       "MaxValue": "64",
-      "ConstraintDescription": "Compute node size must be less then or equal to 64"
+      "ConstraintDescription": "Compute node size must be between 1 to 64"
     },
     "ComputeInstanceType": {
       "Description": "Instance type to use for the Compute node instances",
@@ -540,7 +540,6 @@
                             {
                                 "Effect": "Allow",
                                 "Action": [
-                                    "s3:ListObject",
                                     "s3:PutObject",
                                     "s3:PutObjectAcl",
 									"s3:GetObject",
@@ -1553,8 +1552,9 @@
 					   "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
 					   "echo My instance ID $InstanceID\n",
               		   "echo AZ: $MyAZ\n",
-	                   "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+              		   "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
               		   "IFS=' ' read -a adminArr <<< $line\n",
+              		   "adminIns=${adminArr[0]}\n",
               		   "echo InstanceID:$InstanceID\n",
               		   "echo adminArr:${adminArr[0]}\n",
 					   "if [ $InstanceID == ${adminArr[0]} ]\n",
@@ -1663,6 +1663,21 @@
 					   "   else\n",
 					   "       /usr/lpp/mmfs/bin/mmlsnsd\n",
 					   "       echo ----File system creation sucussfully completed----\n",
+					   "       echo REMOVING KEYS FROM S3\n",
+				       "       SSHKeydir=",
+					   {
+					      "Ref": "AWS::StackName"
+					   },
+					   "_$adminIns\n",
+					   "       path=",
+					   {
+					     "Ref": "S3BucketName"
+					   },
+					   "/Keys\n",
+					   "       echo removal directory path:${path}/${SSHKeydir}\n",
+					   "       aws s3 rm s3://${path}/${SSHKeydir} --recursive\n",
+	        	       "       aws s3 rm s3://${path}/${SSHKeydir}\n",
+				       "       echo Successfully keys removed from S3\n",
 					   "   fi\n",
 					   "else\n",
 					   "    echo This is not admin node or fs1 fileSystem is already created...exit!!\n",
@@ -1742,7 +1757,7 @@
                       [
                          "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
 						 "echo My instance ID $InstanceID\n",
-                         "echo RECOVERY ALARM SETTING FOR SERVER INSTANCES\n",
+						 "echo RECOVERY ALARM SETTING FOR SERVER INSTANCES\n",
 						 "aws cloudwatch put-metric-alarm --alarm-name ",
 		                 {
 		                    "Ref": "AWS::StackName"
@@ -1756,7 +1771,7 @@
 		                 "--threshold 1 ",
 		                 "--dimensions Name=InstanceId,Value=$InstanceID ",
 		                 "--evaluation-periods 5 ",
-		                 "--comparison-operator GreaterThanThreshold ",
+		                 "--comparison-operator GreaterThanOrEqualToThreshold ",
 		                 "--alarm-actions arn:aws:automate:",
 		                 {
 		                  "Ref": "AWS::Region"
@@ -1865,29 +1880,11 @@
                 },
                 " -c gpfs_configure ",
                 "\n",
-                "cfn-signal -e 0 -r 'Configuration failed' '",
+                "cfn-signal -e $? -r 'Configuration failed' '",
 	    	    {
 	                "Ref": "ServerAlertWaitHandle"
 	            },
-	            "'\n",
-	            "echo REMOVING KEYS FROM S3\n",
-	            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
-           	    "IFS=' ' read -a adminArr <<< $line\n",
-                "adminIns=${adminArr[0]}\n",
-			    "SSHKeydir=",
-				{
-				   "Ref": "AWS::StackName"
-				},
-				"_$adminIns\n",
-				"path=",
-				{
-				   "Ref": "S3BucketName"
-				},
-				"/Keys\n",
-				"echo removal directory path:${path}/${SSHKeydir}\n",
-				"aws s3 rm s3://${path}/${SSHKeydir} --recursive\n",
-        	    "aws s3 rm s3://${path}/${SSHKeydir}\n",
-			    "echo Successfully keys removed from S3\n"
+	            "'\n"
               ]
             ]
           }
@@ -1954,7 +1951,7 @@
       "Metadata": {
         "AWS::CloudFormation::Init": {
           "configSets": {
-            "default": [
+            "gpfs_configure": [
               "setup_gpfs"
             ]
           },
@@ -2211,11 +2208,6 @@
 						"PATH=$PATH:$HOME/bin\n",
 						"export PATH=$PATH:/usr/lpp/mmfs/bin:$EC2_HOME/bin\n",
 						"export PATH\n",
-            	   		"EBSType=",
-            	   		{
-            	   			"Ref": "EBSType"
-            	   		},
-            	   		"\n",
             	   		"MetadataReplica=",
 						{
 						    "Ref": "MetadataReplica"
@@ -2226,6 +2218,10 @@
 						    "Ref": "DataReplica"
 						},
 						"\n",
+						"ServerNodeCount=",
+						{
+						    "Ref": "ServerNodeCount"
+						},
 						"\n",
 						"echo Generate GPFS cluster node file\n",
 						"rm /var/log/nsdFile\n",
@@ -2235,6 +2231,25 @@
 						"InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
             	   		"MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
 						"echo My available zone $MyAZ\n",
+						"quorum_only_hosts=$(cat /var/log/nodeDescFile | grep -v quorum-manager | cut -f1 -d':')\n",  
+						"IFS=' ' read -a quorum_only_host_arr <<< $quorum_only_hosts\n",
+                        "quorum_only_host_count=${#quorum_only_host_arr[@]}\n",
+                        "echo quorum_only_host_count:$quorum_only_host_count\n",
+                        "quorum_only_host=${quorum_only_host_arr[0]}\n",
+                        "hostname=`hostname -A`\n",
+                        "echo ServerNodeCount:$ServerNodeCount\n",
+                        "echo quorum_only_host:$quorum_only_host\n",
+						"if [ $quorum_only_host == $hostname ]\n",
+						"then\n",
+    					"  echo Adding descOnly nsd in this node.\n",
+    					"else\n",
+    					"  echo No descOnly nsd need to add with this node... Exiting....\n",
+    					"  exit 1\n",
+						"fi\n",	
+						"if [ $? != 0 ];\n",
+						"then\n",
+  						"  exit\n",
+						"fi\n",
 						"echo First check file system has been created or not\n",
 						"Is_fs=False\n",
 						"while [ $Is_fs == False ]\n",
@@ -2244,56 +2259,26 @@
 					    "   then\n",
 					    "      Is_fs=True\n",
 					    "   else\n",
-					    "      sleep 200\n",
+					    "      sleep 100\n",
 					    "      echo Waiting file System to create :$Is_fs\n",
 					    "   fi\n",
 					    "done\n",
 					    "descCount=$(/usr/lpp/mmfs/bin/mmlsdisk fs1 -L | grep desc | wc -l)\n",
-					    "echo desc count in file systen: $descCount\n",
-						"descOnly=True\n",
-						"descNode=$(cat /var/log/nodeDescFile | wc -l)\n",
-						"echo descNode:$descNode\n",
-						"quorum_only_hosts=$(cat /var/log/nodeDescFile | grep -v quorum-manager | cut -f1 -d':')\n",  
-						"IFS=' ' read -a quorum_only_host_arr <<< $quorum_only_hosts\n",
-                        "quorum_only_host_count=${#quorum_only_host_arr[@]}\n",
-                        "FG=1\n",
-                        "quorum_only_host=${quorum_only_host_arr[0]}\n",
-						"if [ $quorum_only_host_count == 0 -a $descNode -gt 3 ]\n",
+					    "echo descriptor node count in file systen: $descCount\n",
+						"echo GET quorum only node from existing cluster\n",
+						"echo CALCULATE Failure Group\n",
+                        "echo Re-verifying descriptor count after file system created, will only continue when we have 2 descriptor and more then 0 quorum node in existing cluster\n",
+						"if [ $descCount -gt 2 -a $quorum_only_host_count == 0 -a -a $ServerNodeCount -lt 3 ]\n",
 						"then\n",
-    					"  descOnly=False\n",
-						"fi\n",	
-						"echo descOnly:$descOnly\n",
-						"echo descCount:$descCount\n",
-						"if [ $descCount == 2 -a $descOnly == True ]\n",
-						"then\n",
-    					"  echo Adding descOnly nsd in this node.\n",
-    					"else\n",
-    					"  echo No descOnly nsd need to add with this node... Exiting....\n",
-    					"  exit 1\n",
-						"fi\n",		
-						"if [ $? != 0 ];\n",
-						"then\n",
-  						"  exit\n",
-						"fi\n",
-						"success=True\n",
-						"IOPS=100\n",
-						"echo Create and Attach Disks with server nodes\n",
+    					"  exit\n",
+    					"fi\n",
+    					"echo Create and Attach Disks with server node\n",
 						"AZ=`expr $MyAZ | cut -f3 -d'-'`\n",
-						"j=1\n",
-						"echo No of Server nodes:${#ServerPriDNSArray[@]}\n",
-						"usage=descOnly\n",
-						"echo Create the $i disk, size $DiskSize GB\n",
-						"if [ $EBSType == 'io1' ]\n",
-						"then\n",
-						"   echo Calculating IOPS for io1 type\n",
-						"   IOPS=$(expr $DiskSize \\* 50)\n",
-						"   ec2-create-volume -s $DiskSize -i $IOPS -t $EBSType -z $MyAZ > /var/log/nsd.out\n",
-						"else\n",
-						"   ec2-create-volume -s $DiskSize -t $EBSType -z $MyAZ > /var/log/nsd.out\n",
-						"fi\n",
+						"echo creating EBS volume with default 5GB size and gp2 EBS type\n",
+						"ec2-create-volume -s 5 -t gp2 -z $MyAZ > /var/log/nsd.out\n",
 						"if [ $? != 0 ]\n",
 						"then\n",
-						"    exit 1\n",
+						"    exit\n",
 						"fi\n",
 						"volID=$(cat /var/log/nsd.out | grep 'vol-' | awk '{print $2}')\n",
                         "echo Volume $volID has been created\n",
@@ -2303,7 +2288,7 @@
 						"while [ $volStatus -ne 1 ]\n",
 						"do\n",
 						"   sleep 10\n",
-					    "    volStatus=$(ec2-describe-volume-status $volID | grep ok | wc -l)\n",
+					    "   volStatus=$(ec2-describe-volume-status $volID | grep ok | wc -l)\n",
 						"done\n",
 						"echo Attach volume $volID to instance $InstanceID as device /dev/xvdb\n",
 						"ec2-attach-volume $volID -i $InstanceID -d /dev/xvdb\n",
@@ -2318,17 +2303,16 @@
 						"   sleep 10\n",
 						"   attachStatus=$(ec2-describe-volumes | grep $volID | grep attached | wc -l)\n",
 						"done\n",
-						"deviceName=/dev/xvdb\n",
-						"echo deviceName=$deviceName\n",
 						"echo volume ID:$volID\n",
 						"echo quorum_only_host:$quorum_only_host\n",
-						"ec2-modify-instance-attribute ${InsArray[counter]} -b \"$deviceName=$volID:true\"\n",
+						"ec2-modify-instance-attribute $InstanceID -b \"/dev/xvdb=$volID:true\"\n",
+						"echo delete on terminate status:$?\n",
 						"echo creating nsd file\n",
 						"  { echo %nsd:nsd=nsd_${AZ}_d_1; \n",
 						"    echo device=/dev/xvdb; \n",
 						"    echo servers=$quorum_only_host; \n", 
 						"    echo usage=descOnly; \n",
-						"    echo failureGroup=${FG}; \n",
+						"    echo failureGroup=1; \n",
 						"    echo pool=system; \n",
 						"    echo ' '; } >> /var/log/nsdFile\n",
 						"if [ $? == 1 ];\n",
@@ -2404,7 +2388,7 @@
 		                 "--threshold 1 ",
 		                 "--dimensions Name=InstanceId,Value=$InstanceID ",
 		                 "--evaluation-periods 5 ",
-		                 "--comparison-operator GreaterThanThreshold ",
+		                 "--comparison-operator GreaterThanOrEqualToThreshold ",
 		                 "--alarm-actions arn:aws:automate:",
 		                 {
 		                  "Ref": "AWS::Region"
@@ -2473,9 +2457,13 @@
                 {
                   "Ref": "AWS::Region"
                 },
-                " -c default ",
+                " -c gpfs_configure ",
                 "\n",
-        	    "cfn-signal -e 0 -r 'Configuration failed.'\n"
+        	    "cfn-signal -e $? -r 'Configuration failed' '",
+	    	    {
+	                "Ref": "ComputeAlertWaitHandle"
+	            },
+	            "'\n"
                ]
             ]
           }
@@ -2554,6 +2542,26 @@
       "Type": "AWS::CloudFormation::WaitCondition"
      },
     "ServerAlertWaitHandle": {
+      "Properties": {},
+      "Type": "AWS::CloudFormation::WaitConditionHandle"
+     },
+     "ComputeAlertWaitCondition": {
+      "DependsOn": [
+        
+        "ComputeNodesAutoScallingGroup"
+      ],
+      "Properties": {
+        "Count": {
+        	"Ref": "ComputeNodeCount"
+        },
+        "Handle": {
+          "Ref": "ComputeAlertWaitHandle"
+        },
+        "Timeout": "2000"
+      },
+      "Type": "AWS::CloudFormation::WaitCondition"
+     },
+    "ComputeAlertWaitHandle": {
       "Properties": {},
       "Type": "AWS::CloudFormation::WaitConditionHandle"
      }
