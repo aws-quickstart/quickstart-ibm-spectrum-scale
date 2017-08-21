@@ -179,12 +179,12 @@
       ]
     },
     "DiskSize": {
-      "Description": "Disk size (size in GB and MAX supported size would be 10240)",
+      "Description": "Supported disk size are MIN=5 and MAX 10240 (GB)",
       "Type": "Number",
       "Default": "5",
       "MinValue": "5",
       "MaxValue": "10240",
-      "ConstraintDescription": "Disk size must be between 5 to 10240 GB"
+      "ConstraintDescription": "Alloed Disk size are MIN=5 MAX=10240 (GB)"
     },
     "ServerNodeCount": {
       "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
@@ -1552,9 +1552,8 @@
 					   "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
 					   "echo My instance ID $InstanceID\n",
               		   "echo AZ: $MyAZ\n",
-              		   "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+	                   "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
               		   "IFS=' ' read -a adminArr <<< $line\n",
-              		   "adminIns=${adminArr[0]}\n",
               		   "echo InstanceID:$InstanceID\n",
               		   "echo adminArr:${adminArr[0]}\n",
 					   "if [ $InstanceID == ${adminArr[0]} ]\n",

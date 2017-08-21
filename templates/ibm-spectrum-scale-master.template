@@ -189,14 +189,14 @@
         "QSS3BucketName": {
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
-            "Default": "ssprojects",
+            "Default": "ssproject",
             "Description": "S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
             "Type": "String"
         },
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
-            "Default": "gpfsaws/Test/latest/",
+            "Default": "gpfsaws/QuickStarts/latest/",
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
@@ -248,7 +248,7 @@
 	      ]
 	    },
 	    "DiskPerNode": {
-	      "Description": "This number of disks would be attached to only with nsd server nodes.",
+	      "Description": "This number of disks would be attached to only with nsd server nodes",
 	      "Type": "Number",
 	      "Default": "1",
 	      "AllowedValues": [
@@ -256,14 +256,15 @@
       	  ]
 	    },
 	    "DiskSize": {
-	      "Description": "Disk size (size in GB and MAX supported size would be 10240)",
-	      "Type": "Number",
-	      "Default": "5",
-	      "MinValue": "5",
-	      "MaxValue": "10240"
+	      "Description": "Supported disk size are MIN=5 and MAX 10240 (GB)",
+          "Type": "Number",
+          "Default": "5",
+          "MinValue": "5",
+          "MaxValue": "10240",
+          "ConstraintDescription": "Alloed Disk size are MIN=5 MAX=10240 (GB)"
 	    },
 	    "ServerNodeCount": {
-	      "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (Max<=64)",
+	      "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
           "Type": "Number",
           "Default": "2",
           "AllowedValues": [
@@ -313,12 +314,12 @@
 	      "ConstraintDescription": "must be a valid EC2 instance type."
 	    },
 	    "ComputeNodeCount": {
-	      "Description": "Number of Compute node instances (MAX<=64)",
+	      "Description": "Number of Compute node instances (MIN=1, MAX=64)",
 	      "Type": "Number",
 	      "Default": "2",
 	      "MinValue": "1",
 	      "MaxValue": "64",
-	      "ConstraintDescription": "NSD Server node size must less than 64"
+	      "ConstraintDescription": "Compute node size must be between 1 to 64"
 	    },
 	    "ComputeInstanceType": {
 	      "Description": "Instance type to use for the Compute node instances",
