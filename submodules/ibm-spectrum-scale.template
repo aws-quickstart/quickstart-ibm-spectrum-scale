@@ -6,7 +6,7 @@
   		"ParameterGroups" : [
   			{
   			    "Label": { "default": "File System Configurations:" },
-  			    "Parameters": [ "BlockSize", "DataReplica", "GpfsMountPoint" ]
+  			    "Parameters": [ "BlockSize", "DataReplica", "MetadataReplica", "GpfsMountPoint" ]
   			},
   			{
   			    "Label": { "default": "NSD Configurations:" },
@@ -57,6 +57,9 @@
 		    "DataReplica": {
 		      "default": "Data replica"
 		     },
+		    "MetadataReplica": {
+		      "default": "Metadata replica"
+		    },
 		    "GpfsMountPoint": {
 		      "default": "GPFS Mount Point"
 		    },
@@ -131,11 +134,19 @@
       "Type": "String",
       "Default": "1M",
       "AllowedValues": [
-         "256K", "512K", "1M", "2M", "4M", "8M", "16M"
+         "64K", "128K", "256K", "512K", "1M", "2M", "4M", "8M", "16M"
       ]
     },
     "DataReplica": {
       "Description": "Data replica",
+      "Type": "Number",
+      "Default": "2",
+      "AllowedValues": [
+         "1", "2"
+      ]
+    },
+    "MetadataReplica": {
+      "Description": "Metadata replica",
       "Type": "Number",
       "Default": "2",
       "AllowedValues": [
@@ -164,16 +175,16 @@
       "Type": "Number",
       "Default": "1",
       "AllowedValues": [
-         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"
+         "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
       ]
     },
     "DiskSize": {
-      "Description": "Supported disk size are MIN=5 and MAX=10240 (GB)",
+      "Description": "Supported disk size are MIN=5 and MAX 10240 (GB)",
       "Type": "Number",
       "Default": "5",
       "MinValue": "5",
       "MaxValue": "10240",
-      "ConstraintDescription": "Alloed Disk size are MIN=5,MAX=10240 (GB)"
+      "ConstraintDescription": "Alloed Disk size are MIN=5 MAX=10240 (GB)"
     },
     "ServerNodeCount": {
       "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
@@ -1261,7 +1272,10 @@
 						},
 						"\n",
 						"echo DataReplica $DataReplica\n",
-						"MetadataReplica=$DataReplica\n",
+						"MetadataReplica=",
+						{
+							"Ref": "MetadataReplica"
+						},
 						"\n",
 						"echo MetadataReplica $MetadataReplica\n",
 						"FsName=fs1\n",
@@ -1410,7 +1424,7 @@
 						"       chmod 755 /var/log/nsdFile\n",
 						"       echo Create GPFS NSD..\n",
 						"       sed -i \"s/FG_${AZ}/1/\" /var/log/nsdFile\n",
-						"       if [ ${DataReplica} == 2 ]\n",
+						"       if [ ${MetadataReplica} == 2 -o ${DataReplica} == 2 ]\n",
 						"       then\n",        
 						"           sed -i \"s/FG_../2/\" /var/log/nsdFile\n",
 						"       else\n",
@@ -1524,7 +1538,10 @@
 						},
 						"\n",
 						"echo DataReplica $DataReplica\n",
-						"MetadataReplica=$DataReplica",
+						"MetadataReplica=",
+						{
+							"Ref": "MetadataReplica"
+						},
 						"\n",
 						"echo MetadataReplica $MetadataReplica\n",
               		   "\n",
@@ -1629,7 +1646,11 @@
 					   {
 					   		"Ref": "DataReplica"
 					   },
-					   " -m $MetadataReplica -T ",
+					   " -m ",
+					   {
+					   		"Ref": "MetadataReplica"
+					   },
+					   " -T ",
 					   {
 					   		"Ref": "GpfsMountPoint"
 					   },
@@ -1703,7 +1724,33 @@
               "07_create_filesystem": { 
                 "command": "/usr/bin/gpfs-filesystem-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-filesystem-setup.log 2>&1"
               },
-              "08_gpfs_auto-recovery-settings": {
+              "08_mount_gpfs": {
+                "command": {
+                  "Fn::Join": [
+                    
+                    "",
+                    [
+                      "/usr/lpp/mmfs/bin/mmmount fs1 -a",
+                      "\n",
+                      "chmod 777 ",
+                      {
+                        "Ref": "GpfsMountPoint"
+                      },
+                      "\n",
+                      "echo ----Lets do some verification test---\n",
+					  "/usr/lpp/mmfs/bin/mmlsfs fs1 ",
+					  "\n",
+					  "/usr/lpp/mmfs/bin/mmdf fs1 ",
+					  "\n",
+					  "/usr/lpp/mmfs/bin/mmlsdisk fs1 ",
+					  "\n",
+					  "/usr/lpp/mmfs/bin/mmdf fs1\n",
+					  "\n"
+                    ]
+                  ]
+                }
+              },
+              "09_gpfs_auto-recovery-settings": {
                  "command": {
                     "Fn::Join": [
                       "",
@@ -1711,7 +1758,6 @@
                          "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
 						 "echo My instance ID $InstanceID\n",
 						 "echo RECOVERY ALARM SETTING FOR SERVER INSTANCES\n",
-						 
 						 "aws cloudwatch put-metric-alarm --alarm-name ",
 		                 {
 		                    "Ref": "AWS::StackName"
@@ -1744,22 +1790,12 @@
                          {
                             "Ref": "AWS::Region"
                          },
-                         " --output text | grep AUTOSCALINGGROUPS | awk '{print $3}'| grep ",
-                         {
-                            "Ref": "AWS::StackName"
-                         },
-                         "-Server`",
-                         "\n",
+                         " --output text | grep AUTOSCALINGGROUPS | awk '{print $3}'|grep Server`\n",
                          "asg_compute=`aws autoscaling describe-auto-scaling-groups --region ",
                          {
                             "Ref": "AWS::Region"
                          },
-                         " --output text | grep AUTOSCALINGGROUPS | awk '{print $3}'| grep ",
-                         {
-                            "Ref": "AWS::StackName"
-                         },
-                         "-Compute`",
-                         "\n",
+                         " --output text | grep AUTOSCALINGGROUPS | awk '{print $3}'|grep Compute`\n",
                          "echo asg_server:$asg_server\n",
                          "echo asg_compute:$asg_compute\n",
                          "echo Trying to suspend few processes for SERVER autoscaling group\n",
@@ -1796,29 +1832,6 @@
                       ]
                     ]
                  }
-              },
-              "09_mount_gpfs": {
-                "command": {
-                  "Fn::Join": [
-                    
-                    "",
-                    [
-                      "/usr/lpp/mmfs/bin/mmmount fs1 -a",
-                      "\n",
-                      "chmod 777 ",
-                      {
-                        "Ref": "GpfsMountPoint"
-                      },
-                      "\n",
-                      "echo ----Lets do some verification test---\n",
-					  "/usr/lpp/mmfs/bin/mmlsdisk fs1 ",
-					  "\n",
-					  "/usr/lpp/mmfs/bin/mmdf fs1\n",
-					  "sleep 20\n",
-					  "\n"
-                    ]
-                  ]
-                }
               }
            } 
          }
@@ -2195,7 +2208,11 @@
 						"PATH=$PATH:$HOME/bin\n",
 						"export PATH=$PATH:/usr/lpp/mmfs/bin:$EC2_HOME/bin\n",
 						"export PATH\n",
-            	   		"\n",
+            	   		"MetadataReplica=",
+						{
+						    "Ref": "MetadataReplica"
+						},
+						"\n",
 						"DataReplica=",
 						{
 						    "Ref": "DataReplica"
@@ -2206,7 +2223,6 @@
 						    "Ref": "ServerNodeCount"
 						},
 						"\n",
-						"MetadataReplica=$DataReplica",
 						"echo Generate GPFS cluster node file\n",
 						"rm /var/log/nsdFile\n",
 						"touch /var/log/nsdFile\n",
@@ -2317,7 +2333,6 @@
 						"   exit \n",
 						"else\n",
 						"   sleep 20\n",
-						"   /usr/lpp/mmfs/bin/mmlsdisk fs1 -L\n",
 						"fi\n",
 					    "echo --DONE--\n"
             	   	 ]
