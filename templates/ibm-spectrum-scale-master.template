@@ -10,8 +10,7 @@
   			    },
   			    "Parameters": [
   			    	 "BlockSize", 
-  			    	 "DataReplica", 
-  			    	 "MetadataReplica", 
+  			    	 "DataReplica",
   			    	 "GpfsMountPoint" 
   			      ]
   				},
@@ -103,9 +102,6 @@
 		    "DataReplica": {
 		      "default": "Data replica"
 		     },
-		    "MetadataReplica": {
-		      "default": "Metadata replica"
-		    },
 		    "GpfsMountPoint": {
 		      "default": "GPFS Mount Point"
 		    },
@@ -189,7 +185,7 @@
         "QSS3BucketName": {
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
-            "Default": "ssproject",
+            "Default": "ssprojects",
             "Description": "S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
             "Type": "String"
         },
@@ -212,7 +208,7 @@
 	      "Type": "String",
 	      "Default": "1M",
 	      "AllowedValues": [
-	         "64K", "128K", "256K", "512K", "1M", "2M", "4M", "8M", "16M"
+	         "256K", "512K", "1M", "2M", "4M", "8M", "16M"
 	      ]
 	    },
 	    "DataReplica": {
@@ -222,14 +218,6 @@
 	      "AllowedValues": [
              "1", "2"
           ]
-	    },
-	    "MetadataReplica": {
-	      "Description": "Metadata replica",
-	      "Type": "Number",
-	      "Default": "2",
-	      "AllowedValues": [
-               "1", "2"
-           ]
 	    },
 	    "GpfsMountPoint": {
 	      "Type": "String",
@@ -252,16 +240,16 @@
 	      "Type": "Number",
 	      "Default": "1",
 	      "AllowedValues": [
-         		"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+         		"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"
       	  ]
 	    },
 	    "DiskSize": {
-	      "Description": "Supported disk size are MIN=5 and MAX 10240 (GB)",
+	      "Description": "Supported disk size are MIN=5 and MAX=10240 (GB)",
           "Type": "Number",
           "Default": "5",
           "MinValue": "5",
           "MaxValue": "10240",
-          "ConstraintDescription": "Alloed Disk size are MIN=5 MAX=10240 (GB)"
+          "ConstraintDescription": "Alloed Disk size are MIN=5,MAX=10240 (GB)"
 	    },
 	    "ServerNodeCount": {
 	      "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
@@ -544,9 +532,6 @@
 				    },
 				    "DataReplica": {
 				      	"Ref": "DataReplica"
-				    },
-				    "MetadataReplica": {
-				      	"Ref": "MetadataReplica"
 				    },
 				    "GpfsMountPoint": {
 				    	"Ref": "GpfsMountPoint"
