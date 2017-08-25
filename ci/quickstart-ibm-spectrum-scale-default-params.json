@@ -6,15 +6,19 @@
   },
   {
     "ParameterKey": "KeyPairName",
-    "ParameterValue": "spectrum-scale-secure"
+    "ParameterValue": "$[alfred_getkeypair]"
   },
   {
     "ParameterKey": "OperatorEmail",
-    "ParameterValue": "dhersing@in.ibm.com"
+    "ParameterValue": "quickstart@amazon.com"
   },
   {
     "ParameterKey": "LicenseAgreementTerms",
     "ParameterValue": "Accept"
+  },
+  {
+    "ParameterKey": "S3BucketName",
+    "ParameterValue": "quickstart-temp-secrets"
   }
 
 ]
