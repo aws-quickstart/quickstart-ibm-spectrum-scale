@@ -10,7 +10,7 @@
   },
   {
     "ParameterKey": "OperatorEmail",
-    "ParameterValue": "quickstart@amazon.com"
+    "ParameterValue": "quickstart@example.com"
   },
   {
     "ParameterKey": "LicenseAgreementTerms",
