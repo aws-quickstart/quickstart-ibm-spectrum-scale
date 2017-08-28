@@ -19,6 +19,10 @@
   {
     "ParameterKey": "S3BucketName",
     "ParameterValue": "quickstart-temp-secrets"
+  },
+  {
+    "ParameterKey": "RemoteAccessCIDR",
+    "ParameterValue": "10.0.0.0/16"
   }
 
 ]
