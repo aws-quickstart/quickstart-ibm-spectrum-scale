@@ -422,9 +422,8 @@
             "Type": "String"
         },   
 	    "RemoteAccessCIDR": {
-	      "Description": "Allowed CIDR block for external SSH access to the bastions i.e x.x.x.x/16-28 (default 0.0.0.0/0 can be accessed from anywhere)",
+	      "Description": "Allowed CIDR block for external SSH access to the bastions i.e x.x.x.x/16-28",
 	      "Type": "String",
-	      "Default": "0.0.0.0/0",
 	      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
 	      "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/16-28."
 	    },
