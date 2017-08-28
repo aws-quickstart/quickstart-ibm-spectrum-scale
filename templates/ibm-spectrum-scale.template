@@ -82,13 +82,13 @@
 		      "default": "Compute Instance Type"
 		    },
 		    "VpcId": {
-		      "default": "VPC Id"
+		      "default": "VPC ID"
 		    },
 		    "PrivateSubnet1ID": {
-		      "default": "Private Subnets 1 Id"
+		      "default": "Private Subnets 1 ID"
 		    },
 		    "PrivateSubnet2ID": {
-		      "default": "Private Subnets 2 Id"
+		      "default": "Private Subnets 2 ID"
 		    },
 		    "KeyPairName": {
 		      "default": "Key Pair Name"
@@ -150,7 +150,7 @@
       
     },
     "EBSType": {
-      "Description": "EBS Type",
+      "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard",
       "Type": "String",
       "Default": "gp2",
       "AllowedValues": [
@@ -276,20 +276,20 @@
     },
     "VpcId": {
       "AllowedPattern": "vpc-[a-z0-9]*",
-      "Description": "Provide VPC id",
+      "Description": "Id of your existing VPC (e.g., vpc-0343606e).",
       "MaxLength": "64",
       "MinLength": "1",
       "Type": "AWS::EC2::VPC::Id",
       "ConstraintDescription": "Must be valid VPC id."
     },
     "PrivateSubnet1ID": {
-        "Description": "ID of private subnet 1 in Availability Zone 1 for instances (e.g., subnet-a0246dcd)",
+        "Description": "ID of the private subnet in Availability Zone 1 in your existing VPC (e.g., subnet-a0246dcd).",
         "Type": "AWS::EC2::Subnet::Id",
         "MinLength": "1",
         "ConstraintDescription": "Must be a valid private subnet 1."
     },
     "PrivateSubnet2ID": {
-        "Description": "ID of private subnet 2 in Availability Zone 2 for instances (e.g., subnet-b1f432cd)",
+        "Description": "ID of the private subnet in Availability Zone 2 in your existing VPC.",
         "Type": "AWS::EC2::Subnet::Id",
         "MinLength": "1",
         "ConstraintDescription": "Must be a valid private subnet 2."

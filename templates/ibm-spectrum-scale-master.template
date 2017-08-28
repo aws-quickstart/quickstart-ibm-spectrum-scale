@@ -63,8 +63,7 @@
                     "Parameters": [
                         "KeyPairName",
                         "BastionAMIOS",
-                        "BastionInstanceType",
-                        "RemoteAccessCIDR"
+                        "BastionInstanceType"
                     ]
                 },
   				{
@@ -142,16 +141,16 @@
 		      "default": "VPC Id"
 		    },
 		    "PublicSubnet1CIDR": {
-		      "default": "Public Subnet 1 Id"
+		      "default": "Public Subnet 1 CIDR"
 		    },
 		    "PublicSubnet2CIDR": {
-		      "default": "Public Subnet 2 Id"
+		      "default": "Public Subnet 2 CIDR"
 		    },
 		    "PrivateSubnet1CIDR": {
-		      "default": "Private Subnet 1 Id"
+		      "default": "Private Subnet 1 CIDR"
 		    },
 		    "PrivateSubnet2CIDR": {
-		      "default": "Private Subnet 2 Id"
+		      "default": "Private Subnet 2 CIDR"
 		    },
 		    "RemoteAccessCIDR": {
 		      "default": "Allowed External Access CIDR"
@@ -226,7 +225,7 @@
           "Description": "The mount point for the Spectrum Scale volume i.e /gpfs/fs1"
 	    },
 	    "EBSType": {
-	      "Description": "EBS Type",
+	      "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard",
 	      "Type": "String",
 	      "Default": "gp2",
 	      "AllowedValues": [
