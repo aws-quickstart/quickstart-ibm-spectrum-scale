@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "This template creates spectrum scale cluster and filesystem into an existing VPC with two public and private subnets on TWO-AZ.",
+  "Description": "This template creates spectrum scale cluster and filesystem into an existing VPC with two public and private subnets on TWO-AZ. (qs-1nkhqu6it)",
   "Metadata": {
   	"AWS::CloudFormation::Interface" : {
   		"ParameterGroups" : [

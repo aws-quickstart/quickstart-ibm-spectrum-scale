@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys the AWS IBM Spectrum Scale Quick Start. ***NOTE*** You must subscribe to the SpectrumScale AMI from the AWS Marketplace before you launch this template. See the deployment guide at http://aws.amazon.com/quickstart for details. This template creates Amazon EC2 instances and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description": "This template deploys the AWS IBM Spectrum Scale Quick Start. ***NOTE*** You must subscribe to the SpectrumScale AMI from the AWS Marketplace before you launch this template. See the deployment guide at http://aws.amazon.com/quickstart for details. This template creates Amazon EC2 instances and related resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nkhqu6io)",
     "Metadata": {
   	"AWS::CloudFormation::Interface" : {
   		"ParameterGroups" : [
