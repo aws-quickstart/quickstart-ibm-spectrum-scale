@@ -84,6 +84,9 @@
 		    "VpcId": {
 		      "default": "VPC ID"
 		    },
+            "BastionSecurityGroupID": {
+                "default": "Bastion Security Group ID"
+            },
 		    "PrivateSubnet1ID": {
 		      "default": "Private Subnets 1 ID"
 		    },
