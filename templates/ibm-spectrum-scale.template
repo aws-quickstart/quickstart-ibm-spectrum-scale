@@ -146,11 +146,11 @@
             "Type": "String"
         },
         "BastionSecurityGroupID": {
-    	    "Description": "ID of the bastion host security group to enable SSH connections( Important Note: Enter valid Bastion security group id to include bastion host or enter 'sg-xxxxxxxx' to skip bastion host)",
-            "Type": "String",
-            "AllowedPattern": "(sg-[a-zA-Z0-9]+)",
-            "ConstraintDescription": "Please enter valid Bastion security group id to include bastion host or enter 'sg-xxxxxxxx' to skip bastion host"
-        },
+    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g., sg-5f16e910)",
+            "Type": "AWS::EC2::SecurityGroup::Id",
+            "MinLength": "1",
+            "ConstraintDescription": "Must be a valid bastion host security group id (e.g., sg-5f16e910)."
+       },
         "BlockSize": {
             "Description": "File system block size",
             "Type": "String",
@@ -467,18 +467,7 @@
                 },
                 "us-gov-west-1"
             ]
-        },
-        "NoBastionHost": {
-            "Fn::Not": [{
-                 "Fn::Equals": [
-                    {
-                       "Ref": "BastionSecurityGroupID"
-                    },
-                    "sg-xxxxxxxx"
-                 ]
-              } 
-            ]
-       } 
+        } 
     },
     "Resources": {
         "NotificationTopic": {
@@ -805,7 +794,6 @@
         },
         "ServerSecurityGroupIngress3": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "NoBastionHost",
             "Properties": {
                 "GroupId": {
                     "Ref": "ServerSecurityGroup"
@@ -848,7 +836,6 @@
         },
         "ComputeSecurityGroupIngress3": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "NoBastionHost",
             "Properties": {
                 "GroupId": {
                     "Ref": "ComputeSecurityGroup"
