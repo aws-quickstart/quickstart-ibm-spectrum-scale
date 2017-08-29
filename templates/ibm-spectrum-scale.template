@@ -66,7 +66,7 @@
                         "default": "Personal Configuration"
                     },
                     "Parameters": [
-                        "S3BucketName",
+                        "SpectrumS3Bucket",
                         "OperatorEmail"
                     ]
                 },
@@ -131,8 +131,8 @@
                 "OperatorEmail": {
                     "default": "Operator Email"
                 },
-                "S3BucketName": {
-                    "default": "S3 Bucket Name"
+                "SpectrumS3Bucket": {
+                    "default": "Spectrum S3 Bucket Name"
                 }
             }
         }
@@ -383,7 +383,7 @@
             "Type": "String",
             "ConstraintDescription": "Must be a valid email address."
         },
-        "S3BucketName": {
+        "SpectrumS3Bucket": {
             "Description": "Important: Enter your personal owned S3 bucket name for the Key/data store, if don't have then need to create first from S3 before going forword.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
@@ -587,7 +587,7 @@
                                             [
                                                 "arn:aws:s3:::",
                                                 {
-                                                    "Ref": "S3BucketName"
+                                                    "Ref": "SpectrumS3Bucket"
                                                 },
                                                 ""
                                             ]
@@ -609,7 +609,7 @@
                                             [
                                                 "arn:aws:s3:::",
                                                 {
-                                                    "Ref": "S3BucketName"
+                                                    "Ref": "SpectrumS3Bucket"
                                                 },
                                                 "/*"
                                             ]
@@ -1092,7 +1092,7 @@
                                             "echo SSHKeydir:$SSHKeydir\n",
                                             "path=",
                                             {
-                                                "Ref": "S3BucketName"
+                                                "Ref": "SpectrumS3Bucket"
                                             },
                                             "/Keys\n",
                                             "KEYEXIST=0\n",
@@ -1709,7 +1709,7 @@
                                             "_$adminIns\n",
                                             "       path=",
                                             {
-                                                "Ref": "S3BucketName"
+                                                "Ref": "SpectrumS3Bucket"
                                             },
                                             "/Keys\n",
                                             "       echo removal directory path:${path}/${SSHKeydir}\n",
@@ -2210,7 +2210,7 @@
                                             "echo SSHKeydir:$SSHKeydir\n",
                                             "path=",
                                             {
-                                                "Ref": "S3BucketName"
+                                                "Ref": "SpectrumS3Bucket"
                                             },
                                             "/Keys\n",
                                             "KEYEXIST=`aws s3 ls s3://${path}/${SSHKeydir}/ | wc -l`\n",
