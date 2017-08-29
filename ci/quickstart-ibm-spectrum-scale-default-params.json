@@ -17,7 +17,7 @@
     "ParameterValue": "Accept"
   },
   {
-    "ParameterKey": "S3BucketName",
+    "ParameterKey": "SpectrumS3Bucket",
     "ParameterValue": "quickstart-temp-secrets"
   },
   {
