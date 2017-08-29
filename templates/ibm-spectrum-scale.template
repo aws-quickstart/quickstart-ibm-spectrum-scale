@@ -58,8 +58,7 @@
                     },
                     "Parameters": [
                         "KeyPairName",
-                        "BastionSecurityGroupID",
-                        "RequiredBastion"
+                        "BastionSecurityGroupID"
                     ]
                 },
                 {
@@ -132,9 +131,6 @@
                 "OperatorEmail": {
                     "default": "Operator Email"
                 },
-                "RequiredBastion": {
-                    "default": "Required Bastion?"
-                },
                 "S3BucketName": {
                     "default": "S3 Bucket Name"
                 }
@@ -150,19 +146,11 @@
             "Type": "String"
         },
         "BastionSecurityGroupID": {
-            "Description": "ID of the bastion host security group to enable SSH connections (e.g.sg-7f16e910),This is mandatory but to be use or not, depend on 'Required Bastion' param selection. ",
+    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g., sg-5f16e910)",
             "Type": "AWS::EC2::SecurityGroup::Id",
-            "ConstraintDescription": "must be a valid bastion security group id."
-        },
-        "RequiredBastion": {
-            "Description": "Bastion Host selection depend on this parameter, Select Yes, if Bastion need then select and No for otherwise\n",
-            "Type": "String",
-            "AllowedValues": [
-                "Yes",
-                "No"
-            ],
-            "Default": "Yes"
-        },
+            "MinLength": "1",
+            "ConstraintDescription": "Must be a valid bastion host security group id (e.g., sg-5f16e910)."
+       },
         "BlockSize": {
             "Description": "File system block size",
             "Type": "String",
@@ -178,7 +166,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Data replica",
+            "Description": "1 and 2 data replica value allowed where data replica 1 will make only one copy of data and metadata across the all cluster nodes on two AZs",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -230,7 +218,7 @@
             "Default": "5",
             "MinValue": "5",
             "MaxValue": "10240",
-            "ConstraintDescription": "Alloed Disk size are MIN=5,MAX=10240 (GB)"
+            "ConstraintDescription": "Allowed Disk size are MIN=5,MAX=10240 (GB)"
         },
         "ServerNodeCount": {
             "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
@@ -479,19 +467,7 @@
                 },
                 "us-gov-west-1"
             ]
-        },
-        "NoBastionHost": {
-            "Fn::Not": [
-                {
-                    "Fn::Equals": [
-                        {
-                            "Ref": "RequiredBastion"
-                        },
-                        "No"
-                    ]
-                }
-            ]
-        }
+        } 
     },
     "Resources": {
         "NotificationTopic": {
@@ -818,7 +794,6 @@
         },
         "ServerSecurityGroupIngress3": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "NoBastionHost",
             "Properties": {
                 "GroupId": {
                     "Ref": "ServerSecurityGroup"
@@ -861,7 +836,6 @@
         },
         "ComputeSecurityGroupIngress3": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "NoBastionHost",
             "Properties": {
                 "GroupId": {
                     "Ref": "ComputeSecurityGroup"
@@ -1105,7 +1079,7 @@
                                             "then\n",
                                             "   echo This node is admin node.\n",
                                             "else\n",
-                                            "   echo This node is non-admin node. Exit.\n",
+                                            "   echo This node is non-admin node.\n",
                                             "   admin=False\n",
                                             "fi\n",
                                             "hostname=`hostname -A`\n",
@@ -1380,7 +1354,7 @@
                                             "then\n",
                                             "   echo This node is admin node.\n",
                                             "else\n",
-                                            "   echo This node is non-admin node. Exit.\n",
+                                            "   echo This node is non-admin node.\n",
                                             "   admin=False\n",
                                             "fi\n",
                                             "cluster=False\n",
@@ -1552,7 +1526,7 @@
                                             "then\n",
                                             "   echo This node is admin node.\n",
                                             "else\n",
-                                            "   echo This node is non-admin node. Exit.\n",
+                                            "   echo This node is non-admin node.\n",
                                             "   admin=False\n",
                                             "fi\n",
                                             "echo admin:$admin\n",
@@ -1629,7 +1603,7 @@
                                             "then\n",
                                             "   echo This node is admin node.\n",
                                             "else\n",
-                                            "   echo This node is non-admin node. Exit.\n",
+                                            "   echo This node is non-admin node.\n",
                                             "   admin=False\n",
                                             "fi\n",
                                             "echo admin:$admin\n",
@@ -2512,7 +2486,7 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": 20,
+                            "VolumeSize": 40,
                             "VolumeType": "gp2"
                         }
                     }
