@@ -132,7 +132,11 @@
                     "default": "Operator Email"
                 },
                 "SpectrumS3Bucket": {
+<<<<<<< HEAD
                     "default": "Spectrum S3 Bucket Name"
+=======
+                    "default": "Spectrum S3 Bucket"
+>>>>>>> aws-quickstart/master
                 }
             }
         }
@@ -146,11 +150,11 @@
             "Type": "String"
         },
         "BastionSecurityGroupID": {
-    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g., sg-5f16e910)",
+            "Description": "ID of the bastion host security group id to enable SSH connections (e.g., sg-5f16e910)",
             "Type": "AWS::EC2::SecurityGroup::Id",
             "MinLength": "1",
             "ConstraintDescription": "Must be a valid bastion host security group id (e.g., sg-5f16e910)."
-       },
+        },
         "BlockSize": {
             "Description": "File system block size",
             "Type": "String",
@@ -166,7 +170,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "1 and 2 data replica value allowed where data replica 1 will make only one copy of data and metadata across the all cluster nodes on two AZs",
+            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -384,11 +388,15 @@
             "ConstraintDescription": "Must be a valid email address."
         },
         "SpectrumS3Bucket": {
+<<<<<<< HEAD
             "Description": "Important: Enter your personal owned S3 bucket name for the Key/data store, if don't have then need to create first from S3 before going forword.",
+=======
+            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start",
+>>>>>>> aws-quickstart/master
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
-            "ConstraintDescription": "Your personal owned bucket name needed here."
+            "ConstraintDescription": "Must own the specified bucket."
         }
     },
     "Rules": {
@@ -467,7 +475,7 @@
                 },
                 "us-gov-west-1"
             ]
-        } 
+        }
     },
     "Resources": {
         "NotificationTopic": {

@@ -164,7 +164,11 @@
                     "default": "Operator Email"
                 },
                 "SpectrumS3Bucket": {
+<<<<<<< HEAD
                     "default": "Spectrum S3 Bucket Name"
+=======
+                    "default": "Spectrum S3 Bucket"
+>>>>>>> aws-quickstart/master
                 },
                 "BastionAMIOS": {
                     "default": "Bastion AMI OS"
@@ -195,11 +199,15 @@
             "Type": "String"
         },
         "SpectrumS3Bucket": {
+<<<<<<< HEAD
             "Description": "Important: Enter your personal owned/created S3 bucket name for the Key/data store, if don't have then need to create first from S3 before going forword.",
+=======
+            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start",
+>>>>>>> aws-quickstart/master
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
-            "ConstraintDescription": "Your own personal created bucket name needed here."
+            "ConstraintDescription": "Must own the specified bucket."
         },
         "BlockSize": {
             "Description": "File system block size",
@@ -216,7 +224,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Data replica",
+            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
