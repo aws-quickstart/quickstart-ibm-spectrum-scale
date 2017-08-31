@@ -84,7 +84,7 @@
                     "default": "License Agreement Terms"
                 },
                 "BlockSize": {
-                    "default": "BlockSize"
+                    "default": "Block Size"
                 },
                 "DataReplica": {
                     "default": "Data replica"
@@ -142,15 +142,15 @@
             "AllowedValues": [
                 "Accept"
             ],
-            "Description": "LICENSE INFORMATION: Details License Information can be found in: https://s3-us-west-2.amazonaws.com/spectrumscale-web/License/license.html ",
+            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com ",
             "Type": "String"
         },
         "BastionSecurityGroupID": {
-            "Description": "ID of the bastion host security group id to enable SSH connections (e.g., sg-5f16e910)",
+    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g. sg-5f16e910)",
             "Type": "AWS::EC2::SecurityGroup::Id",
             "MinLength": "1",
-            "ConstraintDescription": "Must be a valid bastion host security group id (e.g., sg-5f16e910)."
-        },
+            "ConstraintDescription": "Must be a valid bastion host security group id (e.g. sg-5f16e910)"
+       },
         "BlockSize": {
             "Description": "File system block size",
             "Type": "String",
