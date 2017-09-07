@@ -47,6 +47,7 @@
                         "default": "Network Configuration:"
                     },
                     "Parameters": [
+                        "AvailabilityZones",
                         "VpcId",
                         "PrivateSubnet1ID",
                         "PrivateSubnet2ID"
@@ -104,6 +105,9 @@
                 "ServerNodeCount": {
                     "default": "Server Node Count"
                 },
+                "AvailabilityZones": {
+                    "default": "Availability Zone"
+                },
                 "ServerInstanceType": {
                     "default": "Server Instance Type"
                 },
@@ -142,17 +146,17 @@
             "AllowedValues": [
                 "Accept"
             ],
-            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com ",
+            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com.",
             "Type": "String"
         },
         "BastionSecurityGroupID": {
-    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g. sg-5f16e910)",
+    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g. sg-5f16e910).",
             "Type": "AWS::EC2::SecurityGroup::Id",
             "MinLength": "1",
-            "ConstraintDescription": "Must be a valid bastion host security group id (e.g. sg-5f16e910)"
+            "ConstraintDescription": "Must be a valid bastion host security group id (e.g. sg-5f16e910)."
        },
         "BlockSize": {
-            "Description": "File system block size",
+            "Description": "File system block size.",
             "Type": "String",
             "Default": "1M",
             "AllowedValues": [
@@ -166,7 +170,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs",
+            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs.",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -178,10 +182,10 @@
             "Type": "String",
             "Default": "/gpfs/fs1",
             "AllowedPattern": "(/[a-zA-Z0-9]+)/([a-zA-Z0-9]+)",
-            "Description": "The mount point for the Spectrum Scale volume i.e /gpfs/fs1"
+            "Description": "The mount point for the Spectrum Scale volume i.e /gpfs/fs1."
         },
         "EBSType": {
-            "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard",
+            "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard.",
             "Type": "String",
             "Default": "gp2",
             "AllowedValues": [
@@ -213,15 +217,15 @@
             ]
         },
         "DiskSize": {
-            "Description": "Supported disk size are MIN=5 and MAX=10240 (GB)",
+            "Description": "Supported disk size are MIN=10 and MAX=16384 (GB).",
             "Type": "Number",
-            "Default": "5",
-            "MinValue": "5",
-            "MaxValue": "10240",
-            "ConstraintDescription": "Allowed Disk size are MIN=5,MAX=10240 (GB)"
+            "Default": "100",
+            "MinValue": "10",
+            "MaxValue": "16384",
+            "ConstraintDescription": "Allowed Disk size are MIN=10,MAX=16384 (GB)."
         },
         "ServerNodeCount": {
-            "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64)",
+            "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64).",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -258,10 +262,10 @@
                 "62",
                 "64"
             ],
-            "ConstraintDescription": "NSD Server node size must be less then or equal to 64"
+            "ConstraintDescription": "NSD Server node size must be less then or equal to 64."
         },
         "ServerInstanceType": {
-            "Description": "Instance type to use for the NSD Server nodes instances",
+            "Description": "Instance type to use for the NSD Server nodes instances.",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -303,14 +307,14 @@
         },
         "ComputeNodeCount": {
             "Default": "2",
-            "Description": "Number of Compute node instances (MIN=1, MAX=64)",
+            "Description": "Number of Compute node instances (MIN=1, MAX=64).",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "64",
-            "ConstraintDescription": "Compute node size must be between 1 to 64"
+            "ConstraintDescription": "Compute node size must be between 1 to 64."
         },
         "ComputeInstanceType": {
-            "Description": "Instance type to use for the Compute node instances",
+            "Description": "Instance type to use for the Compute node instances.",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -371,20 +375,20 @@
             "ConstraintDescription": "Must be a valid private subnet 2."
         },
         "KeyPairName": {
-            "Description": "Name of an existing EC2 Key Pair",
+            "Description": "Name of an existing EC2 Key Pair.",
             "Type": "AWS::EC2::KeyPair::KeyName",
             "MinLength": "1",
             "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
         },
         "OperatorEmail": {
             "AllowedPattern": "([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)",
-            "Description": "Email address that notifications of any scaling operations will be sent to",
+            "Description": "Email address that notifications of any scaling operations will be sent to.",
             "MinLength": "1",
             "Type": "String",
             "ConstraintDescription": "Must be a valid email address."
         },
         "SpectrumS3Bucket": {
-            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start",
+            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
@@ -408,7 +412,7 @@
                             }
                         ]
                     },
-                    "AssertDescription": "All subnets must exist in the VPC"
+                    "AssertDescription": "All subnets must exist in the VPC."
                 }
             ]
         }
@@ -896,10 +900,18 @@
                                                 "Ref": "ComputeSecurityGroup"
                                             },
                                             "\n",
+                                            "echo Lets give some time for instances\n",
+                                            "TotalNodeCount=`expr $ServerNodeCount + $ComputeNodeCount`\n",
+                                            "wait=$(expr $TotalNodeCount / 2 )\n",
+                                            "echo wait:$wait\n",
                                             "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $InstanceID\n",
                                             "mkdir /var/log/gpfs\n",
                                             "hostname=`hostname -A`\n",
+                                            "if [ `echo $hostname | wc -l` == 0 ]\n",
+                                            "then\n",
+                                            "    hostname=`hostname`\n",
+                                            "fi\n",
                                             "ServerSG=$ServerSecurityGroup\n",
                                             "ComputeSG=$ComputeSecurityGroup\n",
                                             "echo ServerSG:$ServerSG\n",
@@ -912,12 +924,12 @@
                                             "fi\n",
                                             "\n",
                                             "RUNNING=False\n",
-                                            "ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
+                                            "ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",    
+                                            "sleep $wait\n",
                                             "ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
                                             "SerNodeCount=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
                                             "ComNodeCount=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
                                             "\n",
-                                            "TotalNodeCount=`expr $ServerNodeCount + $ComputeNodeCount`\n",
                                             "echo We have $ComputeNodeCount Compute nodes and $ServerNodeCount Server nodes in cluster.\n",
                                             "\n",
                                             "echo ServerNodeOnRG:$SerNodeCount\n",
@@ -932,9 +944,20 @@
                                             "while [ $RUNNING == False ]\n",
                                             "do\n",
                                             "  echo Not all server are ready. Waiting...\n",
-                                            "  sleep 10\n",
+                                            "  sleep $wait\n",
                                             "  ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
+                                            "  if [ $? != 0 ]\n",
+                                            "  then\n",
+                                            "      sleep $wait\n",
+                                            "      ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
+                                            "  fi\n",
+                                            "  sleep $wait\n",
                                             "  ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
+                                            "  if [ $? != 0 ]\n",
+                                            "  then\n",
+                                            "      sleep $wait\n",
+                                            "      ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
+                                            "  fi\n",
                                             "  SerNodeCount=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
                                             "  ComNodeCount=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
                                             "  if [ $ComputeNodeCount == $ComNodeCount -a $ServerNodeCount == $SerNodeCount ]\n",
@@ -975,9 +998,9 @@
                                             "    echo $line >> /var/log/nodeFile\n",
                                             "    echo $line >> /var/log/serverLicFile\n",
                                             "  fi\n",
-                                            "  ec2-modify-instance-attribute --disable-api-termination true $InstanceID\n",
-                                            "  ec2-modify-instance-attribute --instance-initiated-shutdown-behavior stop $InstanceID\n",
                                             "done\n",
+                                            "ec2-modify-instance-attribute --disable-api-termination true $InstanceID\n",
+                                            "ec2-modify-instance-attribute --instance-initiated-shutdown-behavior stop $InstanceID\n",
                                             "echo Collected all nodes description info.\n",
                                             "echo = GPFS Cluster node description file =\n",
                                             "cat /var/log/nodeDescFile\n",
@@ -1006,13 +1029,12 @@
                                             "     echo $computeline:quorum >> /var/log/nodeDescFile\n",
                                             "     echo $computeline >> /var/log/nodeFile\n",
                                             "     echo $computeline >> /var/log/serverLicFile\n",
-                                            "     ec2-modify-instance-attribute --disable-api-termination true $InstanceID\n",
-                                            "     ec2-modify-instance-attribute --instance-initiated-shutdown-behavior stop $InstanceID\n",
                                             "     let com_quorum--\n",
                                             "   else\n",
                                             "     echo $computeline >> /var/log/addNodeFile\n",
                                             "   fi\n",
                                             "done\n",
+                                            "sleep $wait\n",
                                             "echo Adding IP and hostname into /etc/hosts file\n",
                                             "cat /var/log/instance_server.out | awk '{print $6,$2}' > /var/log/clusterNodeInfo\n",
                                             "cat /var/log/instance_compute.out | awk '{print $6,$2}' >> /var/log/clusterNodeInfo\n",
@@ -1083,6 +1105,10 @@
                                             "   admin=False\n",
                                             "fi\n",
                                             "hostname=`hostname -A`\n",
+                                            "if [ `echo $hostname | wc -l` == 0 ]\n",
+                                            "then\n",
+                                            "    hostname=`hostname`\n",
+                                            "fi\n",
                                             "echo hostname:$hostname\n",
                                             "SSHKeydir=",
                                             {
@@ -1204,10 +1230,6 @@
                                             "then\n",
                                             "  exit\n",
                                             "fi\n",
-                                            "compInstance=`cat /var/log/instance_compute.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
-                                            "IFS=' ' read -a CInsArray <<< $compInstance\n",
-                                            "counter=${#CInsArray[@]}\n",
-                                            "echo Total Number of Nodes : $counter\n",
                                             "success=True\n",
                                             "IOPS=100\n",
                                             "Instances=`cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
@@ -1216,6 +1238,8 @@
                                             "echo Instances: ${InsArray[@]}\n",
                                             "ServerPriDNS=`cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$2}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a ServerPriDNSArray <<< $ServerPriDNS\n",
+                                            "counter=${#ServerPriDNSArray[@]}\n",
+                                            "echo Total Number of Nodes : $counter\n",
                                             "echo Create and Attach Disks with server nodes\n",
                                             "DeviceName=({b..z})\n",
                                             "AZ=`expr $MyAZ | cut -f3 -d'-'`\n",
@@ -1230,8 +1254,10 @@
                                             "      then\n",
                                             "         echo Calculating IOPS for io1 type\n",
                                             "         IOPS=$(expr $DiskSize \\* 50)\n",
+                                            "         sleep 10\n",
                                             "         ec2-create-volume -s $DiskSize -i $IOPS -t $EBSType -z $MyAZ > /var/log/nsd.out\n",
                                             "      else\n",
+                                            "         sleep 10\n",
                                             "         ec2-create-volume -s $DiskSize -t $EBSType -z $MyAZ > /var/log/nsd.out\n",
                                             "      fi\n",
                                             "      if [ $? != 0 ]\n",
@@ -1248,6 +1274,7 @@
                                             "         sleep 10\n",
                                             "         volStatus=$(ec2-describe-volume-status $volID | grep ok | wc -l)\n",
                                             "      done\n",
+                                            "      sleep 10\n",
                                             "      echo Attach volume $volID to instance ${InsArray[counter]} as device /dev/xvd${DeviceName[i]}\n",
                                             "      ec2-attach-volume $volID -i ${InsArray[counter]} -d /dev/xvd${DeviceName[i]}\n",
                                             "      if [ $? != 0 ];\n",
@@ -1264,6 +1291,7 @@
                                             "      deviceName=/dev/xvd${DeviceName[$i]}\n",
                                             "      echo deviceName=$deviceName\n",
                                             "      echo volume ID:$volID\n",
+                                            "      sleep 10\n",
                                             "      ec2-modify-instance-attribute ${InsArray[counter]} -b \"$deviceName=$volID:true\"\n",
                                             "      echo delete on terminate status:$?\n",
                                             "      echo creating nsd file\n",
@@ -1359,20 +1387,24 @@
                                             "fi\n",
                                             "cluster=False\n",
                                             "hostname=`hostname -A`\n",
+                                            "if [ `echo $hostname | wc -l` == 0 ]\n",
+                                            "then\n",
+                                            "    hostname=`hostname`\n",
+                                            "fi\n",
                                             "echo admin:$admin\n",
                                             "timeout=0\n",
                                             "if [ $admin == False ]\n",
                                             "then\n",
                                             "   mmlscl=`/usr/lpp/mmfs/bin/mmlscluster | wc -l`\n",
                                             "   timeout=0\n",
-                                            "   while [ $mmlscl -le 1 -a $timeout -lt 5 ]\n",
+                                            "   while [ $mmlscl -le 1 -a $timeout -lt 10 ]\n",
                                             "   do\n",
                                             "       echo Waiting to create cluster....\n",
                                             "       sleep 100\n",
                                             "       mmlscl=`/usr/lpp/mmfs/bin/mmlscluster | wc -l`\n",
                                             "       let timeout++\n",
                                             "   done\n",
-                                            "   if [ $timeout -ge 5 ]\n",
+                                            "   if [ $timeout -ge 10 ]\n",
                                             "   then\n",
                                             "        echo This is new node .....\n",
                                             "        cat /var/log/nodeDescFile | grep $hostname > /tmp/$hostname\n",
@@ -1383,8 +1415,8 @@
                                             "   fi\n",
                                             "   cluster=True\n",
                                             "else\n",
-                                            "    echo HOPE TILL HERE ALL KEYS HAS BEEN SUCCESSFULLY DISTRIBUTED ON ALL NODES..LETS CHECK AGAIN..!!\n",
-                                            "    timeout=$(expr $TotalNodes \\* 30)\n",
+                                            "    echo HOPE TILL HERE ALL KEYS HAS BEEN SUCCESSFULLY DISTRIBUTED ON ALL NODES..LETS GIVE SOME EXTRA WAIT..!!\n",
+                                            "    timeout=$(expr $TotalNodes \\* 15)\n",
                                             "    echo Waiting...$timeout \n",
                                             "    sleep $timeout\n",
                                             "    timeout=0\n",
@@ -1405,14 +1437,21 @@
                                             "    echo ALL KEYS HAS BEEN SUCCESSFULLY DISTRIBUTED ON ALL NODES\n",
                                             "    echo Create GPFS cluster\n",
                                             "    /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/nodeDescFile --ccr-enable -C $ClusterName -r /usr/bin/ssh -R /usr/bin/scp -A\n",
-                                            "    echo Assigning server license.. \n",
-                                            "    /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/serverLicFile\n",
-                                            "    /usr/lpp/mmfs/bin/mmstartup -N $hostname\n",
                                             "    if [ $? != 0 ]\n",
                                             "    then\n",
-                                            "        echo Cluster creation or license change failed..Exiting..\n",
-                                            "        exit 1\n",
+                                            "        echo lets retry after sometime\n",
+                                            "        sleep 200\n",
+                                            "        /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/nodeDescFile --ccr-enable -C $ClusterName -r /usr/bin/ssh -R /usr/bin/scp -A\n",
                                             "    fi\n",
+                                            "    echo Assigning server license.. \n",
+                                            "    /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/serverLicFile\n",
+                                            "    if [ $? != 0 ]\n",
+                                            "    then\n",
+                                            "        echo lets retry after sometime\n",
+                                            "        sleep 200\n",
+                                            "        /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/serverLicFile\n",
+                                            "    fi\n",
+                                            "    /usr/lpp/mmfs/bin/mmstartup -N $hostname\n",
                                             "    noSeverLic=`/usr/lpp/mmfs/bin/mmlslicense | grep 'Number of nodes with server license designation:' | awk '{print $8}'`\n",
                                             "    while [ $noSeverLic != `cat /var/log/serverLicFile | wc -l` ]\n",
                                             "    do\n",
@@ -1453,7 +1492,6 @@
                                             "echo InstanceID:$InstanceID\n",
                                             "echo cluster:$cluster\n",
                                             "AZ=`expr $MyAZ | cut -f3 -d'-'`\n",
-                                            "AZline=`cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $1}' | sort `\n",
                                             "IFS=' ' read -a adminArrAZ <<< `cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}' `\n",
                                             "echo adminArrAZ:$adminArrAZ\n",
                                             "AZAdminNode=$(cat /var/log/instance_server.out | grep running | grep ${adminArrAZ[0]} | awk '{print $2}')\n",
@@ -1461,6 +1499,7 @@
                                             "echo cluster:$cluster\n",
                                             "echo InstanceID:$InstanceID\n",
                                             "echo adminArrAZ:$adminArrAZ\n",
+                                            "echo adminIns:$adminIns\n",
                                             "if [ $InstanceID == ${adminArrAZ[0]} -a $cluster == True ]\n",
                                             "then\n",
                                             "   if [ ${adminArrAZ} != ${adminIns} ]\n",
@@ -1483,13 +1522,15 @@
                                             "       /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/nsdFile\n",
                                             "       if [ $? != 0 ]\n",
                                             "       then\n",
-                                            "           exit\n",
-                                            "       else\n",
-                                            "           echo ----Successfully nsd created----\n",
+                                            "            echo lets retry after sometime\n",
+                                            "            sleep 200\n",
+                                            "            /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/nsdFile\n",
                                             "       fi\n",
                                             "   else\n",
                                             "       echo ----Skipping nsd creation from this node----\n",
                                             "   fi\n",
+                                            "else\n",
+                                            "    echo This is not admin node or cluster is not ready\n",
                                             "fi\n"
                                         ]
                                     ]
@@ -1543,10 +1584,18 @@
                                             "   /usr/lpp/mmfs/bin/mmaddnode -N /var/log/addNodeFile\n",
                                             "   if [ $? != 0 ]\n",
                                             "   then\n",
-                                            "       exit\n",
+                                            "       echo lets retry after sometime\n",
+                                            "       sleep 200\n",
+                                            "       /usr/lpp/mmfs/bin/mmaddnode -N /var/log/addNodeFile\n",
                                             "   fi\n",
                                             "   echo Assigning client license.. \n",
-                                            "   /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/addNodeFile\n\n",
+                                            "   /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/addNodeFile\n",
+                                            "   if [ $? != 0 ]\n",
+                                            "   then\n",
+                                            "       echo lets retry after sometime\n",
+                                            "       sleep 200\n",
+                                            "       /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/addNodeFile\n",
+                                            "   fi\n",
                                             "   echo Start gpfs cluster..\n",
                                             "   /usr/lpp/mmfs/bin/mmstartup -N /var/log/addNodeFile\n",
                                             "   /usr/lpp/mmfs/bin/mmgetstate -a\n",
@@ -1849,8 +1898,8 @@
                                                 "Ref": "AWS::Region"
                                             },
                                             "\n",
-                                            "echo ReplaceUnhealthy process suspended from compute autoscaling group\n",
-                                            "echo -----THE END-----\n"
+                                            "echo ReplaceUnhealthy process suspended from compute autoscaling group\n"
+                                            
                                         ]
                                     ]
                                 }
@@ -1860,19 +1909,47 @@
                                     "Fn::Join": [
                                         "",
                                         [
+                                            "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
+                                            "echo My instance ID $InstanceID\n",
+                                            "echo AZ: $MyAZ\n",
+                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "IFS=' ' read -a adminArr <<< $line\n",
+                                            "echo InstanceID:$InstanceID\n",
+                                            "echo adminArr:${adminArr[0]}\n",
+                                            "adminIns=${adminArr[0]}\n",
+                                            "if [ $InstanceID == ${adminArr[0]} ]\n",
+                                            "then\n",
+                                            "   echo This node is admin node.\n",
+                                            "else\n",
+                                            "   echo This node is non-admin node..exiting..\n",
+                                            "   exit\n",
+                                            "fi\n",
+                                            "sleep 20\n",
                                             "/usr/lpp/mmfs/bin/mmmount fs1 -a",
                                             "\n",
                                             "chmod 777 ",
                                             {
                                                 "Ref": "GpfsMountPoint"
                                             },
-                                            "\n",
+                                            "\n"
+                                         ]
+                                       ]
+                                    }
+                                },
+                                "10_gpfs_verifications": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [     
                                             "echo ----Lets do some verification test---\n",
-                                            "/usr/lpp/mmfs/bin/mmlsdisk fs1 ",
+                                            "/usr/lpp/mmfs/bin/mmgetstate -a",
+                                            "\n",
+                                            "/usr/lpp/mmfs/bin/mmlsdisk fs1 -L",
                                             "\n",
                                             "/usr/lpp/mmfs/bin/mmdf fs1\n",
-                                            "sleep 20\n",
-                                            "\n"
+                                            "\n",
+                                            "echo -----THE END-----\n"
                                         ]
                                     ]
                                 }
@@ -1905,7 +1982,7 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": 40,
+                            "VolumeSize": { "Ref": "DiskSize" },
                             "VolumeType": "gp2"
                         }
                     }
@@ -2046,10 +2123,19 @@
                                                 "Ref": "ComputeSecurityGroup"
                                             },
                                             "\n",
+                                            "echo Lets give some time for instances\n",
+                                            "TotalNodeCount=`expr $ServerNodeCount + $ComputeNodeCount`\n",
+                                            "wait=$(expr $TotalNodeCount / 4 )\n",
+                                            "echo wait:$wait\n",
+                                            "sleep $wait\n",
                                             "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $InstanceID\n",
                                             "mkdir /var/log/gpfs\n",
                                             "hostname=`hostname -A`\n",
+                                            "if [ `echo $hostname | wc -l` == 0 ]\n",
+                                            "then\n",
+                                            "    hostname=`hostname`\n",
+                                            "fi\n",
                                             "ServerSG=$ServerSecurityGroup\n",
                                             "ComputeSG=$ComputeSecurityGroup\n",
                                             "echo ServerSG:$ServerSG\n",
@@ -2061,7 +2147,9 @@
                                             "  exit\n",
                                             "fi\n",
                                             "\n",
+                                            "sleep $wait\n",
                                             "ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
+                                            "sleep $wait\n",
                                             "ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
                                             "SerNodeCount=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
                                             "ComNodeCount=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
@@ -2082,8 +2170,8 @@
                                             "while [ $RUNNING == False ]\n",
                                             "do\n",
                                             "  echo Not all server are ready. Waiting...\n",
-                                            "  sleep 10\n",
                                             "  ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
+                                            "  sleep $wait\n",
                                             "  ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
                                             "  SerNodeCount=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
                                             "  ComNodeCount=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
@@ -2125,9 +2213,9 @@
                                             "    echo $line >> /var/log/nodeFile\n",
                                             "    echo $line >> /var/log/serverLicFile\n",
                                             "  fi\n",
-                                            "  ec2-modify-instance-attribute --disable-api-termination true $InstanceID\n",
-                                            "  ec2-modify-instance-attribute --instance-initiated-shutdown-behavior stop $InstanceID\n",
                                             "done\n",
+                                            "ec2-modify-instance-attribute --disable-api-termination true $InstanceID\n",
+                                            "ec2-modify-instance-attribute --instance-initiated-shutdown-behavior stop $InstanceID\n",
                                             "echo Collected all nodes description info.\n",
                                             "echo = GPFS Cluster node description file =\n",
                                             "cat /var/log/nodeDescFile\n",
@@ -2153,8 +2241,6 @@
                                             "     echo $computeline:quorum >> /var/log/nodeDescFile\n",
                                             "     echo $computeline >> /var/log/nodeFile\n",
                                             "     echo $computeline >> /var/log/serverLicFile\n",
-                                            "     ec2-modify-instance-attribute --disable-api-termination true $InstanceID\n",
-                                            "     ec2-modify-instance-attribute --instance-initiated-shutdown-behavior stop $InstanceID\n",
                                             "     let com_quorum--\n",
                                             "   else\n",
                                             "     echo $computeline >> /var/log/addNodeFile\n",
@@ -2201,6 +2287,10 @@
                                             "adminIns=${adminArr[0]}\n",
                                             "echo adminIns:$adminIns\n",
                                             "hostname=`hostname -A`\n",
+                                            "if [ `echo $hostname | wc -l` == 0 ]\n",
+                                            "then\n",
+                                            "    hostname=`hostname`\n",
+                                            "fi\n",
                                             "echo hostname:$hostname\n",
                                             "SSHKeydir=",
                                             {
@@ -2268,7 +2358,7 @@
                                                 "Ref": "ServerNodeCount"
                                             },
                                             "\n",
-                                            "MetadataReplica=$DataReplica",
+                                            "MetadataReplica=$DataReplica\n",
                                             "echo Generate GPFS cluster node file\n",
                                             "rm /var/log/nsdFile\n",
                                             "touch /var/log/nsdFile\n",
@@ -2283,6 +2373,10 @@
                                             "echo quorum_only_host_count:$quorum_only_host_count\n",
                                             "quorum_only_host=${quorum_only_host_arr[0]}\n",
                                             "hostname=`hostname -A`\n",
+                                            "if [ `echo $hostname | wc -l` == 0 ]\n",
+                                            "then\n",
+                                            "    hostname=`hostname`\n",
+                                            "fi\n",
                                             "echo ServerNodeCount:$ServerNodeCount\n",
                                             "echo quorum_only_host:$quorum_only_host\n",
                                             "if [ $quorum_only_host == $hostname -a $ServerNodeCount -lt 3 ]\n",
@@ -2486,7 +2580,7 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": 40,
+                            "VolumeSize": { "Ref": "DiskSize" },
                             "VolumeType": "gp2"
                         }
                     }
@@ -2591,7 +2685,7 @@
                 "Handle": {
                     "Ref": "ServerAlertWaitHandle"
                 },
-                "Timeout": "2000"
+                "Timeout": "7200"
             },
             "Type": "AWS::CloudFormation::WaitCondition"
         },
@@ -2610,7 +2704,7 @@
                 "Handle": {
                     "Ref": "ComputeAlertWaitHandle"
                 },
-                "Timeout": "2000"
+                "Timeout": "3600"
             },
             "Type": "AWS::CloudFormation::WaitCondition"
         },

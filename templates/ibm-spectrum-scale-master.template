@@ -177,7 +177,7 @@
             "AllowedValues": [
                 "Accept"
             ],
-            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com ",
+            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com. ",
             "Type": "String"
         },
         "QSS3BucketName": {
@@ -195,14 +195,14 @@
             "Type": "String"
         },
         "SpectrumS3Bucket": {
-            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start",
+            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
             "ConstraintDescription": "Must own the specified bucket."
         },
         "BlockSize": {
-            "Description": "File system block size",
+            "Description": "File system block size.",
             "Type": "String",
             "Default": "1M",
             "AllowedValues": [
@@ -216,7 +216,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs",
+            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs.",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -228,10 +228,10 @@
             "Type": "String",
             "Default": "/gpfs/fs1",
             "AllowedPattern": "(/[a-zA-Z0-9]+)/([a-zA-Z0-9]+)",
-            "Description": "The mount point for the Spectrum Scale volume i.e /gpfs/fs1"
+            "Description": "The mount point for the Spectrum Scale volume i.e /gpfs/fs1."
         },
         "EBSType": {
-            "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard",
+            "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard.",
             "Type": "String",
             "Default": "gp2",
             "AllowedValues": [
@@ -241,7 +241,7 @@
             ]
         },
         "DiskPerNode": {
-            "Description": "This number of disks would be attached to only with nsd server nodes",
+            "Description": "This number of disks would be attached to only with nsd server nodes.",
             "Type": "Number",
             "Default": "1",
             "AllowedValues": [
@@ -263,15 +263,15 @@
             ]
         },
         "DiskSize": {
-            "Description": "Supported disk size are MIN=5 and MAX=10240 (GB)",
+            "Description": "Supported disk size are MIN=10 and MAX=16384 (GB).",
             "Type": "Number",
-            "Default": "5",
-            "MinValue": "5",
-            "MaxValue": "10240",
-            "ConstraintDescription": "Alloed Disk size are MIN=5,MAX=10240 (GB)"
+            "Default": "100",
+            "MinValue": "10",
+            "MaxValue": "16384",
+            "ConstraintDescription": "Allowed Disk size are MIN=10,MAX=16384 (GB)."
         },
         "ServerNodeCount": {
-            "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, MAX=64)",
+            "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, MAX=64).",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -308,10 +308,10 @@
                 "62",
                 "64"
             ],
-            "ConstraintDescription": "NSD Server node size must be between 2 to 64"
+            "ConstraintDescription": "NSD Server node size must be between 2 to 64."
         },
         "ServerInstanceType": {
-            "Description": "Instance type to use for the NSD Server nodes instances",
+            "Description": "Instance type to use for the NSD Server nodes instances.",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -352,15 +352,15 @@
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
         "ComputeNodeCount": {
-            "Description": "Number of Compute node instances (MIN=1, MAX=64)",
+            "Description": "Number of Compute node instances (MIN=1, MAX=64).",
             "Type": "Number",
             "Default": "2",
             "MinValue": "1",
             "MaxValue": "64",
-            "ConstraintDescription": "Compute node size must be between 1 to 64"
+            "ConstraintDescription": "Compute node size must be between 1 to 64."
         },
         "ComputeInstanceType": {
-            "Description": "Instance type to use for the Compute node instances",
+            "Description": "Instance type to use for the Compute node instances.",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -404,42 +404,42 @@
             "Description": "List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.",
             "Type": "List<AWS::EC2::AvailabilityZone::Name>",
             "AllowedPattern": "(([a-zA-Z]+)-([a-zA-Z]+)-([0-9a-z]+))",
-            "ConstraintDescription": "Two Availability Zone must be added"
+            "ConstraintDescription": "Two Availability Zone must be added."
         },
         "VPCCIDR": {
-            "Description": "CIDR Block for the VPC",
+            "Description": "CIDR Block for the VPC.",
             "Type": "String",
             "Default": "10.0.0.0/16",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28"
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PublicSubnet1CIDR": {
-            "Description": "CIDR Block for the Public Subnet 1",
+            "Description": "CIDR Block for the Public Subnet 1.",
             "Type": "String",
             "Default": "10.0.0.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28"
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PublicSubnet2CIDR": {
-            "Description": "CIDR Block for the Public Subnet 2",
+            "Description": "CIDR Block for the Public Subnet 2.",
             "Type": "String",
             "Default": "10.0.2.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28"
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PrivateSubnet1CIDR": {
-            "Description": "CIDR Block for the Private Subnet 1",
+            "Description": "CIDR Block for the Private Subnet 1.",
             "Type": "String",
             "Default": "10.0.1.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28"
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PrivateSubnet2CIDR": {
-            "Description": "CIDR Block for the Private Subnet 2",
+            "Description": "CIDR Block for the Private Subnet 2.",
             "Type": "String",
             "Default": "10.0.3.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28"
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "BastionInstanceType": {
             "AllowedValues": [
@@ -457,7 +457,7 @@
                 "m4.4xlarge"
             ],
             "Default": "t2.micro",
-            "Description": "Amazon EC2 instance type for the bastion instances",
+            "Description": "Amazon EC2 instance type for the bastion instances.",
             "Type": "String"
         },
         "BastionAMIOS": {
@@ -468,17 +468,17 @@
                 "Ubuntu-Server-16.04-LTS-HVM"
             ],
             "Default": "Amazon-Linux-HVM",
-            "Description": "The Linux distribution for the AMI to be used for the bastion instances",
+            "Description": "The Linux distribution for the AMI to be used for the bastion instances.",
             "Type": "String"
         },
         "RemoteAccessCIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x.",
             "Description": "The CIDR IP range that is permitted to access the bastion host. We recommend that you set this value to a trusted IP range i.e <your system public ip>/24.",
             "Type": "String"
         },
         "KeyPairName": {
-            "Description": "Name of an existing EC2 Key Pair",
+            "Description": "Name of an existing EC2 Key Pair.",
             "Type": "AWS::EC2::KeyPair::KeyName",
             "MinLength": "1",
             "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
@@ -486,7 +486,7 @@
         "OperatorEmail": {
             "AllowedPattern": "([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)",
             "ConstraintDescription": "Must be a valid email address.",
-            "Description": "Email address that notifications of any scaling operations will be sent to",
+            "Description": "Email address that notifications of any scaling operations will be sent to.",
             "Type": "String"
         }
     },
