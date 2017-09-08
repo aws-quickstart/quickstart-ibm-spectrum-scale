@@ -150,11 +150,11 @@
             "Type": "String"
         },
         "BastionSecurityGroupID": {
-    	    "Description": "ID of the bastion host security group id to enable SSH connections (e.g. sg-5f16e910).",
+            "Description": "ID of the bastion host security group id to enable SSH connections (e.g. sg-5f16e910).",
             "Type": "AWS::EC2::SecurityGroup::Id",
             "MinLength": "1",
             "ConstraintDescription": "Must be a valid bastion host security group id (e.g. sg-5f16e910)."
-       },
+        },
         "BlockSize": {
             "Description": "File system block size.",
             "Type": "String",
@@ -924,7 +924,7 @@
                                             "fi\n",
                                             "\n",
                                             "RUNNING=False\n",
-                                            "ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",    
+                                            "ec2-describe-instances --filter instance.group-id=$ServerSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_server.out\n",
                                             "sleep $wait\n",
                                             "ec2-describe-instances --filter instance.group-id=$ComputeSG | grep INSTANCE | awk '{print $2,$4,$5,$9,$10,$12}' > /var/log/instance_compute.out\n",
                                             "SerNodeCount=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
@@ -1899,7 +1899,6 @@
                                             },
                                             "\n",
                                             "echo ReplaceUnhealthy process suspended from compute autoscaling group\n"
-                                            
                                         ]
                                     ]
                                 }
@@ -1932,15 +1931,15 @@
                                             },
                                             "\n",
                                             "echo Fs1 fileSystem successfully mounted..\n"
-                                         ]
-                                       ]
-                                    }
-                                },
-                                "10_gpfs_verifications": {
+                                        ]
+                                    ]
+                                }
+                            },
+                            "10_gpfs_verifications": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
-                                        [     
+                                        [
                                             "echo ----Lets do some verification test---\n",
                                             "/usr/lpp/mmfs/bin/mmgetstate -a",
                                             "\n",
@@ -1981,7 +1980,9 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": { "Ref": "DiskSize" },
+                            "VolumeSize": {
+                                "Ref": "DiskSize"
+                            },
                             "VolumeType": "gp2"
                         }
                     }
@@ -2579,7 +2580,9 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": { "Ref": "DiskSize" },
+                            "VolumeSize": {
+                                "Ref": "DiskSize"
+                            },
                             "VolumeType": "gp2"
                         }
                     }
