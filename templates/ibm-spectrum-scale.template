@@ -47,7 +47,6 @@
                         "default": "Network Configuration:"
                     },
                     "Parameters": [
-                        "AvailabilityZones",
                         "VpcId",
                         "PrivateSubnet1ID",
                         "PrivateSubnet2ID"
@@ -104,9 +103,6 @@
                 },
                 "ServerNodeCount": {
                     "default": "Server Node Count"
-                },
-                "AvailabilityZones": {
-                    "default": "Availability Zone"
                 },
                 "ServerInstanceType": {
                     "default": "Server Instance Type"
