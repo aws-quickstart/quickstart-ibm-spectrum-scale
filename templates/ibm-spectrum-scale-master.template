@@ -134,7 +134,7 @@
                     "default": "Quick Start S3 Key Prefix"
                 },
                 "AvailabilityZones": {
-                    "default": "Availability Zone"
+                    "default": "Availability Zones"
                 },
                 "VPCCIDR": {
                     "default": "VPC Id"
@@ -404,7 +404,7 @@
             "Description": "List of Availability Zones to use for the subnets in the VPC. Only two Availability Zones are used for this deployment, and the logical order of your selections is preserved.",
             "Type": "List<AWS::EC2::AvailabilityZone::Name>",
             "AllowedPattern": "(([a-zA-Z]+)-([a-zA-Z]+)-([0-9a-z]+))",
-            "ConstraintDescription": "Two Availability Zone must be added."
+            "ConstraintDescription": "Two Availability Zones must be added."
         },
         "VPCCIDR": {
             "Description": "CIDR Block for the VPC.",
