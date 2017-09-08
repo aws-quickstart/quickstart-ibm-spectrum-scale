@@ -6,7 +6,7 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "File System Configurations :"
+                        "default": "File System Configurations:"
                     },
                     "Parameters": [
                         "BlockSize",
@@ -44,7 +44,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Network Configuration"
+                        "default": "Network Configuration:"
                     },
                     "Parameters": [
                         "AvailabilityZones",
@@ -58,7 +58,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Amazon EC2 Configuration"
+                        "default": "Amazon EC2 Configuration:"
                     },
                     "Parameters": [
                         "KeyPairName",
@@ -68,7 +68,7 @@
                 },
                 {
                     "Label": {
-                        "default": "AWS Quick Start Configuration"
+                        "default": "AWS Quick Start Configuration:"
                     },
                     "Parameters": [
                         "QSS3BucketName",
@@ -77,7 +77,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Personal Configuration"
+                        "default": "Personal Configuration:"
                     },
                     "Parameters": [
                         "SpectrumS3Bucket",
@@ -241,7 +241,7 @@
             ]
         },
         "DiskPerNode": {
-            "Description": "This number of disks would be attached to only with nsd server nodes.",
+            "Description": "Number of disks attached to each Server Node.",
             "Type": "Number",
             "Default": "1",
             "AllowedValues": [

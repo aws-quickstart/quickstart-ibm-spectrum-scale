@@ -64,7 +64,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Personal Configuration"
+                        "default": "Personal Configuration:"
                     },
                     "Parameters": [
                         "SpectrumS3Bucket",
@@ -195,7 +195,7 @@
             ]
         },
         "DiskPerNode": {
-            "Description": "This number of disks would be attached to only with nsd server nodes.",
+            "Description": "Number of disks attached to each Server Node.",
             "Type": "Number",
             "Default": "1",
             "AllowedValues": [
@@ -225,7 +225,7 @@
             "ConstraintDescription": "Allowed Disk size are MIN=10,MAX=16384 (GB)."
         },
         "ServerNodeCount": {
-            "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, Max=64).",
+            "Description": "Number of EC2 instances to launch for NSD Server on GPFS cluster (MIN=2, MAX=64).",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -356,14 +356,14 @@
         },
         "VpcId": {
             "AllowedPattern": "vpc-[a-z0-9]*",
-            "Description": "Id of your existing VPC (e.g., vpc-0343606e).",
+            "Description": "Id of your existing VPC (e.g. vpc-0343606e).",
             "MaxLength": "64",
             "MinLength": "1",
             "Type": "AWS::EC2::VPC::Id",
             "ConstraintDescription": "Must be valid VPC id."
         },
         "PrivateSubnet1ID": {
-            "Description": "ID of the private subnet in Availability Zone 1 in your existing VPC (e.g., subnet-a0246dcd).",
+            "Description": "ID of the private subnet in Availability Zone 1 in your existing VPC (e.g. subnet-a0246dcd).",
             "Type": "AWS::EC2::Subnet::Id",
             "MinLength": "1",
             "ConstraintDescription": "Must be a valid private subnet 1."
@@ -902,7 +902,7 @@
                                             "\n",
                                             "echo Lets give some time for instances\n",
                                             "TotalNodeCount=`expr $ServerNodeCount + $ComputeNodeCount`\n",
-                                            "wait=$(expr $TotalNodeCount / 2 )\n",
+                                            "wait=$(expr $TotalNodeCount / 4 )\n",
                                             "echo wait:$wait\n",
                                             "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $InstanceID\n",
@@ -1416,7 +1416,7 @@
                                             "   cluster=True\n",
                                             "else\n",
                                             "    echo HOPE TILL HERE ALL KEYS HAS BEEN SUCCESSFULLY DISTRIBUTED ON ALL NODES..LETS GIVE SOME EXTRA WAIT..!!\n",
-                                            "    timeout=$(expr $TotalNodes \\* 15)\n",
+                                            "    timeout=$(expr $TotalNodes \\* 5)\n",
                                             "    echo Waiting...$timeout \n",
                                             "    sleep $timeout\n",
                                             "    timeout=0\n",
@@ -1440,7 +1440,7 @@
                                             "    if [ $? != 0 ]\n",
                                             "    then\n",
                                             "        echo lets retry after sometime\n",
-                                            "        sleep 200\n",
+                                            "        sleep 100\n",
                                             "        /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/nodeDescFile --ccr-enable -C $ClusterName -r /usr/bin/ssh -R /usr/bin/scp -A\n",
                                             "    fi\n",
                                             "    echo Assigning server license.. \n",
@@ -1448,7 +1448,7 @@
                                             "    if [ $? != 0 ]\n",
                                             "    then\n",
                                             "        echo lets retry after sometime\n",
-                                            "        sleep 200\n",
+                                            "        sleep 100\n",
                                             "        /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/serverLicFile\n",
                                             "    fi\n",
                                             "    /usr/lpp/mmfs/bin/mmstartup -N $hostname\n",
@@ -1910,9 +1910,7 @@
                                         "",
                                         [
                                             "InstanceID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
-                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
                                             "echo My instance ID $InstanceID\n",
-                                            "echo AZ: $MyAZ\n",
                                             "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "echo InstanceID:$InstanceID\n",
@@ -1932,7 +1930,8 @@
                                             {
                                                 "Ref": "GpfsMountPoint"
                                             },
-                                            "\n"
+                                            "\n",
+                                            "echo Fs1 fileSystem successfully mounted..\n"
                                          ]
                                        ]
                                     }
