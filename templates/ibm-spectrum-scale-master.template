@@ -137,7 +137,7 @@
                     "default": "Availability Zones"
                 },
                 "VPCCIDR": {
-                    "default": "VPC Id"
+                    "default": "VPC CIDR"
                 },
                 "PublicSubnet1CIDR": {
                     "default": "Public Subnet 1 CIDR"
@@ -177,7 +177,7 @@
             "AllowedValues": [
                 "Accept"
             ],
-            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com. ",
+            "Description": "Review the licensing terms at http://spectrumscale-license.s3-website-us-west-2.amazonaws.com and choose Accept to indicate your acceptance.",
             "Type": "String"
         },
         "QSS3BucketName": {
@@ -195,7 +195,7 @@
             "Type": "String"
         },
         "SpectrumS3Bucket": {
-            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start.",
+            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you don’t have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
@@ -241,7 +241,7 @@
             ]
         },
         "DiskPerNode": {
-            "Description": "Number of disks attached to each Server Node.",
+            "Description": "Number of disks attached to each NSD Server Node.",
             "Type": "Number",
             "Default": "1",
             "AllowedValues": [
@@ -263,7 +263,7 @@
             ]
         },
         "DiskSize": {
-            "Description": "Supported disk size are MIN=10 and MAX=16384 (GB).",
+            "Description": "Disk size of each NSD server node, in GiB. Supported disk sizes are 10-16384 GiB.",
             "Type": "Number",
             "Default": "100",
             "MinValue": "10",
@@ -407,35 +407,35 @@
             "ConstraintDescription": "Two Availability Zones must be added."
         },
         "VPCCIDR": {
-            "Description": "CIDR Block for the VPC.",
+            "Description": "CIDR block for the VPC.",
             "Type": "String",
             "Default": "10.0.0.0/16",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PublicSubnet1CIDR": {
-            "Description": "CIDR Block for the Public Subnet 1.",
+            "Description": "CIDR block for the public subnet located in Availability Zone 1.",
             "Type": "String",
             "Default": "10.0.0.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PublicSubnet2CIDR": {
-            "Description": "CIDR Block for the Public Subnet 2.",
+            "Description": "CIDR block for the public subnet located in Availability Zone 2.",
             "Type": "String",
             "Default": "10.0.2.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PrivateSubnet1CIDR": {
-            "Description": "CIDR Block for the Private Subnet 1.",
+            "Description": "CIDR block for the private subnet located in Availability Zone 1.",
             "Type": "String",
             "Default": "10.0.1.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28."
         },
         "PrivateSubnet2CIDR": {
-            "Description": "CIDR Block for the Private Subnet 2.",
+            "Description": "CIDR block for the private subnet located in Availability Zone 2.",
             "Type": "String",
             "Default": "10.0.3.0/24",
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
@@ -457,7 +457,7 @@
                 "m4.4xlarge"
             ],
             "Default": "t2.micro",
-            "Description": "Amazon EC2 instance type for the bastion instances.",
+            "Description": "EC2 instance type for the bastion instances.",
             "Type": "String"
         },
         "BastionAMIOS": {
@@ -474,7 +474,7 @@
         "RemoteAccessCIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x.",
-            "Description": "The CIDR IP range that is permitted to access the bastion host. We recommend that you set this value to a trusted IP range i.e <your system public ip>/24.",
+            "Description": "CIDR block that’s allowed external SSH access to the bastion hosts, e.g., x.x.x.x/16-28. We recommend that you set this value to a trusted CIDR block. For example, you might want to restrict access to your corporate network.",
             "Type": "String"
         },
         "KeyPairName": {

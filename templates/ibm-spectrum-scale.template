@@ -54,7 +54,7 @@
                 },
                 {
                     "Label": {
-                        "default": "AWS Quick Start Configuration:"
+                        "default": "Amazon EC2 Configuration:"
                     },
                     "Parameters": [
                         "KeyPairName",
@@ -120,10 +120,10 @@
                     "default": "Bastion Security Group ID"
                 },
                 "PrivateSubnet1ID": {
-                    "default": "Private Subnets 1 ID"
+                    "default": "Private Subnet 1 ID"
                 },
                 "PrivateSubnet2ID": {
-                    "default": "Private Subnets 2 ID"
+                    "default": "Private Subnet 2 ID"
                 },
                 "KeyPairName": {
                     "default": "Key Pair Name"
@@ -142,7 +142,7 @@
             "AllowedValues": [
                 "Accept"
             ],
-            "Description": "LICENSE INFORMATION: Details License Information can be found in: http://spectrumscale-license.s3-website-us-west-2.amazonaws.com.",
+            "Description": "Review the licensing terms at http://spectrumscale-license.s3-website-us-west-2.amazonaws.com and choose Accept to indicate your acceptance.",
             "Type": "String"
         },
         "BastionSecurityGroupID": {
@@ -303,14 +303,14 @@
         },
         "ComputeNodeCount": {
             "Default": "2",
-            "Description": "Number of Compute node instances (MIN=1, MAX=64).",
+            "Description": "Number of IBM Spectrum Scale compute node instances. You can select 1-64 instances.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "64",
             "ConstraintDescription": "Compute node size must be between 1 to 64."
         },
         "ComputeInstanceType": {
-            "Description": "Instance type to use for the Compute node instances.",
+            "Description": "Instance type to use for the compute node instances.",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -384,7 +384,7 @@
             "ConstraintDescription": "Must be a valid email address."
         },
         "SpectrumS3Bucket": {
-            "Description": "Important: Enter name of a personally owned/created S3 bucket to be used for data store and SSH key synchronization between nodes. If there is no pre-existing S3 bucket to re-use, create a new S3 bucket before launching this quick start.",
+            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you don’t have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
