@@ -1,4 +1,4 @@
-# quickstart-quickstart-ibm-spectrum-scale
+# quickstart-ibm-spectrum-scale
 ## IBM Spectrum Scale on the AWS Cloud
 
 This Quick Start automatically deploys a highly available IBM Spectrum Scale cluster on the AWS Cloud, into a configuration of your choice.
