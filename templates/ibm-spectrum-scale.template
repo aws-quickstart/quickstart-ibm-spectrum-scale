@@ -166,7 +166,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs.",
+            "Description": "Number of replica copies of data across the all cluster nodes on two AZs.",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -384,7 +384,7 @@
             "ConstraintDescription": "Must be a valid email address."
         },
         "SpectrumS3Bucket": {
-            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you don’t have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
+            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you do not have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
@@ -415,47 +415,47 @@
     },
     "Mappings": {
         "RegionMap": {
-            "ap-northeast-1": {
-                "AMI": "ami-c8ca3fae"
-            },
-            "ap-northeast-2": {
-                "AMI": "ami-c4459caa"
-            },
-            "ap-south-1": {
-                "AMI": "ami-08750f67"
-            },
-            "ap-southeast-1": {
-                "AMI": "ami-07eb7064"
-            },
-            "ap-southeast-2": {
-                "AMI": "ami-6aa6bf09"
-            },
-            "ca-central-1": {
-                "AMI": "ami-5dc97739"
-            },
-            "eu-central-1": {
-                "AMI": "ami-66e74e09"
-            },
-            "eu-west-1": {
-                "AMI": "ami-6299691b"
-            },
-            "eu-west-2": {
-                "AMI": "ami-9a9081fe"
-            },
-            "sa-east-1": {
-                "AMI": "ami-4731402b"
-            },
             "us-east-1": {
-                "AMI": "ami-18b09b63"
+                "AMI": "ami-22844c58"
             },
             "us-east-2": {
-                "AMI": "ami-f4af8f91"
+                "AMI": "ami-a7765ac2"
             },
             "us-west-1": {
-                "AMI": "ami-d3aa81b3"
+                "AMI": "ami-ce586aae"
             },
             "us-west-2": {
-                "AMI": "ami-c16c8cb9"
+                "AMI": "ami-a5bf79dd"
+            },
+            "ca-central-1": {
+                "AMI": "ami-1bf24a7f"
+            },
+            "eu-west-1": {
+                "AMI": "ami-09c91b70"
+            },
+            "eu-central-1": {
+                "AMI": "ami-32843b5d"
+            },
+            "eu-west-2": {
+                "AMI": "ami-79607d1d"
+            },
+            "ap-southeast-1": {
+                "AMI": "ami-56196235"
+            },
+            "ap-southeast-2": {
+                "AMI": "ami-5712f035"
+            },
+            "ap-northeast-2": {
+                "AMI": "ami-cdff5aa3"
+            },
+            "ap-northeast-1": {
+                "AMI": "ami-943be4f2"
+            },
+            "ap-south-1": {
+                "AMI": "ami-1b296a74"
+            }, 
+            "sa-east-1": {
+                "AMI": "ami-e6512f8a"
             }
         }
     },
@@ -1347,7 +1347,7 @@
                                             },
                                             "\n",
                                             "echo DataReplica $DataReplica\n",
-                                            "MetadataReplica=$DataReplica\n",
+                                            "MetadataReplica=2\n",
                                             "\n",
                                             "echo MetadataReplica $MetadataReplica\n",
                                             "FsName=fs1\n",
@@ -1507,12 +1507,7 @@
                                             "       chmod 755 /var/log/nsdFile\n",
                                             "       echo Create GPFS NSD..\n",
                                             "       sed -i \"s/FG_${AZ}/1/\" /var/log/nsdFile\n",
-                                            "       if [ ${DataReplica} == 2 ]\n",
-                                            "       then\n",
-                                            "           sed -i \"s/FG_../2/\" /var/log/nsdFile\n",
-                                            "       else\n",
-                                            "           sed -i \"s/FG_../1/\" /var/log/nsdFile\n",
-                                            "       fi\n",
+                                            "       sed -i \"s/FG_../2/\" /var/log/nsdFile\n",
                                             "       echo copying updated nsdFile file to admin node...\n",
                                             "       scp /var/log/nsdFile ${adminNode}:/var/log/nsdFile\n",
                                             "       /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/nsdFile\n",
@@ -1628,7 +1623,7 @@
                                             },
                                             "\n",
                                             "echo DataReplica $DataReplica\n",
-                                            "MetadataReplica=$DataReplica",
+                                            "MetadataReplica=2",
                                             "\n",
                                             "echo MetadataReplica $MetadataReplica\n",
                                             "\n",
@@ -1976,9 +1971,7 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": {
-                                "Ref": "DiskSize"
-                            },
+                            "VolumeSize": "100",
                             "VolumeType": "gp2"
                         }
                     }
@@ -2354,7 +2347,7 @@
                                                 "Ref": "ServerNodeCount"
                                             },
                                             "\n",
-                                            "MetadataReplica=$DataReplica\n",
+                                            "MetadataReplica=2\n",
                                             "echo Generate GPFS cluster node file\n",
                                             "rm /var/log/nsdFile\n",
                                             "touch /var/log/nsdFile\n",
@@ -2576,9 +2569,7 @@
                     {
                         "DeviceName": "/dev/sda1",
                         "Ebs": {
-                            "VolumeSize": {
-                                "Ref": "DiskSize"
-                            },
+                            "VolumeSize": "100",
                             "VolumeType": "gp2"
                         }
                     }

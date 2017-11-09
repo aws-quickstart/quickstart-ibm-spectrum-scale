@@ -195,7 +195,7 @@
             "Type": "String"
         },
         "SpectrumS3Bucket": {
-            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you don’t have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
+            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you do not have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "Type": "String",
             "MinLength": "1",
@@ -216,7 +216,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Number of replica copies of data and metadata across the all cluster nodes on two AZs.",
+            "Description": "Number of replica copies of data across the all cluster nodes on two AZs.",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
