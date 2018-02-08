@@ -195,11 +195,12 @@
             "Type": "String"
         },
         "SpectrumS3Bucket": {
-            "Description": "The name of the S3 bucket to be used for data store and SSH key synchronization between nodes. If you do not have an existing S3 bucket to reuse, you must create a new S3 bucket before launching this Quick Start.",
-            "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
+            "Description": "The name of the S3 bucket to be used for data store.  If you choose not to create an S3 bucket, simply leave the SpectrumS3Bucket parameter blank, and a new S3 bucket will be created by this Quick Start.",
+            "AllowedPattern": "^[0-9a-z]?([0-9a-z-/]*[0-9a-z])*$",
             "Type": "String",
-            "MinLength": "1",
-            "ConstraintDescription": "Must own the specified bucket."
+            "MinLength": "0",
+            "Default": "",
+            "ConstraintDescription": "S3 bucket name can include numbers, lowercase letters, lowercase letters, and hyphens (-). It cannot start or end with a hyphen (-)."
         },
         "BlockSize": {
             "Description": "File system block size.",
@@ -216,7 +217,7 @@
             ]
         },
         "DataReplica": {
-            "Description": "Number of replica copies of data across the all cluster nodes on two AZs.",
+            "Description": "Number of replica copies of data across the cluster nodes.",
             "Type": "Number",
             "Default": "2",
             "AllowedValues": [
@@ -231,13 +232,15 @@
             "Description": "The mount point for the Spectrum Scale volume i.e /gpfs/fs1."
         },
         "EBSType": {
-            "Description": "EBS Volume Type. Allowed options are: gp2, io1, standard.",
+            "Description": "EBS volume type for each NSD server node NSD disk. Options are: General Purpose SSD (gp2), Provisioned IOPS SSD (io1), Throughput Optimized HDD(st1), Cold HDD (sc1) and EBS Magnetic (standard). ",
             "Type": "String",
             "Default": "gp2",
             "AllowedValues": [
-                "standard",
                 "gp2",
-                "io1"
+                "io1",
+                "sc1",
+                "st1",
+                "standard"
             ]
         },
         "DiskPerNode": {
@@ -265,7 +268,7 @@
         "DiskSize": {
             "Description": "Disk size of each NSD server node, in GiB. Supported disk sizes are 10-16384 GiB.",
             "Type": "Number",
-            "Default": "100",
+            "Default": "500",
             "MinValue": "10",
             "MaxValue": "16384",
             "ConstraintDescription": "Allowed Disk size are MIN=10,MAX=16384 (GB)."
@@ -313,7 +316,7 @@
         "ServerInstanceType": {
             "Description": "Instance type to use for the NSD Server nodes instances.",
             "Type": "String",
-            "Default": "t2.micro",
+            "Default": "t2.medium",
             "AllowedValues": [
                 "t2.micro",
                 "t2.small",
@@ -324,6 +327,7 @@
                 "m4.2xlarge",
                 "m4.4xlarge",
                 "m4.10xlarge",
+                "m4.16xlarge",
                 "m3.medium",
                 "m3.large",
                 "m3.xlarge",
@@ -338,6 +342,13 @@
                 "c3.2xlarge",
                 "c3.4xlarge",
                 "c3.8xlarge",
+                "c5.large",
+                "c5.xlarge",
+                "c5.2xlarge",
+                "c5.4xlarge",
+                "c5.9xlarge",
+                "c5.18xlarge",
+                "cc2.8xlarge",
                 "r3.large",
                 "r3.xlarge",
                 "r3.2xlarge",
@@ -347,7 +358,46 @@
                 "r4.xlarge",
                 "r4.2xlarge",
                 "r4.4xlarge",
-                "r4.8xlarge"
+                "r4.8xlarge",
+                "r4.16xlarge",
+                "x1.16xlarge",
+                "x1.32xlarge",
+                "x1e.xlarge",
+                "x1e.2xlarge",
+                "x1e.4xlarge",
+                "x1e.8xlarge",
+                "x1e.16xlarge",
+                "x1e.32xlarge",
+                "cr1.8xlarge",
+                "d2.xlarge",
+                "d2.2xlarge",
+                "d2.4xlarge",
+                "d2.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge", 
+                "i2.8xlarge",
+                "i3.large",
+                "i3.xlarge",
+                "i3.2xlarge",
+                "i3.4xlarge",
+                "i3.8xlarge",
+                "i3.16xlarge",
+                "hs1.8xlarge",
+                "f1.2xlarge",
+                "f1.16xlarge",
+                "g2.2xlarge",
+                "g2.8xlarge",
+                "g3.4xlarge",
+                "g3.8xlarge",
+                "g3.16xlarge",
+                "p2.xlarge",
+                "p2.8xlarge",
+                "p2.16xlarge",
+                "p3.2xlarge",
+                "p3.8xlarge",
+                "p3.16xlarge",
+                "cg1.4xlarge"
             ],
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
@@ -362,7 +412,7 @@
         "ComputeInstanceType": {
             "Description": "Instance type to use for the Compute node instances.",
             "Type": "String",
-            "Default": "t2.micro",
+            "Default": "t2.medium",
             "AllowedValues": [
                 "t2.micro",
                 "t2.small",
@@ -373,6 +423,7 @@
                 "m4.2xlarge",
                 "m4.4xlarge",
                 "m4.10xlarge",
+                "m4.16xlarge",
                 "m3.medium",
                 "m3.large",
                 "m3.xlarge",
@@ -387,6 +438,13 @@
                 "c3.2xlarge",
                 "c3.4xlarge",
                 "c3.8xlarge",
+                "c5.large",
+                "c5.xlarge",
+                "c5.2xlarge",
+                "c5.4xlarge",
+                "c5.9xlarge",
+                "c5.18xlarge",
+                "cc2.8xlarge",
                 "r3.large",
                 "r3.xlarge",
                 "r3.2xlarge",
@@ -396,7 +454,46 @@
                 "r4.xlarge",
                 "r4.2xlarge",
                 "r4.4xlarge",
-                "r4.8xlarge"
+                "r4.8xlarge",
+                "r4.16xlarge",
+                "x1.16xlarge",
+                "x1.32xlarge",
+                "x1e.xlarge",
+                "x1e.2xlarge",
+                "x1e.4xlarge",
+                "x1e.8xlarge",
+                "x1e.16xlarge",
+                "x1e.32xlarge",
+                "cr1.8xlarge",
+                "d2.xlarge",
+                "d2.2xlarge",
+                "d2.4xlarge",
+                "d2.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge", 
+                "i2.8xlarge",
+                "i3.large",
+                "i3.xlarge",
+                "i3.2xlarge",
+                "i3.4xlarge",
+                "i3.8xlarge",
+                "i3.16xlarge",
+                "hs1.8xlarge",
+                "f1.2xlarge",
+                "f1.16xlarge",
+                "g2.2xlarge",
+                "g2.8xlarge",
+                "g3.4xlarge",
+                "g3.8xlarge",
+                "g3.16xlarge",
+                "p2.xlarge",
+                "p2.8xlarge",
+                "p2.16xlarge",
+                "p3.2xlarge",
+                "p3.8xlarge",
+                "p3.16xlarge",
+                "cg1.4xlarge"
             ],
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
@@ -490,6 +587,24 @@
             "Type": "String"
         }
     },
+    "Conditions":{
+         "GovCloudCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "AWS::Region"
+                },
+                "us-gov-west-1"
+            ]
+        },
+         "ReplicaOneCondition": {
+            "Fn::Equals": [
+                {
+	                "Ref": "DataReplica"
+	            },
+	            "1"
+            ]     
+        }
+    },
     "Resources": {
         "VPCStack": {
             "Type": "AWS::CloudFormation::Stack",
@@ -497,6 +612,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
                 },
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
                 "Parameters": {
                     "AvailabilityZones": {
                         "Fn::Join": [
@@ -523,8 +639,59 @@
                     },
                     "VPCCIDR": {
                         "Ref": "VPCCIDR"
+                    },
+                    "CreatePrivateSubnets": {
+                       "Fn::If": [
+                       			"ReplicaOneCondition",
+                       			"false",
+                       			"true"
+                       	]}
+                 }   
+            }
+        },
+        "SubnetNATStack": {
+            "DependsOn": "VPCStack",
+            "Condition": "ReplicaOneCondition",
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale-subnet.template"
+                },
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
+                "Parameters": {
+                    "AvailabilityZones": {
+                        "Fn::Join": [
+                            ",",
+                            {
+                                "Ref": "AvailabilityZones"
+                            }
+                        ]
+                    },
+                    "VPCCIDR": {
+                        "Fn::GetAtt": [
+                               "VPCStack",
+                               "Outputs.VPCCIDR"
+                         ]
+                    },
+                    "VpcId": {
+                         "Fn::GetAtt": [
+                               "VPCStack",
+                               "Outputs.VPCID"
+                          ]
+                    },
+                    "KeyPairName": {
+                        "Ref": "KeyPairName"
+                    },
+                    "PrivateSubnet1ACIDR": {
+                        "Ref": "PrivateSubnet1CIDR"
+                    },
+                    "PublicSubnet1ID": {
+                        "Fn::GetAtt": [
+                            "VPCStack",
+                            "Outputs.PublicSubnet1ID"
+                        ]
                     }
-                }
+                 }   
             }
         },
         "BastionStack": {
@@ -534,6 +701,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
                 },
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
                 "Parameters": {
                     "BastionAMIOS": {
                         "Ref": "BastionAMIOS"
@@ -575,6 +743,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale.template"
                 },
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
                 "Parameters": {
                     "BlockSize": {
                         "Ref": "BlockSize"
@@ -607,16 +776,39 @@
                         "Ref": "ComputeInstanceType"
                     },
                     "PrivateSubnet1ID": {
-                        "Fn::GetAtt": [
-                            "VPCStack",
-                            "Outputs.PrivateSubnet1AID"
-                        ]
+                        "Fn::If": [
+                       			"ReplicaOneCondition",
+                                {
+                                   "Fn::GetAtt": [
+                            			"SubnetNATStack",
+                            			"Outputs.PrivateSubnetID"
+                        		     ]
+                                },
+                        		{
+                                	"Fn::GetAtt": [
+                            			"VPCStack",
+                            			"Outputs.PrivateSubnet1AID"
+                        		     ]
+                        		}
+                         ]
                     },
                     "PrivateSubnet2ID": {
-                        "Fn::GetAtt": [
-                            "VPCStack",
-                            "Outputs.PrivateSubnet2AID"
-                        ]
+                        "Fn::If": [
+                       			"ReplicaOneCondition",
+                       			{
+                                   "Fn::GetAtt": [
+                            			"SubnetNATStack",
+                            			"Outputs.PrivateSubnetID"
+                        		     ]
+                                },
+                                {
+                                	"Fn::GetAtt": [
+                            			"VPCStack",
+                            			"Outputs.PrivateSubnet2AID"
+                        		    ]
+                        		}
+                        		
+                         ]		
                     },
                     "VpcId": {
                         "Fn::GetAtt": [
@@ -645,5 +837,44 @@
                 }
             }
         }
-    }
+    },
+    "Outputs" : {
+    	"StackName": {
+            "Value": {
+                "Ref": "AWS::StackName"
+            },
+            "Description": "Stack Name"
+        },
+        "QSS3BucketName": {
+           "Value": {
+                 "Ref": "QSS3BucketName"
+           },
+           "Description": "Master Template Bucket Name"
+        },
+        "QSS3KeyPrefix":{
+           "Value": {
+                 "Ref": "QSS3KeyPrefix"
+           },
+           "Description": "Master Template Path"
+        },
+        "Version": {
+            "Value": "v1.2",
+            "Description": "Template version"
+        },
+        "SpectrumScaleVersion":{
+           "Value": "4.2.3.1",
+           "Description": "Spectrum Scale version included with this release" 
+        },
+        "SpectrumS3Bucket": {
+           "Value": {
+              "Fn::GetAtt": [
+                       "ClusterStack",
+                       "Outputs.SpectrumS3Bucket"
+               ]
+           },
+           "Description": "Spectrum Scale S3 bucket name"
+           
+        }
+        
+  	}
 }
