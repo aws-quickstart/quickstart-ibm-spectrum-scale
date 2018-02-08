@@ -1,6 +1,6 @@
         {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template creates a one private subnet and NAT Gateway for one Availability Zone. If you deploy this template in a region that doesn't support NAT gateways, NAT instances are deployed instead. **WARNING** This template will only call when user choose dataReplica=1.",
+    "Description": "This template creates a private subnet and NAT Gateway in a single Availability Zone. If you deploy this template in a region that doesn't support NAT gateways, NAT instances are deployed instead. This template is used only when dataReplica=1.",
     "Parameters": {
         "VPCCIDR": {
             "Description": "CIDR block for the VPC.",
