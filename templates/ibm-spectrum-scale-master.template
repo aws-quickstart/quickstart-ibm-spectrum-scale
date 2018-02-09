@@ -724,6 +724,12 @@
                             "Outputs.PublicSubnet2ID"
                         ]
                     },
+                    "QSS3BucketName": {
+                        "Ref": "QSS3BucketName"
+                    },
+                    "QSS3KeyPrefix": {
+                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-linux-bastion/"
+                    },
                     "RemoteAccessCIDR": {
                         "Ref": "RemoteAccessCIDR"
                     },
