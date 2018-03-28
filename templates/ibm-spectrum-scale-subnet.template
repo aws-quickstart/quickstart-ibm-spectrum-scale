@@ -64,7 +64,7 @@
                 "us-gov-west-1"
             ]
         },
-        "NATGatewayCondition": { 
+        "NATGatewayCondition": {
             "Fn::Not": [
                  {
                      "Condition": "GovCloudCondition"
@@ -77,7 +77,7 @@
             "Type": "AWS::EC2::Subnet",
             "Properties": {
                 "VpcId": {
-        				"Ref": "VpcId"
+                    "Ref": "VpcId"
                 },
                 "CidrBlock": {
                     "Ref": "PrivateSubnet1ACIDR"
@@ -225,8 +225,8 @@
                         "DeviceIndex": "0",
                         "DeleteOnTermination": "true",
                         "SubnetId": {
-	                        "Ref": "PublicSubnet1ID"
-	                    }
+                            "Ref": "PublicSubnet1ID"
+                        }
                     }
                 ],
                 "KeyName": {
@@ -266,7 +266,7 @@
     },
     "Outputs" : {
         "Version": {
-            "Value": "v1.2",
+            "Value": "v1.3",
             "Description": "Template version"
         },
         "PrivateSubnetID": {
@@ -281,8 +281,8 @@
             }
         },
         "SpectrumScaleVersion":{
-           "Value": "4.2.3.1",
-           "Description": "Spectrum Scale version included with this release" 
+           "Value": "4.2.3.7",
+           "Description": "Spectrum Scale version included with this release"
         }
-  	}
+    }
 }

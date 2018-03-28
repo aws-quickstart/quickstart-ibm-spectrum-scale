@@ -375,7 +375,7 @@
                 "d2.8xlarge",
                 "i2.xlarge",
                 "i2.2xlarge",
-                "i2.4xlarge", 
+                "i2.4xlarge",
                 "i2.8xlarge",
                 "i3.large",
                 "i3.xlarge",
@@ -471,7 +471,7 @@
                 "d2.8xlarge",
                 "i2.xlarge",
                 "i2.2xlarge",
-                "i2.4xlarge", 
+                "i2.4xlarge",
                 "i2.8xlarge",
                 "i3.large",
                 "i3.xlarge",
@@ -571,7 +571,7 @@
         "RemoteAccessCIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x.",
-            "Description": "CIDR block that’s allowed external SSH access to the bastion hosts, e.g., x.x.x.x/16-28. We recommend that you set this value to a trusted CIDR block. For example, you might want to restrict access to your corporate network.",
+            "Description": "CIDR block thats allowed external SSH access to the bastion hosts, e.g., x.x.x.x/16-28. We recommend that you set this value to a trusted CIDR block. For example, you might want to restrict access to your corporate network.",
             "Type": "String"
         },
         "KeyPairName": {
@@ -599,10 +599,10 @@
          "ReplicaOneCondition": {
             "Fn::Equals": [
                 {
-	                "Ref": "DataReplica"
-	            },
-	            "1"
-            ]     
+                    "Ref": "DataReplica"
+                },
+                "1"
+            ]
         }
     },
     "Resources": {
@@ -612,7 +612,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
                 },
-                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
                     "AvailabilityZones": {
                         "Fn::Join": [
@@ -641,12 +641,14 @@
                         "Ref": "VPCCIDR"
                     },
                     "CreatePrivateSubnets": {
-                       "Fn::If": [
-                       			"ReplicaOneCondition",
-                       			"false",
-                       			"true"
-                       	]}
-                 }   
+                       "Fn::If":
+                        [
+                            "ReplicaOneCondition",
+                            "false",
+                            "true"
+                        ]
+                    }
+                }
             }
         },
         "SubnetNATStack": {
@@ -657,7 +659,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale-subnet.template"
                 },
-                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
                     "AvailabilityZones": {
                         "Fn::Join": [
@@ -691,7 +693,7 @@
                             "Outputs.PublicSubnet1ID"
                         ]
                     }
-                 }   
+                 }
             }
         },
         "BastionStack": {
@@ -701,7 +703,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
                 },
-                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
                     "BastionAMIOS": {
                         "Ref": "BastionAMIOS"
@@ -749,7 +751,7 @@
                 "TemplateURL": {
                     "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale.template"
                 },
-                "Tags" : [ { "Key" : "Version", "Value" : "v1.2" } ],
+                "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
                     "BlockSize": {
                         "Ref": "BlockSize"
@@ -782,39 +784,44 @@
                         "Ref": "ComputeInstanceType"
                     },
                     "PrivateSubnet1ID": {
-                        "Fn::If": [
-                       			"ReplicaOneCondition",
-                                {
-                                   "Fn::GetAtt": [
-                            			"SubnetNATStack",
-                            			"Outputs.PrivateSubnetID"
-                        		     ]
-                                },
-                        		{
-                                	"Fn::GetAtt": [
-                            			"VPCStack",
-                            			"Outputs.PrivateSubnet1AID"
-                        		     ]
-                        		}
-                         ]
+                        "Fn::If":
+                        [
+                            "ReplicaOneCondition",
+                            {
+                                "Fn::GetAtt":
+                                [
+                                    "SubnetNATStack",
+                                    "Outputs.PrivateSubnetID"
+                                ]
+                            },
+                            {
+                                "Fn::GetAtt":
+                                [
+                                    "VPCStack",
+                                    "Outputs.PrivateSubnet1AID"
+                                ]
+                            }
+                        ]
                     },
                     "PrivateSubnet2ID": {
-                        "Fn::If": [
-                       			"ReplicaOneCondition",
-                       			{
-                                   "Fn::GetAtt": [
-                            			"SubnetNATStack",
-                            			"Outputs.PrivateSubnetID"
-                        		     ]
-                                },
-                                {
-                                	"Fn::GetAtt": [
-                            			"VPCStack",
-                            			"Outputs.PrivateSubnet2AID"
-                        		    ]
-                        		}
-                        		
-                         ]		
+                        "Fn::If":
+                        [
+                            "ReplicaOneCondition",
+                            {
+                                "Fn::GetAtt":
+                                [
+                                    "SubnetNATStack",
+                                    "Outputs.PrivateSubnetID"
+                                ]
+                            },
+                            {
+                                "Fn::GetAtt":
+                                [
+                                    "VPCStack",
+                                    "Outputs.PrivateSubnet2AID"
+                                ]
+                            }
+                        ]
                     },
                     "VpcId": {
                         "Fn::GetAtt": [
@@ -845,7 +852,7 @@
         }
     },
     "Outputs" : {
-    	"StackName": {
+        "StackName": {
             "Value": {
                 "Ref": "AWS::StackName"
             },
@@ -864,12 +871,12 @@
            "Description": "Master Template Path"
         },
         "Version": {
-            "Value": "v1.2",
+            "Value": "v1.3",
             "Description": "Template version"
         },
         "SpectrumScaleVersion":{
-           "Value": "4.2.3.1",
-           "Description": "Spectrum Scale version included with this release" 
+           "Value": "4.2.3.7",
+           "Description": "Spectrum Scale version included with this release"
         },
         "SpectrumS3Bucket": {
            "Value": {
@@ -879,8 +886,6 @@
                ]
            },
            "Description": "Spectrum Scale S3 bucket name"
-           
         }
-        
-  	}
+    }
 }

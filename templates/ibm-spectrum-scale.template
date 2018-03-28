@@ -324,7 +324,7 @@
                 "d2.8xlarge",
                 "i2.xlarge",
                 "i2.2xlarge",
-                "i2.4xlarge", 
+                "i2.4xlarge",
                 "i2.8xlarge",
                 "i3.large",
                 "i3.xlarge",
@@ -420,7 +420,7 @@
                 "d2.8xlarge",
                 "i2.xlarge",
                 "i2.2xlarge",
-                "i2.4xlarge", 
+                "i2.4xlarge",
                 "i2.8xlarge",
                 "i3.large",
                 "i3.xlarge",
@@ -480,7 +480,7 @@
             "ConstraintDescription": "Must be a valid email address."
         },
         "SpectrumS3Bucket": {
-            "Description": "The name of the S3 bucket to be used for data store.  If you choose not to create an S3 bucket, simply leave the SpectrumS3Bucket parameter blank, and a new S3 buicket will be created by this Quick Start.",
+            "Description": "The name of the S3 bucket to be used for data store.  If you choose not to create an S3 bucket, simply leave the SpectrumS3Bucket parameter blank, and a new S3 bucket will be created by this Quick Start.",
             "AllowedPattern": "^[0-9a-z]?([0-9a-z-/]*[0-9a-z])*$",
             "Type": "String",
             "MinLength": "0",
@@ -513,49 +513,49 @@
     "Mappings": {
         "RegionMap": {
             "us-east-1": {
-                "AMI": "ami-bffd9bc5"
+                "AMI": "ami-e7ae619a"
             },
             "us-east-2": {
-                "AMI": "ami-15163f70"
+                "AMI": "ami-0ba7916e"
             },
             "us-west-1": {
-                "AMI": "ami-1ca59f7c"
+                "AMI": "ami-129e8a72"
             },
             "us-west-2": {
-                "AMI": "ami-ea06dc92"
+                "AMI": "ami-1d2fbc65"
             },
             "ca-central-1": {
-                "AMI": "ami-5f12a93b"
+                "AMI": "ami-b336b1d7"
             },
             "eu-west-1": {
-                "AMI": "ami-fd289684"
+                "AMI": "ami-ce3d76b7"
             },
             "eu-central-1": {
-                "AMI": "ami-37018f58"
+                "AMI": "ami-f6dc8a1d"
             },
             "eu-west-2": {
-                "AMI": "ami-4fd7c92b"
+                "AMI": "ami-8dba5cea"
             },
             "eu-west-3": {
-                "AMI": "ami-f24cfb8f"
+                "AMI": "ami-734cfa0e"
             },
             "ap-southeast-1": {
-                "AMI": "ami-95ec89e9"
+                "AMI": "ami-05471479"
             },
             "ap-southeast-2": {
-                "AMI": "ami-6872860a"
+                "AMI": "ami-03a56761"
             },
             "ap-northeast-2": {
-                "AMI": "ami-76af0918"
+                "AMI": "ami-6667cb08"
             },
             "ap-northeast-1": {
-                "AMI": "ami-d0cd4ab6"
+                "AMI": "ami-d1095db7"
             },
             "ap-south-1": {
-                "AMI": "ami-cc85cca3"
-            }, 
+                "AMI": "ami-e02d758f"
+            },
             "sa-east-1": {
-                "AMI": "ami-7c5c1b10"
+                "AMI": "ami-e185d08d"
             }
         }
     },
@@ -571,10 +571,10 @@
         "ReplicaOneCondition": {
            "Fn::Equals": [
                 {
-	              	"Ref": "DataReplica"
-	           	},
-	           	"1"
-           	]     
+                    "Ref": "DataReplica"
+                },
+                "1"
+            ]
         },
         "SpectrumS3BucketNotProvided": {
            "Fn::Equals": [
@@ -604,10 +604,12 @@
             "Properties": {
                 "Policies": [
                     {
+                        "PolicyName": "aws-quick-start-cluster-cloudwatch-logs-policy",
                         "PolicyDocument": {
                             "Version": "2012-10-17",
                             "Statement": [
                                 {
+                                    "Effect": "Allow",
                                     "Action": [
                                         "logs:CreateLogStream",
                                         "logs:GetLogEvents",
@@ -618,31 +620,10 @@
                                         "logs:PutMetricFilter",
                                         "logs:CreateLogGroup"
                                     ],
-                                    "Resource": {
-                                        "Fn::Join": [
-                                            "",
-                                            [
-                                                "arn:aws:cloudformation:",
-                                                {
-                                                    "Ref": "AWS::Region"
-                                                },
-                                                ":",
-                                                {
-                                                    "Ref": "AWS::AccountId"
-                                                },
-                                                ":stack/",
-                                                {
-                                                    "Ref": "AWS::StackName"
-                                                },
-                                                "/*"
-                                            ]
-                                        ]
-                                    },
-                                    "Effect": "Allow"
+                                    "Resource": "*"
                                 }
                             ]
-                        },
-                        "PolicyName": "aws-quick-start-cluster-cloudwatch-logs-policy"
+                        }
                     },
                     {
                         "PolicyDocument": {
@@ -674,14 +655,6 @@
                                 {
                                     "Effect": "Allow",
                                     "Action": [
-                                        "ec2:Describe*",
-                                        "ec2:CreateTags*"
-                                    ],
-                                    "Resource": "*"
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
                                         "cloudwatch:PutMetricData",
                                         "cloudwatch:EnableAlarmActions",
                                         "cloudwatch:PutMetricAlarm",
@@ -693,8 +666,14 @@
                                 {
                                     "Effect": "Allow",
                                     "Action": [
+                                        "s3:ListAllMyBuckets"
+                                    ],
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
                                         "s3:ListBucket",
-                                        "s3:ListAllMyBuckets",
                                         "s3:ListBucketVersions"
                                     ],
                                     "Resource": {
@@ -741,47 +720,23 @@
                                     "Resource": "*"
                                 },
                                 {
+                                    "Effect": "Allow",
                                     "Resource": "*",
                                     "Action": [
                                         "ec2:AttachVolume",
                                         "ec2:AuthorizeSecurityGroupIngress",
                                         "ec2:CreateSecurityGroup",
-                                        "ec2:CreateTags",
                                         "ec2:CreateVolume",
-                                        "ec2:DeleteSecurityGroup",
                                         "ec2:DeleteVolume",
-                                        "ec2:DeregisterImage",
-                                        "ec2:DescribeImageAttribute",
-                                        "ec2:DescribeImages",
-                                        "ec2:DescribeInstances",
-                                        "ec2:DescribeInstanceStatus",
-                                        "ec2:DescribeRegions",
-                                        "ec2:DescribeSecurityGroups",
-                                        "ec2:DescribeSubnets",
-                                        "ec2:DescribeTags",
-                                        "ec2:DescribeVolumes",
                                         "ec2:DetachVolume",
-                                        "ec2:GetPasswordData",
-                                        "ec2:ModifyImageAttribute",
+                                        "ec2:Describe*",
+                                        "ec2:CreateTags*",
                                         "ec2:ModifyInstanceAttribute",
-                                        "ec2:RegisterImage",
-                                        "ec2:RunInstances",
-                                        "ec2:StopInstances",
-                                        "ec2:DescribeInstanceRecoveryAttribute",
-                                        "ec2:RecoverInstances",
                                         "ssm:DescribeParameters",
-      									"ssm:PutParameter",
-      									"ssm:GetParameters",
-      									"ssm:DeleteParameter"
-                                    ],
-                                    "Effect": "Allow"
-                                },
-                                {
-                                    "Resource": "*",
-                                    "Action": [
-                                        "autoscaling:Suspend"
-                                    ],
-                                    "Effect": "Allow"
+                                        "ssm:PutParameter",
+                                        "ssm:GetParameter",
+                                        "ssm:DeleteParameters"
+                                    ]
                                 }
                             ]
                         },
@@ -817,7 +772,7 @@
                 ],
                 "Path": "/"
             }
-        },  
+        },
         "ServerSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
@@ -970,7 +925,7 @@
         },
         "SpectrumScaleS3Bucket": {
             "Type": "AWS::S3::Bucket",
-            "Condition": "SpectrumS3BucketNotProvided"  
+            "Condition": "SpectrumS3BucketNotProvided"
          },
         "ServerNodeLaunchConfig": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
@@ -1009,13 +964,17 @@
                                                 "Ref": "ComputeSecurityGroup"
                                             },
                                             "\n",
+                                            "Region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
                                             "echo Lets give some time for instances\n",
                                             "TOTAL_NODE_COUNT=`expr $SERVERNODECOUNT + $COMPUTENODECOUNT`\n",
                                             "wait=$(expr $TOTAL_NODE_COUNT / 4 )\n",
                                             "echo wait:$wait\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
-                                            "mkdir /var/log/gpfs\n",
                                             "hostname=`hostname -A`\n",
                                             "if [ `echo $hostname | wc -l` == 0 ]\n",
                                             "then\n",
@@ -1033,19 +992,13 @@
                                             "fi\n",
                                             "\n",
                                             "RUNNING=False\n",
-                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region  ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_server.out\n",
+                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' ",
+                                            "--output text --region $Region > /var/log/gpfs/instance_server.out\n",
                                             "sleep $wait\n",
-                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_compute.out\n",
-                                            "SERVER_NODE_COUNT=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
-                                            "COMPUTE_NODE_COUNT=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
+                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' ",
+                                            "--output text --region $Region > /var/log/gpfs/instance_compute.out\n",
+                                            "SERVER_NODE_COUNT=$(cat /var/log/gpfs/instance_server.out | grep running | wc -l)\n",
+                                            "COMPUTE_NODE_COUNT=$(cat /var/log/gpfs/instance_compute.out | grep running | wc -l)\n",
                                             "\n",
                                             "echo We have $COMPUTENODECOUNT Compute nodes and $SERVERNODECOUNT Server nodes in cluster.\n",
                                             "\n",
@@ -1062,37 +1015,25 @@
                                             "do\n",
                                             "  echo Not all server are ready. Waiting...\n",
                                             "  sleep $wait\n",
-                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region  ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_server.out\n",
+                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' ",
+                                            "--output text --region $Region > /var/log/gpfs/instance_server.out\n",
                                             "  if [ $? != 0 ]\n",
                                             "  then\n",
                                             "      sleep $wait\n",
-                                            "      aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_server.out\n",
+                                            "      aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' ",
+                                            "--output text --region $Region > /var/log/gpfs/instance_server.out\n",
                                             "  fi\n",
                                             "  sleep $wait\n",
-                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region  ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_compute.out\n", 
+                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' ",
+                                            "--output text --region $Region > /var/log/gpfs/instance_compute.out\n",
                                             "  if [ $? != 0 ]\n",
                                             "  then\n",
                                             "      sleep $wait\n",
-                                            "      aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_compute.out\n",
+                                            "      aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' ",
+                                            "--output text --region $Region > /var/log/gpfs/instance_compute.out\n",
                                             "  fi\n",
-                                            "  SERVER_NODE_COUNT=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
-                                            "  COMPUTE_NODE_COUNT=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
+                                            "  SERVER_NODE_COUNT=$(cat /var/log/gpfs/instance_server.out | grep running | wc -l)\n",
+                                            "  COMPUTE_NODE_COUNT=$(cat /var/log/gpfs/instance_compute.out | grep running | wc -l)\n",
                                             "  if [ $COMPUTENODECOUNT == $COMPUTE_NODE_COUNT -a $SERVERNODECOUNT == $SERVER_NODE_COUNT ]\n",
                                             "  then\n",
                                             "     RUNNING=True\n",
@@ -1101,11 +1042,11 @@
                                             "COMPUTENODECOUNT=$COMPUTE_NODE_COUNT\n",
                                             "SERVERNODECOUNT=$SERVER_NODE_COUNT\n",
                                             "i=1\n",
-                                            "touch /var/log/nodeDescFile\n",
-                                            "touch /var/log/nodeFile\n",
-                                            "touch /var/log/serverLicFile\n",
-                                            "touch /var/log/addNodeFile\n",
-                                            "touch /var/log/clusterNodeInfo\n",
+                                            "touch /var/log/gpfs/nodeDescFile\n",
+                                            "touch /var/log/gpfs/nodeFile\n",
+                                            "touch /var/log/gpfs/serverLicFile\n",
+                                            "touch /var/log/gpfs/addNodeFile\n",
+                                            "touch /var/log/gpfs/clusterNodeInfo\n",
                                             "\n",
                                             "TOTAL_NODE_LEN=`expr $SERVERNODECOUNT + $COMPUTENODECOUNT`\n",
                                             "echo TOTAL_NODE_LEN=$TOTAL_NODE_LEN\n",
@@ -1118,40 +1059,31 @@
                                             "fi\n",
                                             "echo NO_QUORUM:$NO_QUORUM\n",
                                             "echo collecting servers hostname\n",
-                                            "cat /var/log/instance_server.out | awk '{print $2}' | while read line\n",
+                                            "cat /var/log/gpfs/instance_server.out | awk '{print $2}' | while read line\n",
                                             "do\n",
                                             "  if [ $NO_QUORUM -gt 0 ]\n",
                                             "  then\n",
-                                            "    echo $line:quorum-manager >> /var/log/nodeDescFile\n",
-                                            "    echo $line >> /var/log/nodeFile\n",
-                                            "    echo $line >> /var/log/serverLicFile\n",
+                                            "    echo $line:quorum-manager >> /var/log/gpfs/nodeDescFile\n",
+                                            "    echo $line >> /var/log/gpfs/nodeFile\n",
+                                            "    echo $line >> /var/log/gpfs/serverLicFile\n",
                                             "    let NO_QUORUM--\n",
                                             "  else\n",
-                                            "    echo $line >> /var/log/nodeDescFile\n",
-                                            "    echo $line >> /var/log/nodeFile\n",
-                                            "    echo $line >> /var/log/serverLicFile\n",
+                                            "    echo $line >> /var/log/gpfs/nodeDescFile\n",
+                                            "    echo $line >> /var/log/gpfs/nodeFile\n",
+                                            "    echo $line >> /var/log/gpfs/serverLicFile\n",
                                             "  fi\n",
                                             "done\n",
-                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --disable-api-termination --region ",
-                                            {
-                                               "Ref":"AWS::Region"
-                                            },
-                                            "\n",
-                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --instance-initiated-shutdown-behavior stop --region ",
-                                            {
-                                               "Ref":"AWS::Region"
-                                            },
-                                            "\n",
+                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --disable-api-termination --region $Region\n",
                                             "echo Collected all nodes description info.\n",
                                             "echo = GPFS Cluster node description file =\n",
-                                            "cat /var/log/nodeDescFile\n",
+                                            "cat /var/log/gpfs/nodeDescFile\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo collecting servers hostname\n",
-                                            "serverline=`cat /var/log/instance_server.out | awk '{print $2}'`\n",
+                                            "serverline=`cat /var/log/gpfs/instance_server.out | awk '{print $2}'`\n",
                                             "IFS=' ' read -a SerArray <<< $serverline\n",
                                             "echo collecting servers hostname\n",
-                                            "serverline=`cat /var/log/instance_server.out | awk '{print $2}'`\n",
+                                            "serverline=`cat /var/log/gpfs/instance_server.out | awk '{print $2}'`\n",
                                             "IFS=' ' read -a SerArray <<< $serverline\n",
                                             "com_quorum=0\n",
                                             "if [ $NO_QUORUM -gt $SERVER_NODE_COUNT ]\n",
@@ -1164,47 +1096,47 @@
                                             "\n",
                                             "count=0\n",
                                             "echo Number of quorum node belong to compute nodes:$com_quorum\n",
-                                            "cat /var/log/instance_compute.out | awk '{print $2}' | while read computeline\n",
+                                            "cat /var/log/gpfs/instance_compute.out | awk '{print $2}' | while read computeline\n",
                                             "do\n",
                                             "   if [ $com_quorum -gt 0 ]\n",
                                             "   then\n",
-                                            "     echo $computeline:quorum >> /var/log/nodeDescFile\n",
-                                            "     echo $computeline >> /var/log/nodeFile\n",
-                                            "     echo $computeline >> /var/log/serverLicFile\n",
+                                            "     echo $computeline:quorum >> /var/log/gpfs/nodeDescFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/nodeFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/serverLicFile\n",
                                             "     let com_quorum--\n",
                                             "     let count++\n",
                                             "   elif [ $count -eq 0 ]\n",
                                             "   then\n",
-                                            "     echo $computeline >> /var/log/nodeDescFile\n",
-                                            "       echo $computeline >> /var/log/nodeFile\n",
-                                            "       echo $computeline >> /var/log/serverLicFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/nodeDescFile\n",
+                                            "       echo $computeline >> /var/log/gpfs/nodeFile\n",
+                                            "       echo $computeline >> /var/log/gpfs/serverLicFile\n",
                                             "       let count++\n",
                                             "   else\n",
-                                            "     echo $computeline >> /var/log/addNodeFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/addNodeFile\n",
                                             "   fi\n",
                                             "done\n",
                                             "sleep $wait\n",
                                             "echo Adding IP and hostname into /etc/hosts file\n",
-                                            "cat /var/log/instance_server.out | awk '{print $6,$2}' > /var/log/clusterNodeInfo\n",
-                                            "cat /var/log/instance_compute.out | awk '{print $6,$2}' >> /var/log/clusterNodeInfo\n",
-                                            "cat /var/log/clusterNodeInfo >> /etc/hosts\n",
+                                            "cat /var/log/gpfs/instance_server.out | awk '{print $6,$2}' > /var/log/gpfs/clusterNodeInfo\n",
+                                            "cat /var/log/gpfs/instance_compute.out | awk '{print $6,$2}' >> /var/log/gpfs/clusterNodeInfo\n",
+                                            "cat /var/log/gpfs/clusterNodeInfo >> /etc/hosts\n",
                                             "\n",
                                             "echo Collected all nodes file info.\n",
                                             "echo = GPFS Cluster nodes hostname file =\n",
-                                            "cat /var/log/clusterNodeInfo\n",
+                                            "cat /var/log/gpfs/clusterNodeInfo\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo Collected all nodes with designation in file info.\n",
                                             "echo = GPFS Cluster node description file =\n",
-                                            "cat /var/log/nodeDescFile\n",
+                                            "cat /var/log/gpfs/nodeDescFile\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo = GPFS Cluster node file =\n",
-                                            "cat /var/log/nodeFile\n",
+                                            "cat /var/log/gpfs/nodeFile\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo = GPFS Cluster compute node description file =\n",
-                                            "cat /var/log/addNodeFile\n",
+                                            "cat /var/log/gpfs/addNodeFile\n",
                                             "echo = end =\n",
                                             "echo Successfully Completed..\n"
                                         ]
@@ -1230,10 +1162,15 @@
                                                 "Ref": "ComputeSecurityGroup"
                                             },
                                             "\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "Region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
                                             "admin=True\n",
-                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "line=`cat /var/log/gpfs/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "ADMIN_INS=${adminArr[0]}\n",
                                             "if [ $INSTANCE_ID == $ADMIN_INS ]\n",
@@ -1276,30 +1213,14 @@
                                             "    chmod 600 ~/.ssh/id_rsa\n",
                                             "    chmod 600 ~/.ssh/id_rsa.pub\n",
                                             "    chmod 600 ~/.ssh/authorized_keys\n",
-                                            "    aws ssm put-parameter --name \"${PRISSHKEYNAME}\" --value \"`cat ~/.ssh/id_rsa`\" --type \"SecureString\" --overwrite --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "\n",
-                                            "    aws ssm put-parameter --name \"${PUBSSHKEYNAME}\" --value \"`cat ~/.ssh/id_rsa.pub`\" --type \"SecureString\" --overwrite --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "\n",
+                                            "    aws ssm put-parameter --name \"${PRISSHKEYNAME}\" --value \"`cat ~/.ssh/id_rsa`\" --type \"SecureString\" --overwrite --region $Region\n",
+                                            "    aws ssm put-parameter --name \"${PUBSSHKEYNAME}\" --value \"`cat ~/.ssh/id_rsa.pub`\" --type \"SecureString\" --overwrite --region $Region\n",
                                             "    echo --- SSH keys creation successfully completed ---\n",
                                             "fi\n",
                                             "if [ $admin == False ]\n",
                                             "then\n",
-                                            "   PRIKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PRISSHKEYNAME} | wc -l`\n",
-                                            "   PUBKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PUBSSHKEYNAME} | wc -l`\n",
+                                            "   PRIKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PRISSHKEYNAME} | wc -l`\n",
+                                            "   PUBKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PUBSSHKEYNAME} | wc -l`\n",
                                             "   echo admin:$admin\n",
                                             "   echo PRIKEYEXIST:$PRIKEYEXIST\n",
                                             "   echo PUBKEYEXIST:$PUBKEYEXIST\n",
@@ -1307,30 +1228,16 @@
                                             "   do\n",
                                             "       echo Waiting ssh keys to be created...PRIKEYEXIST,PUBKEYEXIST:$PRIKEYEXIST,PUBKEYEXIST\n",
                                             "       sleep 100\n",
-                                            "       PRIKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PRISSHKEYNAME} | wc -l`\n",
-                                            "       PUBKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PUBSSHKEYNAME} | wc -l`\n",
+                                            "       PRIKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PRISSHKEYNAME} | wc -l`\n",
+                                            "       PUBKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PUBSSHKEYNAME} | wc -l`\n",
                                             "   done\n",
                                             "   echo PRIKEYEXIST:$PRIKEYEXIST\n",
                                             "   echo PUBKEYEXIST:$PUBKEYEXIST\n",
                                             "   echo SSH KEYS ALREADY CREATED..!!\n",
-                                            "   aws ssm get-parameters --name \"${PRISSHKEYNAME}\" --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " --with-decryption --output json | grep Value | cut -f2 -d':'| cut -f2 -d'\"'| sed 's\/\\\\n\/\\'$'\\n''/g' > ~/.ssh/id_rsa \n",
-                                            "   aws ssm get-parameters --name \"${PUBSSHKEYNAME}\" --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " --with-decryption --output json | grep Value | cut -f2 -d':'| cut -f2 -d'\"'| sed 's\/\\\\n\/\\'$'\\n''/g' > ~/.ssh/id_rsa.pub \n",
+                                            "   aws ssm get-parameter --name \"${PRISSHKEYNAME}\" --region $Region ",
+                                            " --with-decryption --query 'Parameter.{Value:Value}' --output text > ~/.ssh/id_rsa \n",
+                                            "   aws ssm get-parameter --name \"${PUBSSHKEYNAME}\" --region $Region ",
+                                            " --with-decryption --query 'Parameter.{Value:Value}' --output text > ~/.ssh/id_rsa.pub \n",
                                             "   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys\n",
                                             "   chmod 600 ~/.ssh/id_rsa\n",
                                             "   chmod 600 ~/.ssh/id_rsa.pub\n",
@@ -1373,14 +1280,14 @@
                                             },
                                             "\n",
                                             "echo Generate GPFS cluster node file\n",
-                                            "rm /var/log/nsdFile\n",
+                                            "rm -f /var/log/gpfs/nsdFile\n",
                                             "touch /var/nsdFile\n",
                                             "echo DiskSize $DiskSize GB\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
-                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "MyAZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
                                             "echo My available zone $MyAZ\n",
                                             "echo collecting servers instance ID\n",
-                                            "cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}' |  while read line\n",
+                                            "cat /var/log/gpfs/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}' |  while read line\n",
                                             "do\n",
                                             "  if [ $INSTANCE_ID == $line ]\n",
                                             "  then\n",
@@ -1398,11 +1305,11 @@
                                             "fi\n",
                                             "success=True\n",
                                             "IOPS=100\n",
-                                            "Instances=`cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "Instances=`cat /var/log/gpfs/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "echo Instances : $Instances\n",
                                             "IFS=' ' read -a InsArray <<< $Instances\n",
                                             "echo Instances: ${InsArray[@]}\n",
-                                            "ServerPriDNS=`cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$2}' | sort | awk '{print $2}'`\n",
+                                            "ServerPriDNS=`cat /var/log/gpfs/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$2}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a ServerPriDNSArray <<< $ServerPriDNS\n",
                                             "counter=${#ServerPriDNSArray[@]}\n",
                                             "echo Total Number of Nodes : $counter\n",
@@ -1423,19 +1330,19 @@
                                             "         IOPS=$(expr $DiskSize \\* 50)\n",
                                             "         sleep 10\n",
                                             "         aws ec2 create-volume --size $DiskSize --availability-zone $MyAZ --volume-type $EBSType --iops $IOPS --output text --region $Region ",
-                                            "         --tag-specifications 'ResourceType=volume,Tags=[{Key=Version,Value=v1.2},{Key=Name,Value=",
+                                            "         --tag-specifications 'ResourceType=volume,Tags=[{Key=in_use_by,Value=IBM_Spectrum_Scale},{Key=Version,Value=v1.3},{Key=Name,Value=",
                                             {
                                                 "Ref": "AWS::StackName"
                                             },
-                                            "-server-NSD}]'> /var/log/nsd.out\n",
+                                            "-server-NSD}]'> /var/log/gpfs/nsd.out\n",
                                             "      else\n",
                                             "         sleep 10\n",
                                             "         aws ec2 create-volume --size $DiskSize --availability-zone $MyAZ --volume-type $EBSType --output text --region $Region ",
-                                            "         --tag-specifications 'ResourceType=volume,Tags=[{Key=Version,Value=v1.2},{Key=Name,Value=",
+                                            "         --tag-specifications 'ResourceType=volume,Tags=[{Key=in_use_by,Value=IBM_Spectrum_Scale},{Key=Version,Value=v1.3},{Key=Name,Value=",
                                             {
                                                 "Ref": "AWS::StackName"
                                             },
-                                            "-server-NSD}]'> /var/log/nsd.out\n",
+                                            "-server-NSD}]'> /var/log/gpfs/nsd.out\n",
                                             "      fi\n",
                                             "      if [ $? != 0 ]\n",
                                             "      then\n",
@@ -1443,12 +1350,12 @@
                                             "      fi\n",
                                             "      if [ $EBSType == 'st1' ]\n",
                                             "      then\n",
-                                            "           volID=$(cat /var/log/nsd.out | awk '{print $6}')\n",
+                                            "           volID=$(cat /var/log/gpfs/nsd.out | awk '{print $6}')\n",
                                             "      elif [ $EBSType == 'sc1' ]\n",
                                             "      then\n",
-                                            "           volID=$(cat /var/log/nsd.out | awk '{print $6}')\n",
+                                            "           volID=$(cat /var/log/gpfs/nsd.out | awk '{print $6}')\n",
                                             "      else\n",
-                                            "           volID=$(cat /var/log/nsd.out | awk '{print $7}')\n",
+                                            "           volID=$(cat /var/log/gpfs/nsd.out | awk '{print $7}')\n",
                                             "      fi\n",
                                             "      echo Volume $volID has been created\n",
                                             "      sleep 10\n",
@@ -1489,7 +1396,7 @@
                                             "        echo usage=dataAndMetadata; \n",
                                             "        echo failureGroup=FG_${AZ}_${j}_$i; \n",
                                             "        echo pool=system; \n",
-                                            "        echo ' '; } >> /var/log/nsdFile\n",
+                                            "        echo ' '; } >> /var/log/gpfs/nsdFile\n",
                                             "   done\n",
                                             "   if [ $? == 1 ];\n",
                                             "   then\n",
@@ -1502,7 +1409,7 @@
                                             "   exit 1\n",
                                             "fi\n",
                                             "echo = GPFS NSD description file =\n",
-                                            "echo `cat /var/log/nsdFile`\n",
+                                            "echo `cat /var/log/gpfs/nsdFile`\n",
                                             "echo = end =\n"
                                         ]
                                     ]
@@ -1541,17 +1448,17 @@
                                             "\n",
                                             "echo GpfsMountPoint $GpfsMountPoint\n",
                                             "\n",
-                                            "SERVERNODECOUNT=$(cat /var/log/instance_server.out | wc -l)\n",
-                                            "COMPUTENODECOUNT=$(cat /var/log/instance_compute.out | wc -l)\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
-                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
+                                            "SERVERNODECOUNT=$(cat /var/log/gpfs/instance_server.out | wc -l)\n",
+                                            "COMPUTENODECOUNT=$(cat /var/log/gpfs/instance_compute.out | wc -l)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "MyAZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
                                             "admin=True\n",
                                             "TOTAL_NODES=`expr $SERVERNODECOUNT + $COMPUTENODECOUNT`\n",
-                                            "IFS=' ' read -a adminArr <<< `cat /var/log/instance_server.out | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "IFS=' ' read -a adminArr <<< `cat /var/log/gpfs/instance_server.out | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "ADMIN_INS=${adminArr[0]}\n",
                                             "echo ADMIN_INS=$ADMIN_INS\n",
-                                            "adminNode=$(cat /var/log/instance_server.out | grep ${adminArr[0]} | awk '{print $2}')\n",
+                                            "adminNode=$(cat /var/log/gpfs/instance_server.out | grep ${adminArr[0]} | awk '{print $2}')\n",
                                             "echo adminNode=$adminNode\n",
                                             "if [ $INSTANCE_ID == $ADMIN_INS ]\n",
                                             "then\n",
@@ -1582,7 +1489,7 @@
                                             "   if [ $timeout -ge 10 ]\n",
                                             "   then\n",
                                             "        echo This is new node .....\n",
-                                            "        cat /var/log/nodeDescFile | grep $hostname > /tmp/$hostname\n",
+                                            "        cat /var/log/gpfs/nodeDescFile | grep $hostname > /tmp/$hostname\n",
                                             "        scp /tmp/$hostname $adminNode:/tmp/$hostname\n",
                                             "        ssh $adminNode \"/usr/lpp/mmfs/bin/mmaddnode -N /tmp/$hostname\"\n",
                                             "        sleep 20\n",
@@ -1596,7 +1503,7 @@
                                             "    sleep $timeout\n",
                                             "    timeout=0\n",
                                             "    clusterName=$hostname\n",
-                                            "    cat /var/log/clusterNodeInfo | awk '{print $1}' | while read nodeIP\n",
+                                            "    cat /var/log/gpfs/clusterNodeInfo | awk '{print $1}' | while read nodeIP\n",
                                             "    do\n",
                                             "        ping $nodeIP -c 3\n",
                                             "        while [ $? != 0 -a $timeout -le 10 ]\n",
@@ -1612,24 +1519,24 @@
                                             "    fi\n",
                                             "    echo ALL KEYS HAS BEEN SUCCESSFULLY DISTRIBUTED ON ALL NODES\n",
                                             "    echo Create GPFS cluster\n",
-                                            "    /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/nodeDescFile -C $clusterName --ccr-enable -r /usr/bin/ssh -R /usr/bin/scp -A\n",
+                                            "    /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/gpfs/nodeDescFile -C $clusterName --ccr-enable -r /usr/bin/ssh -R /usr/bin/scp -A\n",
                                             "    if [ $? != 0 ]\n",
                                             "    then\n",
                                             "        echo lets retry after sometime\n",
                                             "        sleep 100\n",
-                                            "        /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/nodeDescFile --ccr-enable -r /usr/bin/ssh -R /usr/bin/scp -A\n",
+                                            "        /usr/lpp/mmfs/bin/mmcrcluster -N /var/log/gpfs/nodeDescFile --ccr-enable -r /usr/bin/ssh -R /usr/bin/scp -A\n",
                                             "    fi\n",
                                             "    echo Assigning server license.. \n",
-                                            "    /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/serverLicFile\n",
+                                            "    /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/gpfs/serverLicFile\n",
                                             "    if [ $? != 0 ]\n",
                                             "    then\n",
                                             "        echo lets retry after sometime\n",
                                             "        sleep 100\n",
-                                            "        /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/serverLicFile\n",
+                                            "        /usr/lpp/mmfs/bin/mmchlicense server --accept -N /var/log/gpfs/serverLicFile\n",
                                             "    fi\n",
                                             "    /usr/lpp/mmfs/bin/mmstartup -N $hostname\n",
                                             "    noSeverLic=`/usr/lpp/mmfs/bin/mmlslicense | grep 'Number of nodes with server license designation:' | awk '{print $8}'`\n",
-                                            "    while [ $noSeverLic != `cat /var/log/serverLicFile | wc -l` ]\n",
+                                            "    while [ $noSeverLic != `cat /var/log/gpfs/serverLicFile | wc -l` ]\n",
                                             "    do\n",
                                             "         noSeverLic=`/usr/lpp/mmfs/bin/mmlslicense | grep 'Number of nodes with server license designation:' | awk '{print $8}'`\n",
                                             "         echo waiting to all license changed\n",
@@ -1644,7 +1551,7 @@
                                             "    exit\n",
                                             "fi\n",
                                             "ActiveNode=$(/usr/lpp/mmfs/bin/mmgetstate -a | grep active | wc -l)\n",
-                                            "NoOfSerNodes=`cat /var/log/nodeFile | wc -l`\n",
+                                            "NoOfSerNodes=`cat /var/log/gpfs/nodeFile | wc -l`\n",
                                             "echo NoOfSerNodes=$NoOfSerNodes\n",
                                             "echo ActiveNode=$ActiveNode\n",
                                             "count=0\n",
@@ -1668,9 +1575,9 @@
                                             "echo INSTANCE_ID:$INSTANCE_ID\n",
                                             "echo cluster:$cluster\n",
                                             "AZ=`expr $MyAZ | cut -f3 -d'-'`\n",
-                                            "IFS=' ' read -a adminArrAZ <<< `cat /var/log/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}' `\n",
+                                            "IFS=' ' read -a adminArrAZ <<< `cat /var/log/gpfs/instance_server.out | grep running | grep $MyAZ | awk '{print $4,$1}' | sort | awk '{print $2}' `\n",
                                             "echo adminArrAZ:$adminArrAZ\n",
-                                            "AZAdminNode=$(cat /var/log/instance_server.out | grep running | grep ${adminArrAZ[0]} | awk '{print $2}')\n",
+                                            "AZAdminNode=$(cat /var/log/gpfs/instance_server.out | grep running | grep ${adminArrAZ[0]} | awk '{print $2}')\n",
                                             "echo AZAdminNode:$AZAdminNode\n",
                                             "echo cluster:$cluster\n",
                                             "echo INSTANCE_ID:$INSTANCE_ID\n",
@@ -1681,37 +1588,37 @@
                                             "   if [ ${adminArrAZ} != ${ADMIN_INS} -o $DataReplica == 1 ]\n",
                                             "   then\n",
                                             "       echo copying nsdFile file from admin node...\n",
-                                            "       scp ${adminNode}:/var/log/nsdFile /tmp/\n",
-                                            "       echo '' >> /var/log/nsdFile\n",
-                                            "       cat /tmp/nsdFile >> /var/log/nsdFile\n",
-                                            "       chmod 755 /var/log/nsdFile\n",
+                                            "       scp ${adminNode}:/var/log/gpfs/nsdFile /tmp/\n",
+                                            "       echo '' >> /var/log/gpfs/nsdFile\n",
+                                            "       cat /tmp/nsdFile >> /var/log/gpfs/nsdFile\n",
+                                            "       chmod 755 /var/log/gpfs/nsdFile\n",
                                             "       echo Create GPFS NSD..\n",
                                             "       if [ $DataReplica == 1 ]\n",
                                             "       then\n",
-                                            "           IFS=' ' read -a fg <<< `cat /var/log/nsdFile | grep failureGroup= | cut -f2 -d'='`\n",
+                                            "           IFS=' ' read -a fg <<< `cat /var/log/gpfs/nsdFile | grep failureGroup= | cut -f2 -d'='`\n",
                                             "           fg_count=${#fg[@]}\n",
                                             "           for ((count=0;count < fg_count;count++))\n",
                                             "           {\n",
                                             "              fg_value=`echo ${fg[$count]} | cut -f3 -d'_'`\n",
                                             "              if [[ $((fg_value % 2)) -eq 0 ]]\n",
                                             "              then\n",
-                                            "                 sed -i \"s/FG_${AZ}_${fg_value}_.*/2/\" /var/log/nsdFile\n",
+                                            "                 sed -i \"s/FG_${AZ}_${fg_value}_.*/2/\" /var/log/gpfs/nsdFile\n",
                                             "              else\n",
-                                            "                 sed -i \"s/FG_${AZ}_${fg_value}_.*/1/\" /var/log/nsdFile\n",
+                                            "                 sed -i \"s/FG_${AZ}_${fg_value}_.*/1/\" /var/log/gpfs/nsdFile\n",
                                             "              fi\n",
                                             "           }\n",
                                             "       else\n",
-                                            "           sed -i \"s/FG_${AZ}_.*_.*/1/\" /var/log/nsdFile\n",
-                                            "           sed -i \"s/FG_.*_.*_.*/2/\" /var/log/nsdFile\n",
+                                            "           sed -i \"s/FG_${AZ}_.*_.*/1/\" /var/log/gpfs/nsdFile\n",
+                                            "           sed -i \"s/FG_.*_.*_.*/2/\" /var/log/gpfs/nsdFile\n",
                                             "       fi\n",
                                             "       echo copying updated nsdFile file to admin node...\n",
-                                            "       scp /var/log/nsdFile ${adminNode}:/var/log/nsdFile\n",
-                                            "       /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/nsdFile\n",
+                                            "       scp /var/log/gpfs/nsdFile ${adminNode}:/var/log/gpfs/nsdFile\n",
+                                            "       /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/gpfs/nsdFile\n",
                                             "       if [ $? != 0 ]\n",
                                             "       then\n",
                                             "            echo lets retry after sometime\n",
                                             "            sleep 200\n",
-                                            "            /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/nsdFile\n",
+                                            "            /usr/lpp/mmfs/bin/mmcrnsd -F /var/log/gpfs/nsdFile\n",
                                             "       fi\n",
                                             "   else\n",
                                             "       echo ----Skipping nsd creation from this node----\n",
@@ -1732,13 +1639,13 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "SERVERNODECOUNT=$(cat /var/log/instance_server.out | wc -l)\n",
-                                            "COMPUTENODECOUNT=$(cat /var/log/instance_compute.out | wc -l)\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
-                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
+                                            "SERVERNODECOUNT=$(cat /var/log/gpfs/instance_server.out | wc -l)\n",
+                                            "COMPUTENODECOUNT=$(cat /var/log/gpfs/instance_compute.out | wc -l)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "MyAZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
                                             "admin=True\n",
-                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "line=`cat /var/log/gpfs/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "if [ $INSTANCE_ID == ${adminArr[0]} ]\n",
                                             "then\n",
@@ -1749,7 +1656,7 @@
                                             "fi\n",
                                             "echo admin:$admin\n",
                                             "cluster=False\n",
-                                            "if [ $admin == True -a `cat /var/log/addNodeFile | wc -l` -gt 0 ]\n",
+                                            "if [ $admin == True -a `cat /var/log/gpfs/addNodeFile | wc -l` -gt 0 ]\n",
                                             "then\n",
                                             "   /usr/lpp/mmfs/bin/mmlscluster\n",
                                             "   while [ $? != 0 ]\n",
@@ -1758,23 +1665,23 @@
                                             "       /usr/lpp/mmfs/bin/mmlscluster \n",
                                             "   done\n",
                                             "   echo Add nodes into GPFS cluster\n",
-                                            "   /usr/lpp/mmfs/bin/mmaddnode -N /var/log/addNodeFile\n",
+                                            "   /usr/lpp/mmfs/bin/mmaddnode -N /var/log/gpfs/addNodeFile\n",
                                             "   if [ $? != 0 ]\n",
                                             "   then\n",
                                             "       echo lets retry after sometime\n",
                                             "       sleep 200\n",
-                                            "       /usr/lpp/mmfs/bin/mmaddnode -N /var/log/addNodeFile\n",
+                                            "       /usr/lpp/mmfs/bin/mmaddnode -N /var/log/gpfs/addNodeFile\n",
                                             "   fi\n",
                                             "   echo Assigning client license.. \n",
-                                            "   /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/addNodeFile\n",
+                                            "   /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/gpfs/addNodeFile\n",
                                             "   if [ $? != 0 ]\n",
                                             "   then\n",
                                             "       echo lets retry after sometime\n",
                                             "       sleep 200\n",
-                                            "       /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/addNodeFile\n",
+                                            "       /usr/lpp/mmfs/bin/mmchlicense client --accept -N /var/log/gpfs/addNodeFile\n",
                                             "   fi\n",
                                             "   echo Start gpfs cluster..\n",
-                                            "   /usr/lpp/mmfs/bin/mmstartup -N /var/log/addNodeFile\n",
+                                            "   /usr/lpp/mmfs/bin/mmstartup -N /var/log/gpfs/addNodeFile\n",
                                             "   /usr/lpp/mmfs/bin/mmgetstate -a\n",
                                             "   echo Successfully added nodes into cluster.\n",
                                             "fi\n",
@@ -1803,14 +1710,14 @@
                                             "\n",
                                             "echo MetadataReplica $MetadataReplica\n",
                                             "\n",
-                                            "SERVERNODECOUNT=$(cat /var/log/instance_server.out | wc -l)\n",
-                                            "COMPUTENODECOUNT=$(cat /var/log/instance_compute.out | wc -l)\n",
+                                            "SERVERNODECOUNT=$(cat /var/log/gpfs/instance_server.out | wc -l)\n",
+                                            "COMPUTENODECOUNT=$(cat /var/log/gpfs/instance_compute.out | wc -l)\n",
                                             "admin=True\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
-                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "MyAZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
                                             "echo AZ: $MyAZ\n",
-                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "line=`cat /var/log/gpfs/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "echo INSTANCE_ID:$INSTANCE_ID\n",
                                             "echo adminArr:${adminArr[0]}\n",
@@ -1844,13 +1751,13 @@
                                             "   echo TOTAL_NODE_LEN=$TOTAL_NODE_LEN\n",
                                             "   echo ActiveNode=$ActiveNode\n",
                                             "done\n",
-                                            "echo WAIT UNTIL NSDFILE CHANGES!!\n",
-                                            "nsdFileCheck=`cat /var/log/nsdFile | grep 'FG' | wc -l`\n",
+                                            "echo WAIT UNTIL NSD STANZA FILE CHANGES!!\n",
+                                            "nsdFileCheck=`cat /var/log/gpfs/nsdFile | grep 'FG' | wc -l`\n",
                                             "echo nsdFileCheck:$nsdFileCheck\n",
                                             "while [ $nsdFileCheck != 0 ]\n",
                                             "do\n",
                                             "   sleep 20\n",
-                                            "   nsdFileCheck=`cat /var/log/nsdFile | grep 'FG' | wc -l`\n",
+                                            "   nsdFileCheck=`cat /var/log/gpfs/nsdFile | grep 'FG' | wc -l`\n",
                                             "   echo nsdFileCheck:$nsdFileCheck\n",
                                             "   echo waiting....!!\n",
                                             "done\n",
@@ -1894,17 +1801,13 @@
                                             "   then\n",
                                             "       echo Checking state\n",
                                             "       /usr/lpp/mmfs/bin/mmgetstate -a\n",
-                                            "       echo `cat /var/log/nsdFile`\n",
+                                            "       echo `cat /var/log/gpfs/nsdFile`\n",
                                             "       echo Creating GPFS file system\n",
-                                            "       /usr/lpp/mmfs/bin/mmcrfs fs1 -F /var/log/nsdFile -B ",
+                                            "       /usr/lpp/mmfs/bin/mmcrfs fs1 -F /var/log/gpfs/nsdFile -B ",
                                             {
                                                 "Ref": "BlockSize"
                                             },
-                                            " -R 3 -M 3 -r ",
-                                            {
-                                                "Ref": "DataReplica"
-                                            },
-                                            " -m $MetadataReplica -T ",
+                                            " -R 3 -M 3 -r $DataReplica -m $MetadataReplica -T ",
                                             {
                                                 "Ref": "GpfsMountPoint"
                                             },
@@ -1916,7 +1819,7 @@
                                             "      exit\n",
                                             "   else\n",
                                             "       /usr/lpp/mmfs/bin/mmlsnsd\n",
-                                            "       echo ----File system creation sucussfully completed----\n",
+                                            "       echo ----File system creation successfully completed----\n",
                                             "       echo REMOVING KEYS\n",
                                             "       PRISSHKEYNAME=ssh-key-private",
                                             {
@@ -1930,12 +1833,7 @@
                                             "_$ADMIN_INS\n",
                                             "       echo PRISSHKEYNAME:$PRISSHKEYNAME\n",
                                             "       echo PUBSSHKEYNAME:$PUBSSHKEYNAME\n",
-                                            "       aws ssm delete-parameter --name \"${PRISSHKEYNAME}\"  --region ",
-                                            {
-                                               "Ref": "AWS::Region"
-                                            },
-                                            "\n",
-                                            "       aws ssm delete-parameter --name \"${PUBSSHKEYNAME}\"  --region ",
+                                            "       aws ssm delete-parameters --names \"${PRISSHKEYNAME}\" \"${PUBSSHKEYNAME}\" --region ",
                                             {
                                                "Ref": "AWS::Region"
                                             },
@@ -1950,6 +1848,17 @@
                                             "   fi\n",
                                             "else\n",
                                             "    echo This is not admin node or fs1 fileSystem is already created...exit!!\n",
+                                            "fi\n",
+                                            "echo important configuration for sharing nothing cluster\n",
+                                            "/usr/lpp/mmfs/bin/mmchconfig unmountOnDiskFail=meta\n",
+                                            "if [ $? != 0 ]\n",
+                                            "then\n",
+                                            "    exit\n",
+                                            "fi\n",
+                                            "/usr/lpp/mmfs/bin/mmchconfig restripeOnDiskFailure=yes\n",
+                                            "if [ $? != 0 ]\n",
+                                            "then\n",
+                                            "    exit\n",
                                             "fi\n"
                                         ]
                                     ]
@@ -1960,44 +1869,30 @@
                             }
                         },
                         "commands": {
-                            "01_pre_setup_gpfs": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "\n",
-                                            "echo 'export PATH=$PATH:/usr/lpp/mmfs/bin/' > /etc/profile.d/gpfs.sh\n",
-                                            "sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/' /etc/ssh/ssh_config\n",
-                                            "mkdir /var/log/gpfs",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "02_setup_gpfs": {
+                            "01_setup_gpfs": {
                                 "command": "/usr/bin/gpfs-server-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-server-setup.log 2>&1"
                             },
-                            "03_passwordless_setup": {
+                            "02_passwordless_setup": {
                                 "command": "/usr/bin/gpfs-passwordless-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-passwordless-setup.log 2>&1"
                             },
-                            "04_create_nsd": {
+                            "03_create_nsd": {
                                 "command": "/usr/bin/gpfs-nsd-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-nsd-setup.log 2>&1"
                             },
-                            "05_create_cluster": {
+                            "04_create_cluster": {
                                 "command": "/usr/bin/gpfs-cluster-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-cluster-setup.log 2>&1"
                             },
-                            "06_add_compute_node": {
+                            "05_add_compute_node": {
                                 "command": "/usr/bin/gpfs-add-compute-nodes.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-add-compute-nodes.log 2>&1"
                             },
-                            "07_create_filesystem": {
+                            "06_create_filesystem": {
                                 "command": "/usr/bin/gpfs-filesystem-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-filesystem-setup.log 2>&1"
                             },
-                            "08_gpfs_auto-recovery-settings": {
+                            "07_gpfs_auto-recovery-settings": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
                                             "echo RECOVERY ALARM SETTING FOR SERVER INSTANCES\n",
                                             "aws cloudwatch put-metric-alarm --alarm-name ",
@@ -2050,48 +1945,32 @@
                                             "\n",
                                             "echo asg_server:$asg_server\n",
                                             "echo asg_compute:$asg_compute\n",
-                                            "echo Trying to suspend few processes for SERVER autoscaling group\n",
+                                            "echo Suspend HealthCheck, ReplaceUnhealthy processes for SERVER autoscaling group\n",
                                             "aws autoscaling suspend-processes --auto-scaling-group-name $asg_server ",
-                                            " --scaling-processes HealthCheck --region ",
+                                            " --scaling-processes HealthCheck ReplaceUnhealthy --region ",
                                             {
                                                 "Ref": "AWS::Region"
                                             },
                                             "\n",
-                                            "echo HealthCheck process suspended from server autoscaling group\n",
-                                            "aws autoscaling suspend-processes --auto-scaling-group-name $asg_server ",
-                                            " --scaling-processes ReplaceUnhealthy --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "\n",
-                                            "echo ReplaceUnhealthy process suspended from server autoscaling group\n",
-                                            "echo Trying to suspend few processes for COMPUTE autoscaling group\n",
+                                            "echo Suspend HealthCheck, ReplaceUnhealthy processes for COMPUTE autoscaling group\n",
                                             "aws autoscaling suspend-processes --auto-scaling-group-name $asg_compute ",
-                                            " --scaling-processes HealthCheck --region ",
+                                            " --scaling-processes HealthCheck ReplaceUnhealthy --region ",
                                             {
                                                 "Ref": "AWS::Region"
                                             },
-                                            "\n",
-                                            "echo HealthCheck process suspended from compute autoscaling group\n",
-                                            "aws autoscaling suspend-processes --auto-scaling-group-name $asg_compute ",
-                                            " --scaling-processes ReplaceUnhealthy --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "\n",
-                                            "echo ReplaceUnhealthy process suspended from compute autoscaling group\n"
+                                            "\n"
                                         ]
                                     ]
                                 }
                             },
-                            "09_mount_gpfs": {
+                            "08_mount_gpfs": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
-                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "line=`cat /var/log/gpfs/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "echo INSTANCE_ID:$INSTANCE_ID\n",
                                             "echo adminArr:${adminArr[0]}\n",
@@ -2107,7 +1986,8 @@
                                             "/usr/lpp/mmfs/bin/mmmount fs1 -a\n",
                                             "if [ $? != 0 ]\n",
                                             "then\n",
-                                            "   echo some failure occurred, hence exiting...!\n",
+                                            "   echo Failure occurred during mounting filesystem, hence exiting...!\n",
+                                            "   exit\n",
                                             "else\n",
                                             "   chmod 777 ",
                                             {
@@ -2120,7 +2000,7 @@
                                     ]
                                 }
                             },
-                            "10_gpfs_verifications": {
+                            "09_gpfs_verifications": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -2140,7 +2020,7 @@
                                             "if [ $? != 0 ]\n",
                                             "then\n",
                                             "   echo some failure occurred, hence exiting...!\n",
-                                            "fi\n",  
+                                            "fi\n",
                                             "echo -----THE END-----\n"
                                         ]
                                     ]
@@ -2212,7 +2092,7 @@
                 }
             }
         },
-        "ServerAutoScallingGroup": {
+        "ServerAutoScalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "DesiredCapacity": {
@@ -2236,32 +2116,32 @@
                         "autoscaling:EC2_INSTANCE_LAUNCH",
                         "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
                         "autoscaling:EC2_INSTANCE_TERMINATE",
-                        "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
-                        "autoscaling:TEST_NOTIFICATION"
+                        "autoscaling:EC2_INSTANCE_TERMINATE_ERROR"
                     ]
                 },
-                "VPCZoneIdentifier": [{
-                    "Fn::If": [
-                       "ReplicaOneCondition",
-                       {
-                          "Ref": "PrivateSubnet1ID"
-                       },
-                       { 
-                          "Fn::Join": [
-                           ",",
-                             [
-                                {
-                                   "Ref": "PrivateSubnet1ID"
-                                },
-		                        {
-		                           "Ref": "PrivateSubnet2ID"
-		                        }
-		                     ]
-                          ]
-		                    
-                       }
-                    ]   
-                }],
+                "VPCZoneIdentifier": [
+                    {
+                        "Fn::If": [
+                            "ReplicaOneCondition",
+                            {
+                                "Ref": "PrivateSubnet1ID"
+                            },
+                            {
+                                "Fn::Join": [
+                                    ",",
+                                    [
+                                        {
+                                            "Ref": "PrivateSubnet1ID"
+                                        },
+                                        {
+                                            "Ref": "PrivateSubnet2ID"
+                                        }
+                                    ]
+                                ]
+                            }
+                        ]
+                    }
+                ],
                 "Tags": [
                     {
                         "Key": "Name",
@@ -2278,11 +2158,11 @@
                             ]
                         }
                     },
-       				{
-        				"Key" : "Version",
-        				"PropagateAtLaunch": "true",
-        				"Value" : "v1.2" 
-        			}
+                    {
+                        "Key" : "Version",
+                        "PropagateAtLaunch": "true",
+                        "Value" : "v1.3"
+                    }
                 ]
             }
         },
@@ -2324,14 +2204,18 @@
                                                 "Ref": "ComputeSecurityGroup"
                                             },
                                             "\n",
+                                            "Region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
                                             "echo Lets give some time for instances\n",
                                             "TOTAL_NODE_COUNT=`expr $SERVERNODECOUNT + $COMPUTENODECOUNT`\n",
                                             "wait=$(expr $TOTAL_NODE_COUNT / 4 )\n",
                                             "echo wait:$wait\n",
                                             "sleep $wait\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
-                                            "mkdir /var/log/gpfs\n",
                                             "hostname=`hostname -A`\n",
                                             "if [ `echo $hostname | wc -l` == 0 ]\n",
                                             "then\n",
@@ -2349,19 +2233,13 @@
                                             "fi\n",
                                             "\n",
                                             "sleep $wait\n",
-                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_server.out\n",
+                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region $Region",
+                                            " > /var/log/gpfs/instance_server.out\n",
                                             "sleep $wait\n",
-                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_compute.out\n",
-                                            "SERVER_NODE_COUNT=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
-                                            "COMPUTE_NODE_COUNT=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
+                                            "aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region $Region",
+                                            " > /var/log/gpfs/instance_compute.out\n",
+                                            "SERVER_NODE_COUNT=$(cat /var/log/gpfs/instance_server.out | grep running | wc -l)\n",
+                                            "COMPUTE_NODE_COUNT=$(cat /var/log/gpfs/instance_compute.out | grep running | wc -l)\n",
                                             "\n",
                                             "RUNNING=False\n",
                                             "TOTAL_NODE_COUNT=`expr $SERVERNODECOUNT + $COMPUTENODECOUNT`\n",
@@ -2379,19 +2257,13 @@
                                             "while [ $RUNNING == False ]\n",
                                             "do\n",
                                             "  echo Not all server are ready. Waiting...\n",
-                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_server.out\n",
+                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$SERVER_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region $Region",
+                                            " > /var/log/gpfs/instance_server.out\n",
                                             "  sleep $wait\n",
-                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            "> /var/log/instance_compute.out\n",
-                                            "  SERVER_NODE_COUNT=$(cat /var/log/instance_server.out | grep running | wc -l)\n",
-                                            "  COMPUTE_NODE_COUNT=$(cat /var/log/instance_compute.out | grep running | wc -l)\n",
+                                            "  aws ec2 describe-instances --filters \"Name=instance.group-id,Values=$COMPUTE_SG\" --query 'Reservations[*].Instances[*].[InstanceId,PrivateDnsName,State.Name,LaunchTime,Placement.AvailabilityZone,PrivateIpAddress]' --output text --region $Region",
+                                            " > /var/log/gpfs/instance_compute.out\n",
+                                            "  SERVER_NODE_COUNT=$(cat /var/log/gpfs/instance_server.out | grep running | wc -l)\n",
+                                            "  COMPUTE_NODE_COUNT=$(cat /var/log/gpfs/instance_compute.out | grep running | wc -l)\n",
                                             "  if [ $COMPUTENODECOUNT == $COMPUTE_NODE_COUNT -a $SERVERNODECOUNT == $SERVER_NODE_COUNT ]\n",
                                             "  then\n",
                                             "     RUNNING=True\n",
@@ -2400,11 +2272,11 @@
                                             "COMPUTENODECOUNT=$COMPUTE_NODE_COUNT\n",
                                             "SERVERNODECOUNT=$SERVER_NODE_COUNT\n",
                                             "i=1\n",
-                                            "touch /var/log/nodeDescFile\n",
-                                            "touch /var/log/nodeFile\n",
-                                            "touch /var/log/serverLicFile\n",
-                                            "touch /var/log/addNodeFile\n",
-                                            "touch /var/log/clusterNodeInfo\n",
+                                            "touch /var/log/gpfs/nodeDescFile\n",
+                                            "touch /var/log/gpfs/nodeFile\n",
+                                            "touch /var/log/gpfs/serverLicFile\n",
+                                            "touch /var/log/gpfs/addNodeFile\n",
+                                            "touch /var/log/gpfs/clusterNodeInfo\n",
                                             "\n",
                                             "TOTAL_NODE_LEN=`expr $SERVERNODECOUNT + $COMPUTENODECOUNT`\n",
                                             "echo TOTAL_NODE_LEN=$TOTAL_NODE_LEN\n",
@@ -2417,37 +2289,29 @@
                                             "fi\n",
                                             "echo NO_QUORUM:$NO_QUORUM\n",
                                             "echo collecting servers hostname\n",
-                                            "cat /var/log/instance_server.out | awk '{print $2}' | while read line\n",
+                                            "cat /var/log/gpfs/instance_server.out | awk '{print $2}' | while read line\n",
                                             "do\n",
                                             "  if [ $NO_QUORUM -gt 0 ]\n",
                                             "  then\n",
-                                            "    echo $line:quorum-manager >> /var/log/nodeDescFile\n",
-                                            "    echo $line >> /var/log/nodeFile\n",
-                                            "    echo $line >> /var/log/serverLicFile\n",
+                                            "    echo $line:quorum-manager >> /var/log/gpfs/nodeDescFile\n",
+                                            "    echo $line >> /var/log/gpfs/nodeFile\n",
+                                            "    echo $line >> /var/log/gpfs/serverLicFile\n",
                                             "    let NO_QUORUM--\n",
                                             "  else\n",
-                                            "    echo $line >> /var/log/nodeDescFile\n",
-                                            "    echo $line >> /var/log/nodeFile\n",
-                                            "    echo $line >> /var/log/serverLicFile\n",
+                                            "    echo $line >> /var/log/gpfs/nodeDescFile\n",
+                                            "    echo $line >> /var/log/gpfs/nodeFile\n",
+                                            "    echo $line >> /var/log/gpfs/serverLicFile\n",
                                             "  fi\n",
                                             "done\n",
-                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --disable-api-termination --region ",
-                                            {
-                                               "Ref":"AWS::Region"
-                                            },
-                                            "\n",
-                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --instance-initiated-shutdown-behavior stop --region ",
-                                            {
-                                               "Ref":"AWS::Region"
-                                            },
-                                            "\n",
+                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --disable-api-termination --region $Region\n",
+                                            "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID  --instance-initiated-shutdown-behavior stop --region $Region\n",
                                             "echo Collected all nodes description info.\n",
                                             "echo = GPFS Cluster node description file =\n",
-                                            "cat /var/log/nodeDescFile\n",
+                                            "cat /var/log/gpfs/nodeDescFile\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo collecting servers hostname\n",
-                                            "serverline=`cat /var/log/instance_server.out | awk '{print $2}'`\n",
+                                            "serverline=`cat /var/log/gpfs/instance_server.out | awk '{print $2}'`\n",
                                             "IFS=' ' read -a SerArray <<< $serverline\n",
                                             "com_quorum=0\n",
                                             "if [ $NO_QUORUM -gt $SERVER_NODE_COUNT ]\n",
@@ -2459,39 +2323,39 @@
                                             "fi\n",
                                             "\n",
                                             "echo Number of quorum node belong to compute nodes:$com_quorum\n",
-                                            "cat /var/log/instance_compute.out | awk '{print $2}' | while read computeline\n",
+                                            "cat /var/log/gpfs/instance_compute.out | awk '{print $2}' | while read computeline\n",
                                             "do\n",
                                             "   if [ $com_quorum -gt 0 ]\n",
                                             "   then\n",
-                                            "     echo $computeline:quorum >> /var/log/nodeDescFile\n",
-                                            "     echo $computeline >> /var/log/nodeFile\n",
-                                            "     echo $computeline >> /var/log/serverLicFile\n",
+                                            "     echo $computeline:quorum >> /var/log/gpfs/nodeDescFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/nodeFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/serverLicFile\n",
                                             "     let com_quorum--\n",
                                             "   else\n",
-                                            "     echo $computeline >> /var/log/addNodeFile\n",
+                                            "     echo $computeline >> /var/log/gpfs/addNodeFile\n",
                                             "   fi\n",
                                             "done\n",
                                             "echo Adding IP and hostname into /etc/hosts file\n",
-                                            "cat /var/log/instance_server.out | awk '{print $6,$2}' > /var/log/clusterNodeInfo\n",
-                                            "cat /var/log/instance_compute.out | awk '{print $6,$2}' >> /var/log/clusterNodeInfo\n",
-                                            "cat /var/log/clusterNodeInfo >> /etc/hosts\n",
+                                            "cat /var/log/gpfs/instance_server.out | awk '{print $6,$2}' > /var/log/gpfs/clusterNodeInfo\n",
+                                            "cat /var/log/gpfs/instance_compute.out | awk '{print $6,$2}' >> /var/log/gpfs/clusterNodeInfo\n",
+                                            "cat /var/log/gpfs/clusterNodeInfo >> /etc/hosts\n",
                                             "\n",
                                             "echo Collected all nodes file info.\n",
                                             "echo = GPFS Cluster nodes hostname file =\n",
-                                            "cat /var/log/clusterNodeInfo\n",
+                                            "cat /var/log/gpfs/clusterNodeInfo\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo Collected all nodes with designation in file info.\n",
                                             "echo = GPFS Cluster node description file =\n",
-                                            "cat /var/log/nodeDescFile\n",
+                                            "cat /var/log/gpfs/nodeDescFile\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo = GPFS Cluster node file =\n",
-                                            "cat /var/log/nodeFile\n",
+                                            "cat /var/log/gpfs/nodeFile\n",
                                             "echo = end =\n",
                                             "\n",
                                             "echo = GPFS Cluster compute node description file =\n",
-                                            "cat /var/log/addNodeFile\n",
+                                            "cat /var/log/gpfs/addNodeFile\n",
                                             "echo = end =\n",
                                             "echo Successfully Completed..\n"
                                         ]
@@ -2507,7 +2371,12 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
-                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "Region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
+                                            "line=`cat /var/log/gpfs/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "ADMIN_INS=${adminArr[0]}\n",
                                             "echo ADMIN_INS:$ADMIN_INS\n",
@@ -2530,46 +2399,24 @@
                                             "_$ADMIN_INS\n",
                                             "echo PRISSHKEYNAME:$PRISSHKEYNAME\n",
                                             "echo PUBSSHKEYNAME:$PUBSSHKEYNAME\n",
-                                            "PRIKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PRISSHKEYNAME} | wc -l`\n",
-                                            "PUBKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PUBSSHKEYNAME} | wc -l`\n",
-                                            "line=`cat /var/log/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
+                                            "PRIKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PRISSHKEYNAME} | wc -l`\n",
+                                            "PUBKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PUBSSHKEYNAME} | wc -l`\n",
+                                            "line=`cat /var/log/gpfs/instance_server.out | grep running | awk '{print $4,$1}' | sort | awk '{print $2}'`\n",
                                             "IFS=' ' read -a adminArr <<< $line\n",
                                             "ADMIN_INS=${adminArr[0]}\n",
                                             "while [ ${PRIKEYEXIST} -eq 0 -a ${PUBKEYEXIST} -eq 0 ]\n",
                                             "do\n",
-                                            "    echo Waiting ssh keys to be created...KEYEXIST:$KEYEXIST\n",
-                                            "    PRIKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PRISSHKEYNAME} | wc -l`\n",
-                                            "    PUBKEYEXIST=`aws ssm describe-parameters --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " | grep ${PUBSSHKEYNAME} | wc -l`\n",
+                                            "    echo Waiting ssh keys to be created... KEYEXIST:$KEYEXIST\n",
+                                            "    PRIKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PRISSHKEYNAME} | wc -l`\n",
+                                            "    PUBKEYEXIST=`aws ssm describe-parameters --region $Region | grep ${PUBSSHKEYNAME} | wc -l`\n",
                                             "done\n",
                                             "echo PRIKEYEXIST:$PRIKEYEXIST\n",
                                             "echo PUBKEYEXIST:$PUBKEYEXIST\n",
                                             "echo SSH KEYS ALREADY CREATED..!!\n",
-                                            "aws ssm get-parameters --name \"${PRISSHKEYNAME}\" --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " --with-decryption --output json | grep Value | cut -f2 -d':'| cut -f2 -d'\"'| sed 's\/\\\\n\/\\'$'\\n''/g' > ~/.ssh/id_rsa \n",
-                                            "aws ssm get-parameters --name \"${PUBSSHKEYNAME}\" --region ",
-                                            {
-                                                "Ref": "AWS::Region"
-                                            },
-                                            " --with-decryption --output json | grep Value | cut -f2 -d':'| cut -f2 -d'\"'| sed 's\/\\\\n\/\\'$'\\n''/g' > ~/.ssh/id_rsa.pub \n",
+                                            "aws ssm get-parameter --name \"${PRISSHKEYNAME}\" --region $Region",
+                                            " --with-decryption --query 'Parameter.{Value:Value}' --output text > ~/.ssh/id_rsa \n",
+                                            "aws ssm get-parameter --name \"${PUBSSHKEYNAME}\" --region $Region",
+                                            " --with-decryption --query 'Parameter.{Value:Value}' --output text > ~/.ssh/id_rsa.pub \n",
                                             "cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys\n",
                                             "chmod 600 ~/.ssh/id_rsa\n",
                                             "chmod 600 ~/.ssh/id_rsa.pub\n",
@@ -2589,7 +2436,7 @@
                                         "",
                                         [
                                             "#!/bin/bash\n",
-											"\n",
+                                            "\n",
                                             "DataReplica=",
                                             {
                                                 "Ref": "DataReplica"
@@ -2607,22 +2454,22 @@
                                             "\n",
                                             "MetadataReplica=2\n",
                                             "echo Generate GPFS cluster node file\n",
-                                            "rm /var/log/nsdFile\n",
-                                            "touch /var/log/nsdFile\n",
+                                            "rm -f /var/log/gpfs/nsdFile\n",
+                                            "touch /var/log/gpfs/nsdFile\n",
                                             "echo DiskSize $DiskSize GB\n",
                                             "DiskSize=5\n",
                                             "echo DiskSize $DiskSize GB\n",
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
-                                            "MyAZ=$(wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "MyAZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\n",
                                             "echo My available zone $MyAZ\n",
                                             "non_quorum_hosts=''\n",
                                             "host=''\n",
-                                            "quorum_only_host=$(cat /var/log/nodeDescFile | grep -v quorum-manager | grep quorum | cut -f1 -d':')\n",
+                                            "quorum_only_host=$(cat /var/log/gpfs/nodeDescFile | grep -v quorum-manager | grep quorum | cut -f1 -d':')\n",
                                             "if [ ${#quorum_only_host} -gt 0 ]\n",
                                             "then\n",
                                             "   desc_host=$quorum_only_host\n",
-                                            "else\n",    
-                                            "   non_quorum_hosts=$(cat /var/log/addNodeFile )\n",
+                                            "else\n",
+                                            "   non_quorum_hosts=$(cat /var/log/gpfs/addNodeFile )\n",
                                             "   IFS=' ' read -a non_quorum_hosts_arr <<< $non_quorum_hosts\n",
                                             "   non_quorum_hosts_count=${#non_quorum_hosts_arr[@]}\n",
                                             "   echo non_quorum_hosts_count:$non_quorum_hosts_count\n",
@@ -2655,49 +2502,49 @@
                                             "   fi\n",
                                             "done\n",
                                             "descCount=$(/usr/lpp/mmfs/bin/mmlsdisk fs1 -L | grep desc | wc -l)\n",
-                                            "echo descriptor node count in file systen: $descCount\n",
+                                            "echo descriptor node count in file system: $descCount\n",
                                             "nsd=nsd_${AZ}_desc_$i}\n",
                                             "echo Create and Attach Disks with server node\n",
                                             "AZ=`expr $MyAZ | cut -f3 -d'-'`\n",
                                             "echo creating EBS volume with default 5GB size and gp2 EBS type\n",
-											"aws ec2 create-volume --size $DiskSize --availability-zone $MyAZ --volume-type gp2 --output text --region $Region ",
-											"--tag-specifications 'ResourceType=volume,Tags=[{Key=Version,Value=v1.2},{Key=Name,Value=",
-											{
+                                            "aws ec2 create-volume --size $DiskSize --availability-zone $MyAZ --volume-type gp2 --output text --region $Region ",
+                                            "--tag-specifications 'ResourceType=volume,Tags=[{Key=in_use_by,Value=IBM_Spectrum_Scale},{Key=Version,Value=v1.3},{Key=Name,Value=",
+                                            {
                                                 "Ref": "AWS::StackName"
                                             },
-                                            "-desc-NSD}]'> /var/log/nsd.out\n",
+                                            "-desc-NSD}]'> /var/log/gpfs/nsd.out\n",
                                             "if [ $? != 0 ]\n",
                                             "then\n",
                                             "   echo some failure occurred while creating volume, hence exiting...!\n",
                                             "   exit\n",
                                             "fi\n",
-                                            "volID=$(cat /var/log/nsd.out | grep 'vol-' | awk '{print $7}')\n",
+                                            "volID=$(cat /var/log/gpfs/nsd.out | grep 'vol-' | awk '{print $7}')\n",
                                             "echo Volume $volID has been created\n",
                                             "sleep 10\n",
-											"volStatus=$(aws ec2 describe-volume-status --volume-ids $volID --output text --region $Region | grep ok | wc -l)\n",
+                                            "volStatus=$(aws ec2 describe-volume-status --volume-ids $volID --output text --region $Region | grep ok | wc -l)\n",
                                             "echo volStatus:$volStatus\n",
                                             "while [ $volStatus -ne 1 ]\n",
                                             "do\n",
                                             "   sleep 10\n",
-											"   volStatus=$(aws ec2 describe-volume-status --volume-ids $volID --output text --region $Region | grep ok | wc -l)\n",									
+                                            "   volStatus=$(aws ec2 describe-volume-status --volume-ids $volID --output text --region $Region | grep ok | wc -l)\n",									
                                             "done\n",
                                             "echo Attach volume $volID to instance $INSTANCE_ID as device /dev/xvdb\n",
-											"aws ec2 attach-volume --volume-id $volID --instance-id $INSTANCE_ID --device /dev/xvdb --region $Region\n",
+                                            "aws ec2 attach-volume --volume-id $volID --instance-id $INSTANCE_ID --device /dev/xvdb --region $Region\n",
                                             "if [ $? != 0 ];\n",
                                             "then\n",
                                             "   exit\n",
                                             "fi\n",
                                             "sleep 10\n",
-											"attachStatus=$(aws ec2 describe-volumes --volume-id $volID --region $Region --output text | grep attached | wc -l)\n",
+                                            "attachStatus=$(aws ec2 describe-volumes --volume-id $volID --region $Region --output text | grep attached | wc -l)\n",
                                             "while [ $volStatus -ne 1 ]\n",
                                             "do\n",
                                             "   sleep 10\n",
-											"   attachStatus=$(aws ec2 describe-volumes --volume-id $volID --region $Region --output text | grep attached | wc -l)\n",
+                                            "   attachStatus=$(aws ec2 describe-volumes --volume-id $volID --region $Region --output text | grep attached | wc -l)\n",
                                             "done\n",
                                             "echo volume ID:$volID\n",
                                             "echo NON_QUORUM_HOST:$NON_QUORUM_HOST\n",
                                             "aws ec2 modify-instance-attribute --instance-id $INSTANCE_ID --block-device-mappings \"[{\\\"DeviceName\\\": \\\"/dev/xvdb\\\",\\\"Ebs\\\":{\\\"DeleteOnTermination\\\":true}}]\" --region $Region\n",
-       									    "if [ $? != 0 ];\n",
+                                            "if [ $? != 0 ];\n",
                                             "then\n",
                                             "   exit\n",
                                             "fi\n",
@@ -2708,18 +2555,18 @@
                                             "    echo usage=descOnly; \n",
                                             "    echo failureGroup=3; \n",
                                             "    echo pool=system; \n",
-                                            "    echo ' '; } >> /var/log/nsdFile\n",
+                                            "    echo ' '; } >> /var/log/gpfs/nsdFile\n",
                                             "if [ $? == 1 ];\n",
                                             "then\n",
                                             "   exit\n",
                                             "fi\n",
                                             "echo = GPFS NSD description file =\n",
-                                            "echo `cat /var/log/nsdFile`\n",
+                                            "echo `cat /var/log/gpfs/nsdFile`\n",
                                             "echo = end =\n",
                                             "echo Creating nsd with descOnly usage\n",
-                                            "/usr/lpp/mmfs/bin/mmcrnsd -F /var/log/nsdFile\n",
+                                            "/usr/lpp/mmfs/bin/mmcrnsd -F /var/log/gpfs/nsdFile\n",
                                             "echo adding disk into file system\n",
-                                            "/usr/lpp/mmfs/bin/mmadddisk fs1 -F /var/log/nsdFile\n",
+                                            "/usr/lpp/mmfs/bin/mmadddisk fs1 -F /var/log/gpfs/nsdFile\n",
                                             "if [ $? != 0 ];\n",
                                             "then\n",
                                             "   exit \n",
@@ -2737,36 +2584,20 @@
                             }
                         },
                         "commands": {
-                            "01_pre_setup_gpfs": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "\n",
-                                            "echo 'export PATH=$PATH:/usr/lpp/mmfs/bin/' > /etc/profile.d/gpfs.sh\n",
-                                            "sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/' /etc/ssh/ssh_config\n",
-                                            "echo \"StrictHostKeyChecking no\" >> /etc/ssh/ssh_config\n",
-                                            "mkdir /var/log/gpfs",
-                                            "\n"
-                                        ]
-                                    ]
-                                }
-                            },
-                            "02_gpfs-compute-setup": {
+                            "01_gpfs-compute-setup": {
                                 "command": "/usr/bin/gpfs-compute-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-compute-setup.log 2>&1"
                             },
-                            "03_gpfs-passwordless-setup": {
+                            "02_gpfs-passwordless-setup": {
                                 "command": "/usr/bin/gpfs-passwordless-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-passwordless-setup.log 2>&1"
                             },
-                            "04_gpfs-auto-recovery-setup": {
+                            "03_gpfs-auto-recovery-setup": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
                                         [
-                                            "INSTANCE_ID=$(wget -q -O- http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
                                             "echo My instance ID $INSTANCE_ID\n",
                                             "echo RECOVERY ALARM SETTING FOR COMPUTE INSTANCES\n",
-                                            "aws cloudwatch describe-alarms --region us-west-2 --output text |grep Invalid\n",
                                             "aws cloudwatch put-metric-alarm --alarm-name ",
                                             {
                                                 "Ref": "AWS::StackName"
@@ -2800,7 +2631,7 @@
                                     ]
                                 }
                             },
-                            "05_gpfs-compute-descOnly-setup": {
+                            "04_gpfs-compute-descOnly-setup": {
                                 "command": "/usr/bin/gpfs-compute-descOnly-setup.sh | while IFS= read -r line; do printf \"%s [INFO] %s\n\" \"$(date)\" \"$line\"; done >> /var/log/gpfs/gpfs-compute-descOnly-setup.log 2>&1"
                             }
                         }
@@ -2870,7 +2701,7 @@
                 }
             }
         },
-        "ComputeAutoScallingGroup": {
+        "ComputeAutoScalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "DesiredCapacity": {
@@ -2894,32 +2725,32 @@
                         "autoscaling:EC2_INSTANCE_LAUNCH",
                         "autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
                         "autoscaling:EC2_INSTANCE_TERMINATE",
-                        "autoscaling:EC2_INSTANCE_TERMINATE_ERROR",
-                        "autoscaling:TEST_NOTIFICATION"
+                        "autoscaling:EC2_INSTANCE_TERMINATE_ERROR"
                     ]
                 },
-                "VPCZoneIdentifier": [{
-                    "Fn::If": [
-                       "ReplicaOneCondition",
-                       {
-                          "Ref": "PrivateSubnet1ID"
-                       },
-                       { 
-                          "Fn::Join": [
-                           ",",
-                             [
-                                {
-                                   "Ref": "PrivateSubnet1ID"
-                                },
-		                        {
-		                           "Ref": "PrivateSubnet2ID"
-		                        }
-		                     ]
-                          ]
-		                    
-                       }
-                    ]   
-                }],
+                "VPCZoneIdentifier": [
+                    {
+                        "Fn::If": [
+                            "ReplicaOneCondition",
+                            {
+                                "Ref": "PrivateSubnet1ID"
+                            },
+                            {
+                                "Fn::Join": [
+                                    ",",
+                                    [
+                                        {
+                                            "Ref": "PrivateSubnet1ID"
+                                        },
+                                        {
+                                            "Ref": "PrivateSubnet2ID"
+                                        }
+                                    ]
+                                ]
+                            }
+                        ]
+                        }
+                    ],
                 "Tags": [
                     {
                         "Key": "Name",
@@ -2936,17 +2767,17 @@
                             ]
                         }
                     },
-       				{
-        				"Key" : "Version",
-        				"PropagateAtLaunch": "true",
-        				"Value" : "v1.2" 
-        			}
+                    {
+                        "Key" : "Version",
+                        "PropagateAtLaunch": "true",
+                        "Value" : "v1.3"
+                    }
                 ]
             }
         },
         "ServerAlertWaitCondition": {
             "DependsOn": [
-                "ServerAutoScallingGroup"
+                "ServerAutoScalingGroup"
             ],
             "Properties": {
                 "Count": {
@@ -2965,7 +2796,7 @@
         },
         "ComputeAlertWaitCondition": {
             "DependsOn": [
-                "ComputeAutoScallingGroup"
+                "ComputeAutoScalingGroup"
             ],
             "Properties": {
                 "Count": {
@@ -2984,16 +2815,16 @@
         }
     },
     "Outputs": {
-        "ServerAutoScallingGroup": {
+        "ServerAutoScalingGroup": {
             "Description": "Server Auto Scaling Group Reference ID",
             "Value": {
-                "Ref": "ComputeAutoScallingGroup"
+                "Ref": "ComputeAutoScalingGroup"
             }
         },
-        "ComputeAutoScallingGroup": {
+        "ComputeAutoScalingGroup": {
             "Description": "Compute Auto Scaling Group Reference ID",
             "Value": {
-                "Ref": "ComputeAutoScallingGroup"
+                "Ref": "ComputeAutoScalingGroup"
             }
         },
         "ServerSecurityGroupID": {
@@ -3009,24 +2840,24 @@
             "Description": "Compute Security Group ID"
         },
         "Version": {
-            "Value": "v1.2",
+            "Value": "v1.3",
             "Description": "Template version"
         },
         "SpectrumScaleVersion":{
-           "Value": "4.2.3.1",
-           "Description": "Spectrum Scale version included with this release" 
+           "Value": "4.2.3.7",
+           "Description": "Spectrum Scale version included with this release"
         },
         "SpectrumS3Bucket": {
            "Value": {
               "Fn::If": [
                    "SpectrumS3BucketNotProvided",
-                   { 
+                   {
                      "Ref": "SpectrumScaleS3Bucket"
                    },
                    {
                      "Ref": "SpectrumS3Bucket"
                    }
-              ] 
+              ]
            },
            "Description": "Spectrum Scale S3 bucket name",
            "Export": {
