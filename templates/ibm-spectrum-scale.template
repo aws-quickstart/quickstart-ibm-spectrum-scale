@@ -552,7 +552,7 @@
                 "AMI": "ami-d1095db7"
             },
             "ap-south-1": {
-                "AMI": "ami-e02d758f"
+                "AMI": "ami-e06c418f"
             },
             "sa-east-1": {
                 "AMI": "ami-e185d08d"
