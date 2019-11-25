@@ -4,7 +4,6 @@ global:
   qsname: quickstart-ibm-spectrum-scale
   regions:
     - ap-northeast-1
-    - ap-northeast-2
     - ap-south-1
     - ap-southeast-1
     - ap-southeast-2
@@ -23,7 +22,6 @@ tests:
     parameter_input: quickstart-ibm-spectrum-scale-default-params.json
     regions:
     - ap-northeast-1
-#    - ap-northeast-2
     - ap-south-1
     - ap-southeast-1
     - ap-southeast-2
