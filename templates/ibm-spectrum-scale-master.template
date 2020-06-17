@@ -72,6 +72,7 @@
                     },
                     "Parameters": [
                         "QSS3BucketName",
+                        "QSS3BucketRegion",
                         "QSS3KeyPrefix"
                     ]
                 },
@@ -130,6 +131,9 @@
                 "QSS3BucketName": {
                     "default": "Quick Start S3 Bucket Name"
                 },
+                "QSS3BucketRegion": {
+                    "default": "Quick Start S3 bucket region"
+                },
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix"
                 },
@@ -186,6 +190,11 @@
             "Default": "aws-quickstart",
             "Description": "S3 bucket name for the Quick Start assets. This string can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).",
             "Type": "String"
+        },
+        "QSS3BucketRegion": {
+            Default: "us-east-1",
+            Description: "The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.",
+            Type: "String"
         },
         "QSS3KeyPrefix": {
             "AllowedPattern": "^[0-9a-zA-Z-/]*$",
@@ -543,14 +552,32 @@
                 },
                 "1"
             ]
-        }
+        },
+         "UsingDefaultBucket": {
+             "Fn::Equals": [
+             {
+                 "Ref": "QSS3BucketName"
+             },
+             "aws-quickstart"
+             ]
+         }
     },
     "Resources": {
         "VPCStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+                    "Fn::Sub": [
+                        "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Ref": "AWS::Region" }, {"Ref": "QSS3BucketRegion"}]
+                            },
+                            "S3Bucket": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Fn::Sub": "${QSS3BucketName}-${AWS::Region}" }, {"Ref": "QSS3BucketName"}]
+                            }
+                        }
+                    ]
                 },
                 "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
@@ -597,7 +624,17 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale-subnet.template"
+                    "Fn::Sub": [
+                        "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/ibm-spectrum-scale-subnet.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Ref": "AWS::Region" }, {"Ref": "QSS3BucketRegion"}]
+                            },
+                            "S3Bucket": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Fn::Sub": "${QSS3BucketName}-${AWS::Region}" }, {"Ref": "QSS3BucketName"}]
+                            }
+                        }
+                    ]
                 },
                 "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
@@ -640,8 +677,18 @@
             "DependsOn": "VPCStack",
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
-                "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
+                "TemplateURL":{
+                    "Fn::Sub": [
+                        "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Ref": "AWS::Region" }, {"Ref": "QSS3BucketRegion"}]
+                            },
+                            "S3Bucket": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Fn::Sub": "${QSS3BucketName}-${AWS::Region}" }, {"Ref": "QSS3BucketName"}]
+                            }
+                        }
+                    ]
                 },
                 "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
@@ -672,6 +719,9 @@
                     "QSS3KeyPrefix": {
                         "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-linux-bastion/"
                     },
+                    "QSS3BucketRegion": {
+                        "Ref": "QSS3BucketRegion"
+                    },
                     "RemoteAccessCIDR": {
                         "Ref": "RemoteAccessCIDR"
                     },
@@ -689,7 +739,17 @@
             "DependsOn": "BastionStack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/ibm-spectrum-scale.template"
+                    "Fn::Sub": [
+                        "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}templates/ibm-spectrum-scale.template",
+                        {
+                            "S3Region": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Ref": "AWS::Region" }, {"Ref": "QSS3BucketRegion"}]
+                            },
+                            "S3Bucket": {
+                                "Fn::If": ["UsingDefaultBucket",  { "Fn::Sub": "${QSS3BucketName}-${AWS::Region}" }, {"Ref": "QSS3BucketName"}]
+                            }
+                        }
+                    ]
                 },
                 "Tags" : [ { "Key" : "Version", "Value" : "v1.3" } ],
                 "Parameters": {
