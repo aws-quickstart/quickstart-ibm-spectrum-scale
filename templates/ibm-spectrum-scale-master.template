@@ -714,13 +714,29 @@
                         ]
                     },
                     "QSS3BucketName": {
-                        "Ref": "QSS3BucketName"
+                        "Fn::If": [
+                            "UsingDefaultBucket",
+                            {
+                                "Fn::Sub": "${QSS3BucketName}-${AWS::Region}"
+                            },
+                            {
+                                "Ref": "QSS3BucketName"
+                            }
+                        ]
                     },
                     "QSS3KeyPrefix": {
                         "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-linux-bastion/"
                     },
                     "QSS3BucketRegion": {
-                        "Ref": "QSS3BucketRegion"
+                        "Fn::If": [
+                            "UsingDefaultBucket",
+                            {
+                                "Ref": "AWS::Region"
+                            },
+                            {
+                                "Ref": "QSS3BucketRegion"
+                            }
+                        ]
                     },
                     "RemoteAccessCIDR": {
                         "Ref": "RemoteAccessCIDR"
